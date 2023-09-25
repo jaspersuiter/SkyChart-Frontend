@@ -1,3 +1,5 @@
+
+
 .primary-button {
     display: inline-flex;
     padding: 10px 20px;
@@ -10,14 +12,24 @@
     background: var(--Primary-Color, #4DE8B4);
   }
   
-  .secondary-button {
-    display: inline-flex;
-    padding: 10px 20px;
-    justify-content: center;
-    align-items: center;
-    border-color: var(--Primary-Color, #814DE8);
-    gap: 10px;
-  
-    border-radius: 5px;
-    background: var(--Secondary-Color, #814DE8);
-  }
+.secondary-button {
+  display: inline-flex;
+  padding: 10px 20px;
+  justify-content: center;
+  align-items: center;
+  border-color: var(--Primary-Color, #814DE8);
+  gap: 10px;
+
+  border-radius: 5px;
+  background: var(--Secondary-Color, #814DE8);
+}
+
+.text-style {
+  color: var(--Black, #191919);
+  text-align: center;
+  font-family: Inter;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
