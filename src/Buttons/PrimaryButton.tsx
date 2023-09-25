@@ -5,7 +5,9 @@ function PrimaryButton(props: any) {
   return (
     <div>
         <button className="primary-button" onClick={props.onClick}>
-            {props.text}
+            <div className="text-style">
+              {props.text}
+            </div>
         </button>
     </div>
   );
