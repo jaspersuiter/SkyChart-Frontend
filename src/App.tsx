@@ -1,8 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import PrimaryButton from './Buttons/PrimaryButton';
+import SecondaryButton from './Buttons/SecondaryButton';
 
 function App() {
+  const text = 'hey'
   return (
     <div className="App">
       <header className="App-header">
@@ -19,6 +22,8 @@ function App() {
           Learn React
         </a>
       </header>
+      <PrimaryButton text="imary Butt" />
+      <SecondaryButton text="imary Butt" />
     </div>
   );
 }

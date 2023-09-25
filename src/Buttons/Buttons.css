@@ -3,6 +3,7 @@
     padding: 10px 20px;
     justify-content: center;
     align-items: center;
+    border-color: var(--Primary-Color, #4DE8B4);
     gap: 10px;
   
     border-radius: 5px;
@@ -14,6 +15,7 @@
     padding: 10px 20px;
     justify-content: center;
     align-items: center;
+    border-color: var(--Primary-Color, #814DE8);
     gap: 10px;
   
     border-radius: 5px;
