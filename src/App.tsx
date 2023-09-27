@@ -5,7 +5,6 @@ import PrimaryButton from './Buttons/PrimaryButton';
 import SecondaryButton from './Buttons/SecondaryButton';
 
 function App() {
-  const text = 'hey'
   return (
     <div className="App">
       <header className="App-header">
