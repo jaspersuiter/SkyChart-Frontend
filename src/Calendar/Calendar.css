@@ -8,7 +8,7 @@
 }
 
 .dropdown {
-    display: inline; 
+    display: inline-flex; 
     padding: 10px;
     flex-direction: column;
     align-items: flex-start;

@@ -5,7 +5,7 @@ import PrimaryButton from '../Buttons/PrimaryButton';
 import { DateCalendar } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { FormControl, InputLabel, NativeSelect } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, NativeSelect, Select } from '@mui/material';
 import StaticSidebar from '../Sidebar/Sidebar';
 
 function Calendar() {
@@ -28,21 +28,37 @@ function Calendar() {
         </div>
 
         <div className="dropdown">
-            <FormControl fullWidth>
-                <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                    Age
-                </InputLabel>
-                <NativeSelect
-                    defaultValue={30}
-                    inputProps={{
-                    name: 'age',
-                    id: 'uncontrolled-native',
-                    }}
+            <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
+                <InputLabel id="demo-select-small-label">Aircraft</InputLabel>
+                <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    label="aircraft"
                 >
-                    <option value={10}>Ten</option>
-                    <option value={20}>Twenty</option>
-                    <option value={30}>Thirty</option>
-                </NativeSelect>
+                    <MenuItem>All</MenuItem>
+                </Select>
+            </FormControl>
+
+            <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
+                <InputLabel id="demo-select-small-label">Reservation Type</InputLabel>
+                <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    label="aircraft"
+                >
+                    <MenuItem>All</MenuItem>
+                </Select>
+            </FormControl>
+
+            <FormControl sx={{ m: 1, minWidth: 180 }} size="small">
+                <InputLabel id="demo-select-small-label">Instructors</InputLabel>
+                <Select
+                    labelId="demo-select-small-label"
+                    id="demo-select-small"
+                    label="aircraft"
+                >
+                    <MenuItem>All</MenuItem>
+                </Select>
             </FormControl>
         </div>
     </div>
