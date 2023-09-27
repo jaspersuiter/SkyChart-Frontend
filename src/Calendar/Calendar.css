@@ -1,16 +1,26 @@
-.calendar-page {
+.top-content {
     display: inline-flex;
-    border-color: black;
-}
-
-.calendar {
-    justify-content: left;
+    margin-left: 14em;
 }
 
 .dropdown {
-    display: inline; 
+    display: inline-flex; 
     padding: 10px;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+    margin-top: 1em;
+}
+
+.calendar-button {
+    margin: 1em;
+}
+
+.schedule {
+    display: block;
+    margin-left: 15em;
+    width: 80em;
+    height: 23em;
+    border: 1px solid black;
+    border-radius: 1em;
 }
