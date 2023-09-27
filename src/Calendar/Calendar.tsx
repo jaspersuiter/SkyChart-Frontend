@@ -1,17 +1,19 @@
 import React from 'react';
-import logo from '../logo.svg';
 import './Calendar.css';
 import '../App.css';
 import PrimaryButton from '../Buttons/PrimaryButton';
-import SecondaryButton from '../Buttons/SecondaryButton';
 import { DateCalendar } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { FormControl, InputLabel, NativeSelect } from '@mui/material';
+import StaticSidebar from '../Sidebar/Sidebar';
 
 function Calendar() {
   return (
     <div className="calendar-page">
+
+        <StaticSidebar />
+
         <div className="calendar">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateCalendar showDaysOutsideCurrentMonth fixedWeekNumber={6} />
