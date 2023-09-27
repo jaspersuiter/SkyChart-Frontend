@@ -14,11 +14,3 @@
     align-items: flex-start;
     gap: 10px;
 }
-
-.static-sidebar {
-    width: 292px;
-    height: 1080px;
-    flex-shrink: 0;
-
-    background: var(--Static-Sidebar-Background, #E4E4E4);
-}
