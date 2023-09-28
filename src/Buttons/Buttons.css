@@ -22,6 +22,18 @@
   background: var(--Secondary-Color, #814DE8);
 }
 
+.cancel-button {
+  display: inline-flex;
+  padding: 10px 20px;
+  justify-content: center;
+  align-items: center;
+  border-color: var(--Warning-Red, #FF8080);
+  gap: 10px;
+
+  border-radius: 5px;
+  background: var(--Warning-Red, #FF8080);
+}
+
 .text-style {
   color: var(--Black, #191919);
   text-align: center;

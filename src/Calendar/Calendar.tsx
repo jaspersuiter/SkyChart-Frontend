@@ -7,6 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { FormControl, InputLabel, MenuItem, NativeSelect, Select } from '@mui/material';
 import StaticSidebar from '../Sidebar/Sidebar';
 import Schedule from './Schedule/Schedule';
+import NewReservation from '../Reservation/NewReservation';
 
 function Calendar() {
   return (
@@ -27,14 +28,14 @@ function Calendar() {
                     <PrimaryButton text="Week View"/>
                 </div>
                 <div className="calendar-button">
-                    <PrimaryButton text="New Reservation"/>
+                    <PrimaryButton text="New Reservation" />
                 </div>
                 <div className="calendar-button">
                     <PrimaryButton text="Limit to Me"/>
                 </div>
             </div>
 
-            <div className="dropdown">
+            <div className="calendar-dropdown">
                 <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
                     <InputLabel id="demo-select-small-label">Aircraft</InputLabel>
                     <Select
@@ -70,7 +71,7 @@ function Calendar() {
             </div>
         </div>
         
-        <div className="schedule">
+        <div className="calendar-schedule">
             <Schedule />
         </div>
     </div>
