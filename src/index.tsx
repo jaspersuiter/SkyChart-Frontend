@@ -4,13 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Calendar from './Calendar/Calendar';
+import NewReservation from './Reservation/NewReservation';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <Calendar />
+    <NewReservation />
   </React.StrictMode>
 );
 
