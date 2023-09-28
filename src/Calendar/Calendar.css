@@ -3,7 +3,7 @@
     margin-left: 14em;
 }
 
-.dropdown {
+.calendar-dropdown {
     display: inline-flex; 
     padding: 10px;
     flex-direction: column;
@@ -16,7 +16,7 @@
     margin: 1em;
 }
 
-.schedule {
+.calendar-schedule {
     display: block;
     margin-left: 15em;
     width: 80em;
