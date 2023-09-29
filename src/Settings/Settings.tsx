@@ -21,7 +21,7 @@ function Settings() {
                             id="demo-select-small"
                             label="instructor"
                         >
-                            <MenuItem>All</MenuItem>
+                            <MenuItem>Tiark Rompf</MenuItem>
                         </Select>
                     </FormControl>
                     <div className="confirm-button">
