@@ -1,5 +1,3 @@
-import React from 'react';
-import './Sidebar.css';
 import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ThemeProvider } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
@@ -20,13 +18,12 @@ function StaticSidebar(props: any) {
     ]
 
   return (
-   //<ThemeProvider theme={theme}>
     <Drawer
       sx={{
-        width: 240,
+        width: 224,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: 240,
+          width: 224,
           boxSizing: 'border-box',
           backgroundColor: '#E4E4E4',
         },
