@@ -1,28 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import PrimaryButton from './Buttons/PrimaryButton';
-import SecondaryButton from './Buttons/SecondaryButton';
+
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Calendar from './Calendar/Calendar';
+import Settings from './Settings/Settings';
+import Logout from '@mui/icons-material/Logout';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-      <PrimaryButton text="imary Butt" />
-      <SecondaryButton text="imary Butt" />
+      <Router>
+        <Routes>
+
+          <React.Fragment>
+            <Route path='/calendar' element={<Calendar/>} />
+            {/* <Route path='/aircraft' element={<Aircraft/>} />
+            <Route path='/instructors' element={<Instructors/>} /> */}
+            <Route path='/settings' element={<Settings/>} />
+            <Route path="/" element={<Navigate to='/calendar'/>} />
+            <Route path="/logout" element={<Logout/>} />
+          </React.Fragment>
+    
+        </Routes>
+      </Router>
     </div>
   );
 }

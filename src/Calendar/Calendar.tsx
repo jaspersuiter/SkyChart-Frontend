@@ -3,13 +3,24 @@ import '../App.css';
 import PrimaryButton from '../Buttons/PrimaryButton';
 import { DateCalendar } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import Dialog from '@mui/material/Dialog';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { FormControl, InputLabel, MenuItem, NativeSelect, Select } from '@mui/material';
 import StaticSidebar from '../Sidebar/Sidebar';
 import Schedule from './Schedule/Schedule';
 import NewReservation from '../Reservation/NewReservation';
+import React from 'react';
 
 function Calendar() {
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
   return (
     <div className="calendar-page">
         <StaticSidebar />
@@ -28,8 +39,14 @@ function Calendar() {
                     <PrimaryButton text="Week View"/>
                 </div>
                 <div className="calendar-button">
-                    <PrimaryButton text="New Reservation" />
+                    <PrimaryButton text="New Reservation" onClick={handleClickOpen}/>
                 </div>
+                
+                <NewReservation 
+                    open={open}
+                    onClose={handleClose}
+                />
+                
                 <div className="calendar-button">
                     <PrimaryButton text="Limit to Me"/>
                 </div>
@@ -63,7 +80,7 @@ function Calendar() {
                     <Select
                         labelId="demo-select-small-label"
                         id="demo-select-small"
-                        label="aircraft"
+                        label="instructor"
                     >
                         <MenuItem>All</MenuItem>
                     </Select>

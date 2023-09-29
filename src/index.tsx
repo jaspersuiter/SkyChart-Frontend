@@ -5,14 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Calendar from './Calendar/Calendar';
 import NewReservation from './Reservation/NewReservation';
-import Aircraft from './Aircraft/Aircraft';
+import Settings from './Settings/Settings';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <Aircraft />
+    <NewReservation />
   </React.StrictMode>
 );
 
