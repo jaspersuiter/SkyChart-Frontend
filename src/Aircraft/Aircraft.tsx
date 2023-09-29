@@ -1,8 +1,9 @@
 import './Aircraft.css';
 import '../App.css';
 import StaticSidebar from '../Sidebar/Sidebar';
-import { Button, ButtonGroup, Grid, Paper, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, Grid, Paper, Typography } from '@mui/material';
 import { SetStateAction, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 
 function Aircraft() {
@@ -25,10 +26,15 @@ function Aircraft() {
 
           const customStyles = {
             paper: {
-              backgroundColor: '#a9a9a9', // Change to your desired background color
-              borderRadius: '12px', // Adjust the border radius as needed
-              padding: '16px', // Add padding for content spacing
-              // You can also add other styles like boxShadow, margin, etc.
+              backgroundColor: '#D3D3D3',
+              borderRadius: '12px',
+              padding: '16px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: 'fit-content',
+            
             },
           };
         
@@ -49,21 +55,15 @@ function Aircraft() {
           <Grid container spacing={2} >
           {filteredImages.map((item, index) => (
           <Grid item xs={12} sm={6} md={4} key={index} >
-            <Paper elevation={3} style={customStyles.paper} >
-              <Button fullWidth onClick={() => {
-                  // Handle click action here
-                  console.log(`Clicked on ${item.description}`);
-                }}>
-                <Typography variant="h6" align="center">
-                    {item.description}
-                  </Typography>
-                  <br/>
-                  <img
-                    src={item.src}
-                    alt={item.description}
-                    style={{ width: '200px', height: '150px', cursor: 'pointer' }}
-                  />
-              </Button>
+            <Paper elevation={3} style={{...customStyles.paper, flexDirection: 'column', flexWrap: 'nowrap'}} component={Link} to={`/aircraft/${item.description}`}>  
+              <Typography variant="h6" align="center">
+                {item.description}
+              </Typography>
+              <img
+                src={item.src}
+                alt={item.description}
+                style={{ width: '200px', height: '150px', cursor: 'pointer' }}
+              />
             </Paper>
           </Grid>
         ))}

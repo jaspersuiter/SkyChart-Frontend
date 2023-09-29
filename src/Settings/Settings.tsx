@@ -24,6 +24,16 @@ function Settings() {
                             <MenuItem>Tiark Rompf</MenuItem>
                         </Select>
                     </FormControl>
+                    <FormControl sx={{ minWidth: 240 }} size="small">
+                        <InputLabel id="demo-select-small-label">Preferred Aircraft</InputLabel>
+                        <Select
+                            labelId="demo-select-small-label"
+                            id="demo-select-small"
+                            label="aircraft"
+                        >
+                            <MenuItem>Boeing 747</MenuItem>
+                        </Select>
+                    </FormControl>
                     <div className="confirm-button">
                         <PrimaryButton text="Confirm Changes" />
                     </div>
