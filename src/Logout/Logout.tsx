@@ -1,6 +1,7 @@
 import CancelButton from '../Buttons/CancelButton';
 import Dialog from '@mui/material/Dialog';
 import SecondaryButton from '../Buttons/SecondaryButton';
+import { useNavigate } from 'react-router-dom';
 
 export interface LogoutProps {
     open: boolean;
@@ -9,11 +10,17 @@ export interface LogoutProps {
 
 function LogoutPopup(props: LogoutProps) {
 
+    const navigate = useNavigate();
+
     const {open, onClose } = props;
 
     const handleClose = () => {
         onClose();
       };
+
+    const handleLogOut = () => {
+        onClose();
+    }
 
     return (
         <div className="logout-popup">
@@ -22,8 +29,8 @@ function LogoutPopup(props: LogoutProps) {
                 
                 {/* Confirm and Cancel Buttons */}
                 <div className="reservation-buttons">
-                    <SecondaryButton text="Cancel"/>
-                    <CancelButton text="Logout" onClick={handleClose}/>
+                    <SecondaryButton text="Cancel" onClick={handleClose}/>
+                    <CancelButton text="Logout" onClick={handleLogOut}/>
                 </div>
             </Dialog>
         </div>

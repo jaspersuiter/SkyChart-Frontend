@@ -5,9 +5,10 @@ import FlightIcon from '@mui/icons-material/Flight';
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
-import NewReservation from '../Reservation/NewReservation';
 import React from 'react';
 import LogoutPopup from '../Logout/Logout';
+import { Navigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 function StaticSidebar(props: any) {
     const [open, setOpen] = React.useState(false);
@@ -19,6 +20,8 @@ function StaticSidebar(props: any) {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const navigate = useNavigate();
 
     const sidebarItems = [
         { text: 'Home', icon: <HomeIcon/>, link: '/' },
@@ -47,7 +50,16 @@ function StaticSidebar(props: any) {
         <List>
           {sidebarItems.map((item, index) => (
             <ListItem key={item.text} disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={(event) => {
+                const clickedItem = sidebarItems.find(item => item.text === event.currentTarget.textContent);
+                if (clickedItem && clickedItem.text === sidebarItems[5].text) {
+                  handleClickOpen();
+                } else {
+                  if (clickedItem?.link) {
+                    navigate(clickedItem.link);
+                  }
+                }
+              }}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>
