@@ -63,7 +63,7 @@ function Calendar() {
                     <Select
                         labelId="demo-select-small-label"
                         id="demo-select-small"
-                        label="aircraft"
+                        label="instructor"
                     >
                         <MenuItem>All</MenuItem>
                     </Select>
