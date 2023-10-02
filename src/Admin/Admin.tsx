@@ -1,3 +1,4 @@
+import PrimaryButton from "../Buttons/PrimaryButton";
 import StaticSidebar from "../Sidebar/Sidebar";
 import './Admin.css'
 
@@ -8,8 +9,8 @@ function Admin() {
 
         <div className="mainpage">
             <StaticSidebar/>
-            <div>
-                <p>Hello, World!</p>
+            <div className="main-content">
+                <PrimaryButton text="Add New Aircraft"/>
             </div>
         </div>
     );
