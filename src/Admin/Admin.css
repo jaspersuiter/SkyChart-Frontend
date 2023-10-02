@@ -1,0 +1,7 @@
+.mainpage{
+    display: flex;
+    padding: var(--none, 0px);
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--none, 0px);
+}
