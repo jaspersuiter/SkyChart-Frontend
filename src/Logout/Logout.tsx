@@ -28,9 +28,9 @@ function LogoutPopup(props: LogoutProps) {
                 <h1>Are you sure that you want to log out?</h1>
                 
                 {/* Confirm and Cancel Buttons */}
-                <div className="reservation-buttons">
-                    <SecondaryButton text="Cancel" onClick={handleClose}/>
+                <div className="reservation-buttons" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '16px' }}>
                     <CancelButton text="Logout" onClick={handleLogOut}/>
+                    <SecondaryButton text="Cancel" onClick={handleClose}/>
                 </div>
             </Dialog>
         </div>
