@@ -7,6 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import StaticSidebar from '../Sidebar/Sidebar';
 import SecondaryButton from '../Buttons/SecondaryButton';
+import InstructorAvailibility from './InstructorAvailability/InstructorAvailability';
 
 function Settings() {
     return (
@@ -34,6 +35,9 @@ function Settings() {
                             <MenuItem>Boeing 747</MenuItem>
                         </Select>
                     </FormControl>
+                    
+                    <InstructorAvailibility />
+                    
                     <div className="confirm-button">
                         <PrimaryButton text="Confirm Changes" />
                     </div>
