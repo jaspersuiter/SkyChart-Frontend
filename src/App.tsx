@@ -8,6 +8,7 @@ import Logout from '@mui/icons-material/Logout';
 import Aircraft from './Aircraft/Aircraft'; 
 import Admin from './Admin/Admin';
 import Instructors from './Instructors/Instructors';
+import Login from './Login/Login';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/" element={<Navigate to='/calendar'/>} />
             <Route path="/logout" element={<Logout/>} />
             <Route path='/admin' element={<Admin/>} />
+            <Route path='/login' element={<Login/>} />
           </React.Fragment>
     
         </Routes>
