@@ -20,7 +20,7 @@ function Schedule() {
         }}
       >
         {[...Array(160)].map((_, index) => (
-          <Grid key={index} {...{ sm: 0.75}} minHeight={35} />
+          <Grid key={index} {...{ sm: 0.75 }} minHeight={35} />
         ))}
       </Grid>
     </Box>
