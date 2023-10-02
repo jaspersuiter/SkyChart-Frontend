@@ -6,6 +6,7 @@ import Calendar from './Calendar/Calendar';
 import Settings from './Settings/Settings';
 import Logout from '@mui/icons-material/Logout';
 import Aircraft from './Aircraft/Aircraft'; 
+import Admin from './Admin/Admin';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path='/settings' element={<Settings/>} />
             <Route path="/" element={<Navigate to='/calendar'/>} />
             <Route path="/logout" element={<Logout/>} />
+            <Route path='/admin' element={<Admin/>} />
           </React.Fragment>
     
         </Routes>
