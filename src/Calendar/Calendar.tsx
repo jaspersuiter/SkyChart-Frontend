@@ -24,7 +24,7 @@ function Calendar() {
   return (
     <div className="calendar-page">
         <StaticSidebar />
-        <div className="top-content">
+        <div className="calendar-top-content">
             <div className="calendar">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateCalendar showDaysOutsideCurrentMonth fixedWeekNumber={6} sx={{fontSize: 20}} />

@@ -1,12 +1,11 @@
-.content {
+.settings-content {
     display: inline-flex;
 }
 
-.top-content {
+.settings-top-content {
     display: block;
     margin-top: 2em;
     margin-left: 16em;
-    
 }
 
 .confirm-button {
