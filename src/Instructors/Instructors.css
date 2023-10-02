@@ -1,0 +1,23 @@
+.instructors-content {
+    display: inline-flex;
+    align-items: flex-start;
+    margin-left: 4em;
+    margin-top: 4em;
+}
+
+.instructors-top-content {
+    display: inline-flex;
+}
+
+.instructors-page {
+    display: inline-flex;
+}
+
+.header-text {
+    font-family: Roboto;
+    margin-right: 24em;
+}
+
+.header {
+    display: inline-flex;
+}
