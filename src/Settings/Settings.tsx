@@ -12,8 +12,8 @@ function Settings() {
     return (
         <div className="settings-page">
             <StaticSidebar />
-            <div className="content">
-                <div className="top-content">
+            <div className="settings-content">
+                <div className="settings-top-content">
                     <FormControl sx={{ minWidth: 240 }} size="small">
                         <InputLabel id="demo-select-small-label">Preferred Instructor</InputLabel>
                         <Select
