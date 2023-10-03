@@ -6,6 +6,7 @@ import Calendar from './Calendar/Calendar';
 import Settings from './Settings/Settings';
 import Logout from '@mui/icons-material/Logout';
 import Aircraft from './Aircraft/Aircraft'; 
+import VerificationPage from './Verification/verification';
 import Admin from './Admin/Admin';
 import Instructors from './Instructors/Instructors';
 import Login from './Login/Login';
@@ -16,7 +17,6 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-
           <React.Fragment>
             <Route path='/calendar' element={<Calendar/>} />
             <Route path='/aircraft' element={<Aircraft/>} />
@@ -24,6 +24,7 @@ function App() {
             <Route path='/settings' element={<Settings/>} />
             <Route path="/" element={<Navigate to='/calendar'/>} />
             <Route path="/logout" element={<Logout/>} />
+            <Route path="/verify" element={<VerificationPage/>} />
             <Route path='/admin' element={<Admin/>} />
             <Route path='/login' element={<Login/>} />
             <Route path='/register' element={<Registration/>} />
