@@ -9,6 +9,7 @@ import Aircraft from './Aircraft/Aircraft';
 import Admin from './Admin/Admin';
 import Instructors from './Instructors/Instructors';
 import Login from './Login/Login';
+import Registration from './Registration/Registration';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/logout" element={<Logout/>} />
             <Route path='/admin' element={<Admin/>} />
             <Route path='/login' element={<Login/>} />
+            <Route path='/register' element={<Registration/>} />
           </React.Fragment>
     
         </Routes>
