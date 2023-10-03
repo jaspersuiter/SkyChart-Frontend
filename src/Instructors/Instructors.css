@@ -7,17 +7,10 @@
 
 .instructors-top-content {
     display: inline-flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .instructors-page {
-    display: inline-flex;
-}
-
-.header-text {
-    font-family: Roboto;
-    margin-right: 24em;
-}
-
-.header {
     display: inline-flex;
 }
