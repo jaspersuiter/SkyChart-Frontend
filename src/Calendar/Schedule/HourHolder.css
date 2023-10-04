@@ -2,3 +2,8 @@
     display: inline-flex;
     align-items: flex-start;
 }
+
+.spacer {
+    width: 22.5px;
+    height: 44px;
+}

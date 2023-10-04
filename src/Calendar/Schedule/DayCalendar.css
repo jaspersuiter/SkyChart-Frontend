@@ -4,7 +4,7 @@
 }
 
 .dayTextFormating{
-    transform: rotate(-90deg);
+    writing-mode: vertical-lr;
     align-items: center;
     margin: 0;
     color: var(--Black, #191919);
