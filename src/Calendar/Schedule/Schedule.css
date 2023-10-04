@@ -1,9 +1,8 @@
 .main-calendar-frame{
     display: flex;
-    flex-direction: column;
     align-items: flex-start;
-    flex-grow: 1;
+    flex: 1 0 0;
     align-self: stretch;
-    border: 4px solid blue;
     border-radius: 20px;
+    border: 4px solid var(--Trinary-Color, #4D81E8);
 }

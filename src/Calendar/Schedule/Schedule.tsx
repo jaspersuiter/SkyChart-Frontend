@@ -1,8 +1,16 @@
+import { Dayjs } from "dayjs";
+import DayCalendar from "./DayCalendar";
 
-function Schedule() {
+export interface ScheduleProps {
+  isDay: Boolean;
+  day: Dayjs;
+}
+
+function Schedule(props: ScheduleProps) {
   return (
     <div className='main-calendar-frame'>
-      <p>Testing</p>
+        
+      <DayCalendar isDay={props.isDay} day={props.day}/>
     </div>
   );
 }

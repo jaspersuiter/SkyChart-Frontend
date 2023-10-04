@@ -13,10 +13,14 @@ import React from 'react';
 import Hour from './Schedule/HourIdentifier';
 import Identifier from './Schedule/Identifier';
 import HourBar from './Schedule/HourHolder';
+import AircraftSection from './Schedule/AircraftSection';
+import InstructorSelection from './Schedule/Instructor';
+import dayjs, { Dayjs } from 'dayjs';
 
 function Calendar() {
     const [open, setOpen] = React.useState(false);
     const [isDay, setIsDay] = React.useState(true);
+    const [day, SetDay] = React.useState<Dayjs | null>(dayjs());
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -26,13 +30,14 @@ function Calendar() {
         setOpen(false);
     };
 
-    const handleClickDayView = () => {
-        setIsDay(true);
+    const handleSwapDayWeek = () => {
+        setIsDay(!isDay);
     };
 
-    const handleClickWeekView = () => {
-        setIsDay(false);
+    const swapDayandWeek = () => {
+        handleSwapDayWeek()
     };
+
   return (
     <div className="mainpage">
         <StaticSidebar />
@@ -41,7 +46,11 @@ function Calendar() {
             <div className='top-content-frame'>
                 <div>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateCalendar showDaysOutsideCurrentMonth fixedWeekNumber={6} sx={{fontSize: 20}} />
+                        <DateCalendar showDaysOutsideCurrentMonth 
+                        fixedWeekNumber={6} 
+                        sx={{fontSize: 20}} 
+                        value={day} 
+                        onChange={(newValue) => SetDay(newValue)} />
                     </LocalizationProvider>
                 </div>
                 
@@ -50,7 +59,7 @@ function Calendar() {
 
                     <PrimaryButton text="Today"/>
                
-                    <PrimaryButton text="Week View"/>
+                    <PrimaryButton text={ isDay ? "Week View" : "Day View"} onClick={swapDayandWeek}/>
 
                     <PrimaryButton text="New Reservation" onClick={handleClickOpen}/>
 
@@ -95,16 +104,8 @@ function Calendar() {
 
             </div>
 
-            <div className='main-calendar-frame'>
+            { day && <Schedule isDay={isDay} day={day}/>}
 
-                {!isDay && <div className='weekday-frame'></div>}
-                <div className='time-frame'>
-                    <HourBar isDay={isDay}/>
-                    <Identifier Name={"Tommy"}></Identifier>
-                    
-                </div>
-                
-            </div>
            
         </div>
         <NewReservation open={open} onClose={handleClose}/>
