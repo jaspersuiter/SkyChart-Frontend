@@ -16,6 +16,7 @@ import HourBar from './Schedule/HourHolder';
 import AircraftSection from './Schedule/AircraftSection';
 import InstructorSelection from './Schedule/Instructor';
 import dayjs, { Dayjs } from 'dayjs';
+import WeekPicker from './Schedule/WeekPicker';
 
 function Calendar() {
     const [open, setOpen] = React.useState(false);
@@ -38,6 +39,10 @@ function Calendar() {
         handleSwapDayWeek()
     };
 
+    const setToday = () => {
+        SetDay(dayjs())
+    }
+
   return (
     <div className="mainpage">
         <StaticSidebar />
@@ -45,19 +50,21 @@ function Calendar() {
 
             <div className='top-content-frame'>
                 <div>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    {isDay ? <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DateCalendar showDaysOutsideCurrentMonth 
                         fixedWeekNumber={6} 
                         sx={{fontSize: 20}} 
                         value={day} 
                         onChange={(newValue) => SetDay(newValue)} />
                     </LocalizationProvider>
+                    :
+                    <WeekPicker day={day} updateDay={(newValue) => SetDay(newValue)}/>}
                 </div>
                 
             
                 <div className="buttons-frame">
 
-                    <PrimaryButton text="Today"/>
+                    <PrimaryButton text="Today" onClick={setToday}/>
                
                     <PrimaryButton text={ isDay ? "Week View" : "Day View"} onClick={swapDayandWeek}/>
 
