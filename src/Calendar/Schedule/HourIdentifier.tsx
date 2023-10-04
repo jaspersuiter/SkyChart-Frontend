@@ -8,7 +8,7 @@ export interface HourIdentifierProps {
 function Hour(props: HourIdentifierProps) {
     return (
       <div className={props.isDay ? 'DaySelection' : 'WeekSelection'}>
-        {props.Time && <p className="DayText">{props.Time}</p>}
+        {props.Time && <p className={props.isDay ? "DayText" : "WeekText"}>{props.Time}</p>}
       </div>
     );
   }

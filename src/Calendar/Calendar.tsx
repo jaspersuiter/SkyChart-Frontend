@@ -11,6 +11,8 @@ import Schedule from './Schedule/Schedule';
 import NewReservation from '../Reservation/NewReservation';
 import React from 'react';
 import Hour from './Schedule/HourIdentifier';
+import Identifier from './Schedule/Identifier';
+import HourBar from './Schedule/HourHolder';
 
 function Calendar() {
     const [open, setOpen] = React.useState(false);
@@ -97,23 +99,9 @@ function Calendar() {
 
                 {!isDay && <div className='weekday-frame'></div>}
                 <div className='time-frame'>
-                    <Hour isDay={true} Time={"6am"}></Hour>
-                    <Hour isDay={true} Time={"7am"}></Hour>
-                    <Hour isDay={true} Time={"8am"}></Hour>
-                    <Hour isDay={true} Time={"9am"}></Hour>
-                    <Hour isDay={true} Time={"10am"}></Hour>
-                    <Hour isDay={true} Time={"11am"}></Hour>
-                    <Hour isDay={true} Time={"12am"}></Hour>
-                    <Hour isDay={true} Time={"1pm"}></Hour>
-                    <Hour isDay={true} Time={"2pm"}></Hour>
-                    <Hour isDay={true} Time={"3pm"}></Hour>
-                    <Hour isDay={true} Time={"4pm"}></Hour>
-                    <Hour isDay={true} Time={"5pm"}></Hour>
-                    <Hour isDay={true} Time={"6pm"}></Hour>
-                    <Hour isDay={true} Time={"7pm"}></Hour>
-                    <Hour isDay={true} Time={"8pm"}></Hour>
-                    <Hour isDay={true} Time={"9pm"}></Hour>
-                    <Hour isDay={true} Time={"10pm"}></Hour>
+                    <HourBar isDay={isDay}/>
+                    <Identifier Name={"Tommy"}></Identifier>
+                    
                 </div>
                 
             </div>
