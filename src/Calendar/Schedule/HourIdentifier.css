@@ -1,0 +1,38 @@
+.DaySelection{
+    display: inline-flex;
+    width: 84px;
+    height: 44px;
+    padding: 10px 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--Dark-Gray, #949494);
+    border-bottom: 1px solid var(--Dark-Gray, #949494);
+    border-left: 1px solid var(--Dark-Gray, #949494);
+}
+
+.WeekSelection{
+    display: flex;
+    width: 82px;
+    height: 44px;
+    padding: 10px 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--Dark-Gray, #949494);
+    border-bottom: 1px solid var(--Dark-Gray, #949494);
+    border-left: 1px solid var(--Dark-Gray, #949494);
+}
+
+.DayText{
+    width: 60px; 
+    color: var(--Black, #191919);
+    text-align: center;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}

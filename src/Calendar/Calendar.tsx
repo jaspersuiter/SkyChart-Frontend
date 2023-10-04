@@ -10,9 +10,11 @@ import StaticSidebar from '../Sidebar/Sidebar';
 import Schedule from './Schedule/Schedule';
 import NewReservation from '../Reservation/NewReservation';
 import React from 'react';
+import Hour from './Schedule/HourIdentifier';
 
 function Calendar() {
     const [open, setOpen] = React.useState(false);
+    const [isDay, setIsDay] = React.useState(true);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -21,39 +23,41 @@ function Calendar() {
     const handleClose = () => {
         setOpen(false);
     };
-  return (
-    <div className="calendar-page">
-        <StaticSidebar />
-        <div className="calendar-top-content">
-            <div className="calendar">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateCalendar showDaysOutsideCurrentMonth fixedWeekNumber={6} sx={{fontSize: 20}} />
-                </LocalizationProvider>
-            </div>
-            
-            <div className="button-section">
-                <div className="calendar-button">
-                    <PrimaryButton text="Today"/>
-                </div>
-                <div className="calendar-button">
-                    <PrimaryButton text="Week View"/>
-                </div>
-                <div className="calendar-button">
-                    <PrimaryButton text="New Reservation" onClick={handleClickOpen}/>
-                </div>
-                
-                <NewReservation 
-                    open={open}
-                    onClose={handleClose}
-                />
-                
-                <div className="calendar-button">
-                    <PrimaryButton text="Limit to Me"/>
-                </div>
-            </div>
 
-            <div className="calendar-dropdown">
-                <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
+    const handleClickDayView = () => {
+        setIsDay(true);
+    };
+
+    const handleClickWeekView = () => {
+        setIsDay(false);
+    };
+  return (
+    <div className="mainpage">
+        <StaticSidebar />
+        <div className="main-content">
+
+            <div className='top-content-frame'>
+                <div>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateCalendar showDaysOutsideCurrentMonth fixedWeekNumber={6} sx={{fontSize: 20}} />
+                    </LocalizationProvider>
+                </div>
+                
+            
+                <div className="buttons-frame">
+
+                    <PrimaryButton text="Today"/>
+               
+                    <PrimaryButton text="Week View"/>
+
+                    <PrimaryButton text="New Reservation" onClick={handleClickOpen}/>
+
+                    <PrimaryButton text="Limit to Me"/>
+
+                </div>
+
+                <div className="sorting-frame">
+                    <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
                     <InputLabel id="demo-select-small-label">Aircraft</InputLabel>
                     <Select
                         labelId="demo-select-small-label"
@@ -62,9 +66,9 @@ function Calendar() {
                     >
                         <MenuItem>All</MenuItem>
                     </Select>
-                </FormControl>
+                    </FormControl>
 
-                <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
+                    <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
                     <InputLabel id="demo-select-small-label">Reservation Type</InputLabel>
                     <Select
                         labelId="demo-select-small-label"
@@ -73,9 +77,9 @@ function Calendar() {
                     >
                         <MenuItem>All</MenuItem>
                     </Select>
-                </FormControl>
+                    </FormControl>
 
-                <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
+                    <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
                     <InputLabel id="demo-select-small-label">Instructors</InputLabel>
                     <Select
                         labelId="demo-select-small-label"
@@ -84,13 +88,38 @@ function Calendar() {
                     >
                         <MenuItem>All</MenuItem>
                     </Select>
-                </FormControl>
+                    </FormControl>
+                    </div>
+
             </div>
+
+            <div className='main-calendar-frame'>
+
+                {!isDay && <div className='weekday-frame'></div>}
+                <div className='time-frame'>
+                    <Hour isDay={true} Time={"6am"}></Hour>
+                    <Hour isDay={true} Time={"7am"}></Hour>
+                    <Hour isDay={true} Time={"8am"}></Hour>
+                    <Hour isDay={true} Time={"9am"}></Hour>
+                    <Hour isDay={true} Time={"10am"}></Hour>
+                    <Hour isDay={true} Time={"11am"}></Hour>
+                    <Hour isDay={true} Time={"12am"}></Hour>
+                    <Hour isDay={true} Time={"1pm"}></Hour>
+                    <Hour isDay={true} Time={"2pm"}></Hour>
+                    <Hour isDay={true} Time={"3pm"}></Hour>
+                    <Hour isDay={true} Time={"4pm"}></Hour>
+                    <Hour isDay={true} Time={"5pm"}></Hour>
+                    <Hour isDay={true} Time={"6pm"}></Hour>
+                    <Hour isDay={true} Time={"7pm"}></Hour>
+                    <Hour isDay={true} Time={"8pm"}></Hour>
+                    <Hour isDay={true} Time={"9pm"}></Hour>
+                    <Hour isDay={true} Time={"10pm"}></Hour>
+                </div>
+                
+            </div>
+           
         </div>
-        
-        <div className="calendar-schedule">
-            <Schedule />
-        </div>
+        <NewReservation open={open} onClose={handleClose}/>
     </div>
   )}
 
