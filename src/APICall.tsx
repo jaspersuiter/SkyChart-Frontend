@@ -17,16 +17,9 @@ const requestOptions = {
   body: JSON.stringify(data), // Convert data to JSON format
 };
 
-export interface APICallProp {
-    apiURL: string;
-    requestOptions: object;
-    
-
-}
-
-export async function makeApiCall(props: APICallProp): Promise<any> {
+export async function makeApiCall(apiURL: string, requestOptions: object): Promise<any> {
   try {
-    const response = await fetch(dataURL+ props.apiURL, props.requestOptions);
+    const response = await fetch(dataURL+ apiURL, requestOptions);
 
     if (!response.ok) {
       throw new Error('Network response was not ok');
