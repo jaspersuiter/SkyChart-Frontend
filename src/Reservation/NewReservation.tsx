@@ -6,6 +6,8 @@ import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-picker
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import Dialog from '@mui/material/Dialog';
+import { makeApiCall } from '../APICall';
+import { useState } from 'react';
 
 export interface NewReservationProps {
     open: boolean;
@@ -19,6 +21,51 @@ function NewReservation(props: NewReservationProps) {
     const handleClose = () => {
         onClose();
       };
+
+    const enum flightType {
+        DualLesson,
+        StudentSolo,
+        Checkride,
+        StandardReserved,
+        AircraftCheckout,
+        GroundSchool,
+    }
+
+    const resetAll = () => {
+        setPilotId("")
+        setPlaneId("")
+        setInstructorId("")
+        setStartTime("")
+        setEndTime("")
+        setFlightType("")  
+        handleClose()
+      }
+
+    const [PilotId, setPilotId] = useState('');
+    const [PlaneId, setPlaneId] = useState('');
+    const [InstructorId, setInstructorId] = useState('');
+    const [StartTime, setStartTime] = useState('');
+    const [EndTime, setEndTime] = useState('');
+    const [FlightType, setFlightType] = useState('');
+    
+    const createReservation = async () => {
+            const data = {
+                PilotId: PilotId,
+                PlaneId: PlaneId,
+                InstructorId: InstructorId,
+                StartTime: StartTime,
+                EndTime: EndTime,
+                FlightType: FlightType,
+            }
+
+            try {
+                const responseData2 = await makeApiCall("/api/reservation/create", data)
+                resetAll()
+            } catch (error) {
+                console.error(error)
+            }
+
+    }
 
     return (
         <div className="reservation-popup">
@@ -71,7 +118,7 @@ function NewReservation(props: NewReservationProps) {
 
                 {/* Confirm and Cancel Buttons */}
                 <div className="reservation-buttons">
-                    <PrimaryButton text="Create Reservation"/>
+                    <PrimaryButton text="Create Reservation" onClick={createReservation}/>
                     <CancelButton text="Cancel" onClick={handleClose}/>
                 </div>
             </Dialog>
