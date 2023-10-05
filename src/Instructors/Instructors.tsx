@@ -42,8 +42,11 @@ function Instructors() {
 
     const fetchInstructors = async () => {
         try {
-            const instructors = await fetch('https://localhost:5201/api/Instructors/GetAllInstructors')
-                .then((response) => response.json());
+            const instructors = await fetch('http://localhost:5201/api/instructor/get-all')
+                .then((response) => response.json())
+                .then((data) => data);
+
+                console.log(instructors);
 
             // Create a new array of rows based on the instructors data
             const mappedRows = instructors.map((instructor: Instructor, index: number) => ({

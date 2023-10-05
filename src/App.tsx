@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
@@ -11,16 +11,17 @@ import Admin from './Admin/Admin';
 import Instructors from './Instructors/Instructors';
 import Login from './Login/Login';
 import Registration from './Registration/Registration';
-import { getLoggedIn } from './Login/isLoggedIn';
+import { getLoggedIn, isLoggedIn } from './Login/isLoggedIn';
 
 function App() {
+
   return (
     <div className="App">
       <Router>
         <Routes>
           {
 
-            // !getLoggedIn() ?
+            // !isLoggedIn ?
 
             // <Route path='*' element={<Login/>}/>
 
@@ -31,7 +32,7 @@ function App() {
             <Route path='/aircraft' element={<Aircraft/>} />
             <Route path='/instructors' element={<Instructors/>} />
             <Route path='/settings' element={<Settings/>} />
-            <Route path="/" element={<Navigate to='/calendar'/>} />
+            <Route path="/" element={<Navigate to='/login'/>} />
             <Route path="/logout" element={<Logout/>} />
             <Route path="/verify" element={<VerificationPage/>} />
             <Route path='/admin' element={<Admin/>} />

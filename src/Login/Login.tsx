@@ -35,10 +35,10 @@ function Login() {
       .then(data => {
         
         if (data.verified === true) { 
-          console.log('Success:', data);
-          setLoggedIn(true); // Verifcation of login
+          setLoggedIn(true); 
           navigate('/calendar');
         }
+        
       })
       .catch(error => {
         console.error(error);
