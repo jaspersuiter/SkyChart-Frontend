@@ -1,0 +1,16 @@
+.label {
+    height: 53px;
+    width: 985px;
+}
+
+.label .text-wrapper {
+    color: var(--black);
+    font-family: "Inter-Regular", Helvetica;
+    font-size: 36px;
+    font-weight: 400;
+    left: 0;
+    letter-spacing: 0;
+    line-height: normal;
+    top: 0;
+    width: 985px;
+}

@@ -1,0 +1,17 @@
+.mainpage {
+    display: flex;
+    padding: var(--none, 0px);
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--none, 0px);
+}
+
+.main-content{
+    display: flex;
+    padding: 30px;
+    justify-content: start;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    flex-grow: 1      
+}

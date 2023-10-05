@@ -1,0 +1,19 @@
+/* Center the gray box */
+.register-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #fff;
+}
+
+/* Style the login form */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #D3D3D3;
+    padding: 50px 60px; /* Increase the top and bottom padding to make it taller */
+    border-radius: 5px;
+}

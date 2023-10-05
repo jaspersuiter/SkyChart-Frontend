@@ -1,0 +1,19 @@
+/* Center the gray box */
+.invite-new-user-popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #ce2424;
+}
+
+/* Style the login form */
+.invite-new-user-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #c22828;
+  padding: 90px 50px; /* Increase the top and bottom padding to make it taller */
+  border-radius: 5px;
+}

@@ -30,6 +30,7 @@ function StaticSidebar(props: any) {
         { text: 'Instructors', icon: <PersonIcon/>, link: '/instructors' },
         { text: 'Settings', icon: <SettingsIcon/>, link: '/settings' },
         { text: 'Logout', icon: <LogoutIcon/>, link: '/logout' },
+        { text: 'Admin', icon: <SettingsIcon/>, link: '/admin'},
     ]
 
     return (

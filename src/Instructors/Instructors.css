@@ -1,0 +1,16 @@
+.instructors-content {
+    display: inline-flex;
+    align-items: flex-start;
+    margin-left: 2em;
+    margin-top: 1em;
+}
+
+.instructors-top-content {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.instructors-page {
+    display: inline-flex;
+}
