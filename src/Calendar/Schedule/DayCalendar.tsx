@@ -42,7 +42,7 @@ async function getInstructorData(): Promise<
   }>
 > {
   try {
-    const responseData2 = await makeApiCall("api/instructor/get-all", {}, "get");
+    const responseData2 = await makeApiCall("/api/instructor/get-all", {}, "get");
     return responseData2;
   } catch (error) {
     console.error(error);
@@ -64,6 +64,8 @@ function DayCalendar(props: DayCalendarProps) {
   const [aircraftData, setAircraftData] = useState<Array<any>>([]);
   const [InstructorData, setInstructorData] = useState<Array<any>>([]);
 
+  let daystr = props.day.format('YYYY-MM-DD')
+
   useEffect(() => {
     async function fetchAircraftData() {
       const data = await getAircraftData();
@@ -81,7 +83,7 @@ function DayCalendar(props: DayCalendarProps) {
 
   // Map the aircraft data to JSX elements
   const planes = aircraftData.map((item, index) => (
-    <AircraftSection isDay={props.isDay} AircraftName={item.nickName} key={index} />
+    <AircraftSection isDay={props.isDay} AircraftName={item.nickName} AircraftId={item.planeId} Day={daystr} key={index} />
   ));
 
   const instruictors = InstructorData.map((item, index) => (
