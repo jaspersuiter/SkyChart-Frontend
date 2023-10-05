@@ -11,12 +11,21 @@ import Admin from './Admin/Admin';
 import Instructors from './Instructors/Instructors';
 import Login from './Login/Login';
 import Registration from './Registration/Registration';
+import { getLoggedIn } from './Login/isLoggedIn';
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Routes>
+          {
+
+            // !getLoggedIn() ?
+
+            // <Route path='*' element={<Login/>}/>
+
+            // :
+
           <React.Fragment>
             <Route path='/calendar' element={<Calendar/>} />
             <Route path='/aircraft' element={<Aircraft/>} />
@@ -30,6 +39,7 @@ function App() {
             <Route path='/register' element={<Registration/>} />
           </React.Fragment>
     
+          }
         </Routes>
       </Router>
     </div>

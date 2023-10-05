@@ -2,11 +2,13 @@ import CancelButton from '../Buttons/CancelButton';
 import Dialog from '@mui/material/Dialog';
 import SecondaryButton from '../Buttons/SecondaryButton';
 import { useNavigate } from 'react-router-dom';
+import { getLoggedIn, setLoggedIn } from '../Login/isLoggedIn';
 
 export interface LogoutProps {
     open: boolean;
     onClose: () => void;
   }
+
 
 function LogoutPopup(props: LogoutProps) {
 
@@ -16,9 +18,11 @@ function LogoutPopup(props: LogoutProps) {
 
     const handleClose = () => {
         onClose();
-      };
+    };
 
     const handleLogOut = () => {
+        setLoggedIn(false); // update state variable
+        navigate('/login');
         onClose();
     }
 
