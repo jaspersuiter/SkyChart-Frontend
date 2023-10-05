@@ -19,6 +19,7 @@ function NewReservation(props: NewReservationProps) {
     const {open, onClose } = props;
 
     const handleClose = () => {
+        setSelectedValue("")
         onClose();
       };
 
@@ -35,24 +36,24 @@ function NewReservation(props: NewReservationProps) {
         setPilotId("")
         setPlaneId("")
         setInstructorId("")
-        setStartTime("")
-        setEndTime("")
-        setFlightType("")  
+        setStartTime(null)
+        setEndTime(null)
+        setFlightType(0)  
         handleClose()
       }
 
     const [PilotId, setPilotId] = useState('');
     const [PlaneId, setPlaneId] = useState('');
     const [InstructorId, setInstructorId] = useState('');
-    const [StartTime, setStartTime] = useState('');
-    const [EndTime, setEndTime] = useState('');
-    const [FlightType, setFlightType] = useState('');
+    const [StartTime, setStartTime] = useState<Date | null>(null);
+    const [EndTime, setEndTime] = useState<Date | null>(null);
+    const [FlightType, setFlightType] = useState<flightType>(0);
     
     const createReservation = async () => {
             const data = {
-                PilotId: PilotId,
-                PlaneId: PlaneId,
-                InstructorId: InstructorId,
+                PilotId: "123e4567-e89b-12d3-a456-426655440000",
+                PlaneId: "123e4567-e89b-12d3-a456-426655440000",
+                InstructorId: "123e4567-e89b-12d3-a456-426655440000",
                 StartTime: StartTime,
                 EndTime: EndTime,
                 FlightType: FlightType,
@@ -60,12 +61,28 @@ function NewReservation(props: NewReservationProps) {
 
             try {
                 const responseData2 = await makeApiCall("/api/reservation/create", data)
+                console.log(responseData2)
                 resetAll()
             } catch (error) {
                 console.error(error)
             }
 
+            handleClose()
     }
+    const [selectedValue, setSelectedValue] = useState('');
+
+    const handleChange = (event: any) => {
+        setSelectedValue(event.target.value);
+        setFlightType(event.target.value);
+    };
+
+    const handleStartTime = (newTime: Date | null) => {
+        setStartTime(newTime);
+    };
+
+    const handleEndTime = (newTime: Date | null) => {
+        setEndTime(newTime);
+    };
 
     return (
         <div className="reservation-popup">
@@ -94,6 +111,23 @@ function NewReservation(props: NewReservationProps) {
                             <MenuItem>All</MenuItem>
                         </Select>
                     </FormControl>
+                    <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
+                        <InputLabel id="demo-select-small-label">Type of flight</InputLabel>
+                        <Select
+                            labelId="demo-select-small-label"
+                            id="demo-select-small"
+                            label="type of flight"
+                            value={selectedValue} // Set the selected value here
+                            onChange={handleChange} // Handle change event
+                        >
+                            <MenuItem value="" style={{ color: '#FF8080' }}>Clear</MenuItem>
+                            <MenuItem value={flightType.DualLesson}>dual lesson</MenuItem>
+                            <MenuItem value={flightType.StudentSolo}>student solo</MenuItem>
+                            <MenuItem value={flightType.Checkride}>checkride</MenuItem>
+                            <MenuItem value={flightType.StandardReserved}>standard reserved</MenuItem>
+                            <MenuItem value={flightType.AircraftCheckout}>aircraft checkout</MenuItem>
+                        </Select>
+                    </FormControl>
                 </div>
 
                 {/* Date and Time Pickers to Select Reservation Time */}
@@ -104,13 +138,13 @@ function NewReservation(props: NewReservationProps) {
 
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['TimePicker']}>
-                            <TimePicker label="Start Time" />
+                            <TimePicker label="Start Time" value={StartTime} onChange={handleStartTime} />
                         </DemoContainer>
                     </LocalizationProvider>
 
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={['TimePicker']}>
-                            <TimePicker label="End Time" />
+                            <TimePicker label="End Time" value={EndTime} onChange={handleEndTime} />
                         </DemoContainer>
                     </LocalizationProvider>
                 </div>
