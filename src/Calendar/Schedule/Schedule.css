@@ -7,3 +7,9 @@
     border-radius: 20px;
     border: 4px solid var(--Trinary-Color, #4D81E8);
 }
+
+.breakLine{
+    height: 7px;
+    align-self: stretch;
+    background: var(--Light-Gray, #D3D3D3);
+}

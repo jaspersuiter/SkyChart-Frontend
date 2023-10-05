@@ -25,7 +25,10 @@ function Schedule(props: ScheduleProps) {
   } 
 
   const dayCalendars = week.map((item, index) => (
-    <DayCalendar key={index} isDay={props.isDay} day={item} />
+    <div>
+      <DayCalendar key={index} isDay={props.isDay} day={item} />
+      {(!props.isDay && index != 6) && <div className="breakLine"></div>}
+    </div>
   ));
 
   return (
