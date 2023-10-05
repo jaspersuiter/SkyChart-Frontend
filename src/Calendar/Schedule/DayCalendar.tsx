@@ -1,8 +1,5 @@
 import { Dayjs } from 'dayjs';
 import './DayCalendar.css';
-import React from 'react';
-import Hour from './HourIdentifier';
-import Identifier from './Identifier';
 import InstructorSelection from './Instructor';
 import AircraftSection from './AircraftSection';
 

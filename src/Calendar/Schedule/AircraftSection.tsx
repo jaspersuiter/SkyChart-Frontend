@@ -1,6 +1,7 @@
 import './HourHolder.css';
 import Hour from './HourIdentifier';
 import Identifier from './Identifier';
+import Reservation from './Reservation';
 
 export interface AircraftSectionProps {
   isDay: Boolean;
@@ -9,25 +10,28 @@ export interface AircraftSectionProps {
 
 function AircraftSection(props: AircraftSectionProps) {
     return (
-      <div className="mainBar">
-        <Identifier Name={props.AircraftName}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
+      <div className='container'>
+        <Reservation Title='7:00AM Tommy Martin' duration={60} startTime='13:00' isDay={props.isDay}/>
+        <div className="mainBar">
+          <Identifier Name={props.AircraftName}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay}/>
+      </div>
       </div>
     );
   }
