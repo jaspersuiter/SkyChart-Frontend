@@ -1,5 +1,6 @@
 import { Dialog } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { makeApiCall } from '../APICall';
 import TextField from '@mui/material/TextField';
 import './AddNewAircraft.css'
 import PrimaryButton from '../Buttons/PrimaryButton';
@@ -24,6 +25,38 @@ function AddNewAircraft(props: AddNewAircraftProp){
     const handleClose = () => {
         onClose();
       };
+
+    const resetAll = () => {
+      setTailNumber("")
+      setModel("")
+      setAircraftNickname("")
+      setNumEngines("")
+      settachHours("")
+      setHobbsHours("")
+      setHourlyRate("")
+
+      handleClose()
+    }
+
+    const createNewAircraft = async () => {
+        const data = {
+            tailNumber: tailNumber,
+            model: model,
+            nickName: aircraftNickname,
+            hourlyRate: parseFloat(hourlyRate),
+            numEngines: parseInt(numEngines),
+            tachHours: parseInt(tachHours),
+            hobbsHours: parseInt(hobbsHours) 
+        }
+        try {
+            const responseData2 = await makeApiCall("/api/plane/create", data)
+            resetAll()
+        } catch (error) {
+          
+          console.error(error);
+        }
+
+    }
 
       return (
             <Dialog onClose={handleClose} open={open} sx={{
@@ -96,7 +129,7 @@ function AddNewAircraft(props: AddNewAircraftProp){
                     </div>
 
                     <div className='confirmationbottom'>
-                        <PrimaryButton text="Create Aircraft"/>
+                        <PrimaryButton text="Create Aircraft" onClick={createNewAircraft}/>
                     </div>
                 </div>
 
