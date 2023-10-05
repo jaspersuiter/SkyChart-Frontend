@@ -26,6 +26,18 @@ function AddNewAircraft(props: AddNewAircraftProp){
         onClose();
       };
 
+    const resetAll = () => {
+      setTailNumber("")
+      setModel("")
+      setAircraftNickname("")
+      setNumEngines("")
+      settachHours("")
+      setHobbsHours("")
+      setHourlyRate("")
+
+      handleClose()
+    }
+
     const createNewAircraft = async () => {
         const data = {
             tailNumber: tailNumber,
@@ -36,32 +48,9 @@ function AddNewAircraft(props: AddNewAircraftProp){
             tachHours: parseInt(tachHours),
             hobbsHours: parseInt(hobbsHours) 
         }
-
-        const data2 = {
-            usernameOrEmail: "tkm",
-            password: "1234"
-        }
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json', // Specify the content type as JSON
-            },
-            body: JSON.stringify(data), // Convert data to JSON format
-        };
-
-        const requestOptions2 = {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json', // Specify the content type as JSON
-            },
-            body: JSON.stringify(data2), // Convert data to JSON format
-        };
-
         try {
-            const responseData = await makeApiCall("/api/user/authentication/login", requestOptions2)
-            console.log(responseData);
-            const responseData2 = await makeApiCall("/api/plane/create", requestOptions)
-            console.log(responseData2);
+            const responseData2 = await makeApiCall("/api/plane/create", data)
+            resetAll()
         } catch (error) {
           
           console.error(error);

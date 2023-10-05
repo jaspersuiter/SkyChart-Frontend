@@ -1,33 +1,28 @@
-// APIcall.ts
+import axios from 'axios';
 
-// Define the API endpoint URL
 const dataURL = 'http://localhost:5201';
 
-// Data to send in the request body
-const data = {
-  name: 'John Doe', // Replace 'John Doe' with the desired name
-};
 
-// Configure the fetch options for a POST request
-const requestOptions = {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json', // Specify the content type as JSON
-  },
-  body: JSON.stringify(data), // Convert data to JSON format
-};
+export async function makeApiCall(apiURL: string, data: object): Promise<any> {
+  const axiosConfig = {
+    method: 'post', // Use 'post' method for POST request
+    url: dataURL + apiURL, // Combine dataURL and apiURL
+    headers: {
+      'Content-Type': 'application/json', // Specify the content type as JSON
+    },
+    data: data, // Set the request data
+    withCredentials: true, // Enable credentials in the request
+  };
 
-export async function makeApiCall(apiURL: string, requestOptions: object): Promise<any> {
   try {
-    const response = await fetch(dataURL+ apiURL, requestOptions);
+    const response = await axios(axiosConfig);
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       throw new Error('Network response was not ok');
     }
 
-    const responseData = await response.json();
-    return responseData;
+    return response.data;
   } catch (error) {
-    throw new Error('Fetch error: ' + error);
+    throw new Error('Axios error: ' + error);
   }
 }
