@@ -6,6 +6,7 @@ import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-picker
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import Dialog from '@mui/material/Dialog';
+import React, { useState } from 'react';
 
 export interface NewReservationProps {
     open: boolean;
@@ -19,6 +20,12 @@ function NewReservation(props: NewReservationProps) {
     const handleClose = () => {
         onClose();
       };
+
+    const [selectedValue, setSelectedValue] = useState('');
+
+    const handleChange = (event: any) => {
+        setSelectedValue(event.target.value);
+    };
 
     return (
         <div className="reservation-popup">
@@ -45,6 +52,23 @@ function NewReservation(props: NewReservationProps) {
                             label="aircraft"
                         >
                             <MenuItem>All</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
+                        <InputLabel id="demo-select-small-label">Type of flight</InputLabel>
+                        <Select
+                            labelId="demo-select-small-label"
+                            id="demo-select-small"
+                            label="type of flight"
+                            value={selectedValue} // Set the selected value here
+                            onChange={handleChange} // Handle change event
+                        >
+                            <MenuItem value="" style={{ color: '#FF8080' }}>Clear</MenuItem>
+                            <MenuItem value="dual lesson">dual lesson</MenuItem>
+                            <MenuItem value="student solo">student solo</MenuItem>
+                            <MenuItem value="checkride">checkride</MenuItem>
+                            <MenuItem value="standard reserved">standard reserved</MenuItem>
+                            <MenuItem value="aircraft checkout">aircraft checkout</MenuItem>
                         </Select>
                     </FormControl>
                 </div>
