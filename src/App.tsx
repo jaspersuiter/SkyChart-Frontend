@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect } from "react";
 import "./App.css";
 
@@ -25,10 +26,12 @@ function App() {
     console.log(context.authorization);
   }, [context.authorization]);
 
+
   return (
     <div className="App">
       <Router>
         <Routes>
+
           {!context.authorization ? (
             <Route path="*" element={<Login />} />
           ) : (
@@ -45,6 +48,7 @@ function App() {
               <Route path="/register" element={<Registration />} />
             </React.Fragment>
           )}
+
         </Routes>
       </Router>
     </div>
