@@ -4,6 +4,7 @@ export interface UnavailableProps {
   duration: number
   startTime: string;
   isDay: Boolean
+  type: string
 }
 
 function calculateLengthFromDuration(durationInMinutes: number, pixelsPerHour: number): number {
@@ -39,8 +40,8 @@ function Unavailable(props: UnavailableProps) {
 
 
     return (
-      <div className='other' style={{ width: `${lengthInPixels}px`, left: `${leftPosition}px`}}>
-        <p className='mainText'>Unavailable</p>
+      <div className={props.type === "Perfered" ? 'other' : 'unavailable'} style={{ width: `${lengthInPixels}px`, left: `${leftPosition}px`}}>
+        <p className='mainText'>{props.type === "Perfered" ? 'Perfered' : 'Unavailable'}</p>
       </div>
     );
   }

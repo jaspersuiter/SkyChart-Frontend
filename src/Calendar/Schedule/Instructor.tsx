@@ -4,6 +4,7 @@ import Hour from './HourIdentifier';
 import Identifier from './Identifier';
 import Reservation from './Reservation';
 import { getReservationData } from './Util';
+import Unavailable from './Unavailable';
 
 export interface InstructorSelectionProps {
   isDay: Boolean;
@@ -46,6 +47,8 @@ function InstructorSelection(props: InstructorSelectionProps) {
       <div className='container'>
         {/* <Reservation isDay={props.isDay} resStartTime={"10/5/2023 12:00:00 PM"} resEndTime={"10/5/2023 2:00:00 PM"} pilotid={"fa2538b5-36b9-4415-b815-826ca2f9200f"}/> */}
         {reservations}
+        <Unavailable duration={60} isDay={props.isDay} startTime='7:00' type='Perfered'/>
+        <Unavailable duration={60} isDay={props.isDay} startTime='8:00' type='Unavailable'/>
       <div className="mainBar">
         <Identifier Name={props.InstructorName}/>
         <Hour isDay={props.isDay}/>

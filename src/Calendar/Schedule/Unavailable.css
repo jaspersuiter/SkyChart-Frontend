@@ -12,6 +12,20 @@
     background: var(--Light-Gray, #D3D3D3);
 }
 
+.unavailable {
+    position: absolute; 
+    top: 0; 
+    z-index: 4;
+    display: flex;
+    height: 40px;
+    padding: 2px 0px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--Dark-Gray, #949494);
+}
+
 .mainText{
     display: -webkit-box;
     -webkit-box-orient: vertical;

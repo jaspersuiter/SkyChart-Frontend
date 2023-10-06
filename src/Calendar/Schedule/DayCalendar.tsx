@@ -102,7 +102,6 @@ function DayCalendar(props: DayCalendarProps) {
         {planes}
         {instruictors}
         <InstructorSelection isDay={props.isDay} InstructorName={"Gustavo"} Day={daystr} InstructorId="fa2538b5-36b9-4415-b815-826ca2f9200f"/>
-        {/* <InstructorSelection isDay={props.isDay} InstructorName={"Gustavo"} /> */}
       </div>
     </div>
   );
