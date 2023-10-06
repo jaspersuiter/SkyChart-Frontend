@@ -2,8 +2,9 @@ import CancelButton from '../Buttons/CancelButton';
 import Dialog from '@mui/material/Dialog';
 import SecondaryButton from '../Buttons/SecondaryButton';
 import { useNavigate } from 'react-router-dom';
-import { getLoggedIn, setLoggedIn } from '../Login/isLoggedIn';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { AuthorizationContext } from '../AuthContext';
+import { response } from 'express';
 
 export interface LogoutProps {
     open: boolean;
@@ -12,7 +13,7 @@ export interface LogoutProps {
 
 
 function LogoutPopup(props: LogoutProps) {
-
+    const context = useContext(AuthorizationContext);
     const navigate = useNavigate();
 
     const {open, onClose } = props;
@@ -30,30 +31,31 @@ function LogoutPopup(props: LogoutProps) {
     };
 
     const handleLogOut = () => {
-        setLoggedIn(false); 
-        navigate('/login');
-
         const userCredentials: UserCredentials = { UserNameOrEmail: email, password: password };
         fetch('http://localhost:5201/api/user/authentication/logout', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
             'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userCredentials), 
+          },
         })
-        .then(response => response.json())
-        .then(data => {
-            
-            if (data.verified === true) { 
-            setLoggedIn(false); 
-            navigate('/login');
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            
-        })
-
+            console.log('Success:');
+              context.logout();
+              navigate('/login');
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            // Handle the error, e.g., by showing an error message to the user
+          });
+      
+          navigate('/login');
         onClose();
-    }
+      }
+      
 
     return (
         <div className="logout-popup">

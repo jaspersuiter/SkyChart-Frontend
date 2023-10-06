@@ -2,12 +2,8 @@
 import React, { useContext, useEffect } from "react";
 import "./App.css";
 
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+
 import Calendar from "./Calendar/Calendar";
 import Settings from "./Settings/Settings";
 import Logout from "@mui/icons-material/Logout";
@@ -21,11 +17,16 @@ import { AuthorizationContext } from "./AuthContext";
 
 function App() {
   const context = useContext(AuthorizationContext);
-
+  
   useEffect(() => {
     console.log(context.authorization);
   }, [context.authorization]);
 
+  useEffect(() => {
+    if (!context.authorization) {
+      <Navigate to='/login'/>
+    }
+  }, [context.authorization]);
 
   return (
     <div className="App">

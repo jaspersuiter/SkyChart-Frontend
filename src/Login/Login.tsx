@@ -2,12 +2,14 @@ import './Login.css'
 
 import TextField from '@mui/material/TextField';
 import PrimaryButton from '../Buttons/PrimaryButton';
-import { useState } from 'react';
-import { setLoggedIn } from './isLoggedIn';
+import { useContext, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { AuthorizationContext } from '../AuthContext';
 
 
 function Login() {
+
+  const context = useContext(AuthorizationContext);
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,7 +36,8 @@ function Login() {
       .then(data => {
         
         if (data.verified === true) { 
-          setLoggedIn(true); 
+          console.log('Success:', data);
+          context.login();
           navigate('/calendar');
         }
         
