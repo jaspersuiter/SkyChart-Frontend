@@ -19,13 +19,12 @@ function Login() {
 
   const navigate = useNavigate();
   
-  
-  
   const handleLogin = () => {
    
     const userCredentials: UserCredentials = { UserNameOrEmail: email, password: password };
     fetch('http://localhost:5201/api/user/authentication/login', {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
