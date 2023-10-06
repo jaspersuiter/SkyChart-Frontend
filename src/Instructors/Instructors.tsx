@@ -40,8 +40,6 @@ function Instructors() {
                 .then((response) => response.json())
                 .then((data) => data);
 
-                console.log(instructors);
-
             // Create a new array of rows based on the instructors data
             const mappedRows = instructors.map((instructor: any, index: number) => {
                 const nameParts = instructor.name.split(','); // Split by comma
@@ -54,7 +52,6 @@ function Instructors() {
                 }
             });
 
-            console.log('Mapped', mappedRows);
             setRows(mappedRows); // Update the state variable with the mapped rows
         } catch (error) {
             console.log(error);
