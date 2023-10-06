@@ -60,7 +60,7 @@ function NewReservation(props: NewReservationProps) {
             }
 
             try {
-                const responseData2 = await makeApiCall("/api/reservation/create", data)
+                const responseData2 = await makeApiCall("/api/reservation/create", data, "get")
                 console.log(responseData2)
                 resetAll()
             } catch (error) {
