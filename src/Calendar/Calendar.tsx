@@ -111,7 +111,7 @@ function Calendar() {
 
             </div>
 
-            { day && <Schedule isDay={isDay} day={day}/>}
+            { day && <Schedule isDay={isDay} day={day} key={day.toString()}/>}
 
            
         </div>
