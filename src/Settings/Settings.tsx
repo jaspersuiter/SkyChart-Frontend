@@ -26,8 +26,8 @@ interface Instructor {
 }
 
 interface Changes {
-    preferredInstructor: string;
-    preferredAircraft: string;
+    preferredInstructorId: string;
+    preferredPlanes: string[];
 }
 
 interface UserCredentials { 
@@ -44,85 +44,86 @@ function Settings() {
     const [planes, setPlanes] = useState<Plane[]>([]);
     const [instructors, setInstructors] = useState<Instructor[]>([]); // Declare rows as a state variable
   
-const fetchPlanes = async () => {
-    try {
-        const planes = await fetch('http://localhost:5201/api/plane/get-all',
-        {credentials: 'include'})
-            .then((response) => response.json())
-            .then((data) => data);
+    const fetchPlanes = async () => {
+        try {
+            const planes = await fetch('http://localhost:5201/api/plane/get-all',
+            {credentials: 'include'})
+                .then((response) => response.json())
+                .then((data) => data);
 
-        const mappedPlanes = planes.map((plane: any) => ({
-            id: plane.planeId,
-            model: plane.model,
-            grounded: plane.grounded,
-            nickname: plane.nickName,
-        }));
+            const mappedPlanes = planes.map((plane: any) => ({
+                id: plane.planeId,
+                model: plane.model,
+                grounded: plane.grounded,
+                nickname: plane.nickName,
+            }));
 
-        setPlanes(mappedPlanes); 
-    } catch (error) {
-        console.log(error);
+            setPlanes(mappedPlanes); 
+        } catch (error) {
+            console.log(error);
+        }
     }
-}
 
-useEffect(() => {
-    fetchPlanes();
-}, []); 
+    useEffect(() => {
+        fetchPlanes();
+    }, []); 
 
-const fetchInstructors = async () => {
-    try {
-        const instructors = await fetch('http://localhost:5201/api/instructor/get-all',
-        {credentials: 'include'})
-            .then((response) => response.json())
-            .then((data) => data);
+    const fetchInstructors = async () => {
+        try {
+            const instructors = await fetch('http://localhost:5201/api/instructor/get-all',
+            {credentials: 'include'})
+                .then((response) => response.json())
+                .then((data) => data);
 
-        // Create a new array of rows based on the instructors data
-        const mappedRows = instructors.map((instructor: any, index: number) => {
-            const nameParts = instructor.name.split(','); // Split by comma
-            return {
-            id: index + 1,
-            lastName: nameParts[0].trim(),
-            firstName: nameParts[1].trim(),
-            phoneNum: instructor.phone,
-            rating: instructor.instructorRatings?.join(', '),
-            }
-        });
-
-        setInstructors(mappedRows); // Update the state variable with the mapped rows
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-
-useEffect(() => {
-    fetchInstructors(); // Call fetchInstructors when the component mounts
-}, []); // Empty dependency array means this effect runs once when the component mounts
-
-    const handleConfirmChanges = () => {
-        const changes: Changes = { preferredInstructor: selectedInstructor, preferredAircraft: selectedAircraft }
-        console.log("Changes Confirmed")
-        console.log("Selected Instructor:", selectedInstructor);
-        console.log("Selected Aircraft:", selectedAircraft);
-        fetch('http://localhost:5201/api/user/update', {
-            method: 'PUT',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(changes), 
-        })
-            .then(response => response.json())
-            .then(data => {
-                
-                if (data.verified === true) { 
-                    console.log('Success:', data);
+            // Create a new array of rows based on the instructors data
+            const mappedRows = instructors.map((instructor: any, index: number) => {
+                const nameParts = instructor.name.split(','); // Split by comma
+                return {
+                id: instructor.userId,
+                lastName: nameParts[0].trim(),
+                firstName: nameParts[1].trim(),
+                phoneNum: instructor.phone,
+                rating: instructor.instructorRatings?.join(', '),
                 }
-                
-            })
-            .catch(error => {
-                console.error(error);
             });
 
+            setInstructors(mappedRows); // Update the state variable with the mapped rows
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchInstructors(); // Call fetchInstructors when the component mounts
+    }, []); // Empty dependency array means this effect runs once when the component mounts
+
+    const handleConfirmChanges = () => {
+        const changes: Changes = { preferredInstructorId: selectedInstructor, preferredPlanes: [selectedAircraft] }
+        
+        console.log(changes)
+        const makeChanges = async () => {
+            await fetch('http://localhost:5201/api/user/update', {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(changes), 
+            })
+                .then(response => response.json())
+                .then(data => {
+                    
+                    if (data.verified === true) { 
+                        console.log('Success:', data);
+                    }
+                    
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
+        makeChanges();
     }
 
     return (
@@ -165,7 +166,7 @@ useEffect(() => {
                     <InstructorAvailibility />
                     
                     <div className="confirm-button">
-                        <PrimaryButton text="Confirm Changes" onClick={handleConfirmChanges()}/>
+                        <PrimaryButton text="Confirm Changes" onClick={handleConfirmChanges}/>
                     </div>
                 </div>
             </div>

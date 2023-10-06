@@ -5,8 +5,6 @@ import PrimaryButton from '../Buttons/PrimaryButton';
 
 
 function Registration() {
-  
-
   return (
     <div className="register-page">
       <div className="register-form">

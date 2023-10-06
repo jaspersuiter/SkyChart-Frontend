@@ -43,11 +43,11 @@ function Instructors() {
             const mappedRows = instructors.map((instructor: any, index: number) => {
                 const nameParts = instructor.name.split(','); // Split by comma
                 return {
-                id: index + 1,
-                lastName: nameParts[0].trim(),
-                firstName: nameParts[1].trim(),
-                phoneNum: instructor.phone,
-                rating: instructor.instructorRatings?.join(', '),
+                    id: index + 1,
+                    lastName: nameParts[0].trim(),
+                    firstName: nameParts[1].trim(),
+                    phoneNum: instructor.phone,
+                    rating: instructor.instructorRatings?.join(', '),
                 }
             });
 
