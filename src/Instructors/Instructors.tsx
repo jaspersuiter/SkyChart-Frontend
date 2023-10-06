@@ -33,30 +33,28 @@ function Instructors() {
     },
     ];
 
-    interface Instructor {
-        lastName: string;
-        firstName: string;
-        phoneNum: string;
-        rating: string;
-    }
-
     const fetchInstructors = async () => {
         try {
-            const instructors = await fetch('http://localhost:5201/api/instructor/get-all')
+            const instructors = await fetch('http://localhost:5201/api/instructor/get-all',
+            {credentials: 'include'})
                 .then((response) => response.json())
                 .then((data) => data);
 
                 console.log(instructors);
 
             // Create a new array of rows based on the instructors data
-            const mappedRows = instructors.map((instructor: Instructor, index: number) => ({
+            const mappedRows = instructors.map((instructor: any, index: number) => {
+                const nameParts = instructor.name.split(','); // Split by comma
+                return {
                 id: index + 1,
-                lastName: instructor.lastName,
-                firstName: instructor.firstName,
-                phoneNum: instructor.phoneNum,
-                rating: instructor.rating
-            }));
+                lastName: nameParts[0].trim(),
+                firstName: nameParts[1].trim(),
+                phoneNum: instructor.phone,
+                rating: instructor.instructorRatings.join(', '),
+                }
+            });
 
+            console.log('Mapped', mappedRows);
             setRows(mappedRows); // Update the state variable with the mapped rows
         } catch (error) {
             console.log(error);
