@@ -29,7 +29,6 @@ function Login() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userCredentials), 
-      credentials: 'include',
     })
       .then(response => response.json())
       .then(data => {
