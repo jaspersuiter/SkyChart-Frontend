@@ -1,31 +1,19 @@
 import './Unavailable.css';
+import { calculateDurationInMinutes, calculateLeftPosition, calculateLengthFromDuration, convertToMilitaryTime, convertToMilitaryTimeNoDate } from './Util';
 
 export interface UnavailableProps {
-  duration: number
-  startTime: string;
+  resStartTime: string;
+  resEndTime: string;
   isDay: Boolean
   type: string
 }
 
-function calculateLengthFromDuration(durationInMinutes: number, pixelsPerHour: number): number {
-    const durationInHours = durationInMinutes / 60;
-    const lengthInPixels = durationInHours * pixelsPerHour;
-    return lengthInPixels;
-}
-
-function calculateLeftPosition(startTime: string, pixelsPerHour: number): number {
-    const startTimeParts = startTime.split(':');
-    if (startTimeParts.length === 2) {
-      const hours = parseInt(startTimeParts[0]);
-      const minutes = parseInt(startTimeParts[1]);
-      const totalMinutes = hours * 60 + minutes;
-      return (totalMinutes - 360) * (pixelsPerHour / 60); // 360 minutes = 6:00 AM
-    }
-    return 0;
-}
-
 
 function Unavailable(props: UnavailableProps) {
+
+  const startTime = convertToMilitaryTimeNoDate(props.resStartTime)
+  const endTime = convertToMilitaryTimeNoDate(props.resEndTime)
+  const duration = calculateDurationInMinutes(startTime, endTime)
 
     
     var pixelsPerHour = 67.6; // Define the scale
@@ -34,8 +22,8 @@ function Unavailable(props: UnavailableProps) {
         pixelsPerHour = 65.6;
     }
 
-    const lengthInPixels = calculateLengthFromDuration(props.duration, pixelsPerHour);
-    var leftPosition = calculateLeftPosition(props.startTime, pixelsPerHour);
+    const lengthInPixels = calculateLengthFromDuration(duration, pixelsPerHour);
+    var leftPosition = calculateLeftPosition(startTime, pixelsPerHour);
     leftPosition = leftPosition + 154
 
 

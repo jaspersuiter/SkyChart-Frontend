@@ -92,7 +92,7 @@ function DayCalendar(props: DayCalendarProps) {
   ));
 
   const instruictors = InstructorData.map((item, index) => (
-    <InstructorSelection isDay={props.isDay} InstructorName={item.name} key={index} Day={daystr} InstructorId={item.userId}/>
+    <InstructorSelection isDay={props.isDay} InstructorName={item.name} key={index} Day={daystr} InstructorId={item.userId} DayName={dayNames[props.day.day()]}/>
   ));
 
   return (
@@ -101,7 +101,7 @@ function DayCalendar(props: DayCalendarProps) {
       <div className="time-frame">
         {planes}
         {instruictors}
-        <InstructorSelection isDay={props.isDay} InstructorName={"Gustavo"} Day={daystr} InstructorId="fa2538b5-36b9-4415-b815-826ca2f9200f"/>
+        <InstructorSelection isDay={props.isDay} DayName={dayNames[props.day.day()]} InstructorName={"Gustavo"} Day={daystr} InstructorId="fa2538b5-36b9-4415-b815-826ca2f9200f"/>
       </div>
     </div>
   );

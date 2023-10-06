@@ -3,15 +3,43 @@ import './HourHolder.css';
 import Hour from './HourIdentifier';
 import Identifier from './Identifier';
 import Reservation from './Reservation';
-import { getReservationData } from './Util';
+import { convertToMilitaryTimeNoDate, getReservationData } from './Util';
 import Unavailable from './Unavailable';
+import { makeApiCall } from '../../APICall';
 
 export interface InstructorSelectionProps {
   isDay: Boolean;
   InstructorName: string;
   InstructorId: string;
-  Day: string
+  Day: string;
+  DayName: string;
 }
+
+async function getAvailabilityData(userid: string): Promise<
+  Array<{
+    availabilityId: string;
+    day: string;
+    startTime: string;
+    endTime: string;
+    userId: string;
+    type: string
+  }>
+> {
+
+  const params = {
+    userId: userid
+    
+}
+
+  try {
+    const responseData2 = await makeApiCall("/api/availability/get", {}, "get", params);
+    return responseData2;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+}
+
 
 function InstructorSelection(props: InstructorSelectionProps) {
 
@@ -25,13 +53,28 @@ function InstructorSelection(props: InstructorSelectionProps) {
     flightType: string;
   }>>([]);
 
+  const [availabilityData, setavailabilityData] = useState< Array<{
+    availabilityId: string;
+    day: string;
+    startTime: string;
+    endTime: string;
+    userId: string;
+    type: string
+  }>>([]);
+
   useEffect(() => {
     async function fetchReservationData() {
       const data = await getReservationData( props.Day, {userid: props.InstructorId});
       setReservationData(data);
     }
 
+    async function fetchAvailabilityData() {
+      const data = await getAvailabilityData( props.InstructorId);
+      setavailabilityData(data);
+    }
+
     fetchReservationData();
+    fetchAvailabilityData();
   }, []);
 
   let reservations = null;
@@ -42,13 +85,46 @@ function InstructorSelection(props: InstructorSelectionProps) {
     ));
   }
 
+  const preferredArray = availabilityData.filter(obj => obj.type === "PreferredTime" && obj.day === props.DayName);
+  const avilableArray = availabilityData.filter(obj => obj.day === props.DayName);
+
+
+  let perferred = null;
+  
+  if (reservationData.length > 0) {
+    perferred = preferredArray.map((item, index) => (
+      <Unavailable resStartTime={item.startTime} resEndTime={item.endTime} isDay={props.isDay} type='Perfered' key={index}/>
+    ));
+  }
+
+  const slot1 = {
+    availabilityId: "fec2b1de-95c2-4dbd-a151-3cf28a815be5",
+    day: "Friday",
+    startTime: "6:00 AM",
+    endTime: "10:00 PM",
+    userId: "fa2538b5-36b9-4415-b815-826ca2f9200f",
+    type: "PreferredTime"
+  };
+  
+  const slot2 = {
+    availabilityId: "fec2b1de-95c2-4dbd-a151-3cf28a815be5",
+    day: "Friday",
+    startTime: "4:00 PM",
+    endTime: "6:00 PM",
+    userId: "fa2538b5-36b9-4415-b815-826ca2f9200f",
+    type: "PreferredTime"
+  };
+  
+  const splitSlots = splitAvailabilitySlot(slot1, slot2);
+  console.log(splitSlots);
 
     return (
       <div className='container'>
         {/* <Reservation isDay={props.isDay} resStartTime={"10/5/2023 12:00:00 PM"} resEndTime={"10/5/2023 2:00:00 PM"} pilotid={"fa2538b5-36b9-4415-b815-826ca2f9200f"}/> */}
         {reservations}
-        <Unavailable duration={60} isDay={props.isDay} startTime='7:00' type='Perfered'/>
-        <Unavailable duration={60} isDay={props.isDay} startTime='8:00' type='Unavailable'/>
+        {perferred}
+        {/* <Unavailable duration={60} isDay={props.isDay} startTime='7:00' type='Perfered'/> */}
+        {/* <Unavailable duration={60} isDay={props.isDay} startTime='8:00' type='Unavailable'/> */}
       <div className="mainBar">
         <Identifier Name={props.InstructorName}/>
         <Hour isDay={props.isDay}/>
@@ -74,3 +150,39 @@ function InstructorSelection(props: InstructorSelectionProps) {
   }
   
   export default InstructorSelection;
+
+
+  function splitAvailabilitySlot(slot1: any, slot2: any) {
+    const startTime1 = convertToMilitaryTimeNoDate(slot1.startTime)
+    const startTime2 = convertToMilitaryTimeNoDate(slot2.startTime)
+
+    const endTime1 = convertToMilitaryTimeNoDate(slot1.endTime)
+    const EndTime2 = convertToMilitaryTimeNoDate(slot2.endTime)
+    
+
+    // Check if the second slot starts before or after the first slot
+    if (startTime2 <= startTime1 && EndTime2 >= endTime1) {
+      // Slot 2 completely covers Slot 1, no split needed
+      return [slot1];
+    } else if (startTime2 >= endTime1 || EndTime2 <= startTime1) {
+      // Slot 2 is entirely before or after Slot 1, no overlap
+      return [slot1];
+    } else {
+      // Slot 2 partially overlaps with Slot 1, split Slot 1 into two slots
+      const splitSlots = [];
+      
+      if (startTime2 > startTime1) {
+        // Create the first split slot before Slot 2
+        const firstSlot = { ...slot1, endTime: slot2.startTime };
+        splitSlots.push(firstSlot);
+      }
+  
+      if (EndTime2 < endTime1) {
+        // Create the second split slot after Slot 2
+        const secondSlot = { ...slot1, startTime: slot2.endTime };
+        splitSlots.push(secondSlot);
+      }
+  
+      return splitSlots;
+    }
+  }
