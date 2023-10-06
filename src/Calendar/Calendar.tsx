@@ -9,7 +9,6 @@ import { FormControl, InputLabel, MenuItem, NativeSelect, Select } from '@mui/ma
 import StaticSidebar from '../Sidebar/Sidebar';
 import Schedule from './Schedule/Schedule';
 import NewReservation from '../Reservation/NewReservation';
-import React from 'react';
 import Hour from './Schedule/HourIdentifier';
 import Identifier from './Schedule/Identifier';
 import HourBar from './Schedule/HourHolder';
