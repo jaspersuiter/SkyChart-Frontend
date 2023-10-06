@@ -15,24 +15,36 @@ interface Plane {
     model: string;
     grounded: boolean;
     nickname: string;
-  }
+}
 
-  interface Instructor {
+interface Instructor {
     id: number;
     lastName: string;
     firstName: string;
     phoneNum: string;
     rating: string;
-    }
+}
+
+interface Changes {
+    preferredInstructor: string;
+    preferredAircraft: string;
+}
+
+interface UserCredentials { 
+    UserNameOrEmail: string, 
+    password: string 
+};
+
 function Settings() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
     const [selectedInstructor, setSelectedInstructor] = useState('');
     const [selectedAircraft, setSelectedAircraft] = useState('');
     const [planes, setPlanes] = useState<Plane[]>([]);
     const [instructors, setInstructors] = useState<Instructor[]>([]); // Declare rows as a state variable
-
-
   
-  const fetchPlanes = async () => {
+const fetchPlanes = async () => {
     try {
         const planes = await fetch('http://localhost:5201/api/plane/get-all',
         {credentials: 'include'})
@@ -81,14 +93,36 @@ const fetchInstructors = async () => {
     }
 }
 
+
 useEffect(() => {
     fetchInstructors(); // Call fetchInstructors when the component mounts
 }, []); // Empty dependency array means this effect runs once when the component mounts
 
     const handleConfirmChanges = () => {
+        const changes: Changes = { preferredInstructor: selectedInstructor, preferredAircraft: selectedAircraft }
         console.log("Changes Confirmed")
         console.log("Selected Instructor:", selectedInstructor);
         console.log("Selected Aircraft:", selectedAircraft);
+        fetch('http://localhost:5201/api/user/update', {
+            method: 'PUT',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(changes), 
+        })
+            .then(response => response.json())
+            .then(data => {
+                
+                if (data.verified === true) { 
+                    console.log('Success:', data);
+                }
+                
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
     }
 
     return (

@@ -45,8 +45,8 @@ function AddNewAircraft(props: AddNewAircraftProp){
             nickName: aircraftNickname,
             hourlyRate: parseFloat(hourlyRate),
             numEngines: parseInt(numEngines),
-            tachHours: parseInt(tachHours),
-            hobbsHours: parseInt(hobbsHours) 
+            tachHours: parseFloat(tachHours),
+            hobbsHours: parseFloat(hobbsHours) 
         }
         try {
             const responseData2 = await makeApiCall("/api/plane/create", data, 'post')
