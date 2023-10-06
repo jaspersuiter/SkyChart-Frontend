@@ -50,7 +50,7 @@ function Instructors() {
                 lastName: nameParts[0].trim(),
                 firstName: nameParts[1].trim(),
                 phoneNum: instructor.phone,
-                rating: instructor.instructorRatings.join(', '),
+                rating: instructor.instructorRatings?.join(', '),
                 }
             });
 
