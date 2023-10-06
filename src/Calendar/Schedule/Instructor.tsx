@@ -98,33 +98,30 @@ function InstructorSelection(props: InstructorSelectionProps) {
   }
 
   const slot1 = {
-    availabilityId: "fec2b1de-95c2-4dbd-a151-3cf28a815be5",
+    availabilityId: "Not Available Generated Unavailable",
     day: "Friday",
     startTime: "6:00 AM",
     endTime: "10:00 PM",
-    userId: "fa2538b5-36b9-4415-b815-826ca2f9200f",
-    type: "PreferredTime"
+    userId: props.InstructorId,
+    type: "Unavailable"
   };
+
+  const unavailableArray = createUnavilable(avilableArray, slot1)
+
+  let unavailablecomp = null;
   
-  const slot2 = {
-    availabilityId: "fec2b1de-95c2-4dbd-a151-3cf28a815be5",
-    day: "Friday",
-    startTime: "4:00 PM",
-    endTime: "6:00 PM",
-    userId: "fa2538b5-36b9-4415-b815-826ca2f9200f",
-    type: "PreferredTime"
-  };
-  
-  const splitSlots = splitAvailabilitySlot(slot1, slot2);
-  console.log(splitSlots);
+  if (unavailableArray.length > 0) {
+    unavailablecomp = unavailableArray.map((item, index) => (
+      <Unavailable resStartTime={item.startTime} resEndTime={item.endTime} isDay={props.isDay} type='Unavailable' key={index}/>
+    ));
+  }
 
     return (
       <div className='container'>
         {/* <Reservation isDay={props.isDay} resStartTime={"10/5/2023 12:00:00 PM"} resEndTime={"10/5/2023 2:00:00 PM"} pilotid={"fa2538b5-36b9-4415-b815-826ca2f9200f"}/> */}
         {reservations}
         {perferred}
-        {/* <Unavailable duration={60} isDay={props.isDay} startTime='7:00' type='Perfered'/> */}
-        {/* <Unavailable duration={60} isDay={props.isDay} startTime='8:00' type='Unavailable'/> */}
+        {unavailablecomp}
       <div className="mainBar">
         <Identifier Name={props.InstructorName}/>
         <Hour isDay={props.isDay}/>
@@ -185,4 +182,26 @@ function InstructorSelection(props: InstructorSelectionProps) {
   
       return splitSlots;
     }
+  }
+
+  function createUnavilable(Available: Array<any>, baseUnavailable: any){
+    let unavailable = [];
+    unavailable.push(baseUnavailable)
+
+    let secondary: any[] = [];
+
+    for (let i = 0; i < Available.length; i++) {
+      while (unavailable.length > 0){
+        const base = unavailable.pop()
+        const remove = Available[i]
+        let splitSlots = splitAvailabilitySlot(base, remove)
+        while(splitSlots.length > 0){
+          secondary.push(splitSlots.pop())
+        }
+      }
+
+      unavailable = secondary;
+      secondary = []
+    }
+    return unavailable;
   }
