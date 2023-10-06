@@ -4,7 +4,6 @@ import './Reservation.css';
 import { title } from 'process';
 
 export interface ReservationProps {
-  Title: string
   resStartTime: string;
   resEndTime: string;
   pilotid: string;

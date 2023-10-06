@@ -6,41 +6,15 @@ import Reservation from './Reservation';
 import Unavailable from './Unavailable';
 import { makeApiCall } from '../../APICall';
 import { it } from 'node:test';
+import { getReservationData } from './Util';
 
 export interface AircraftSectionProps {
   isDay: Boolean;
   AircraftName: String;
-  AircraftId: String;
-  Day: String
+  AircraftId: string;
+  Day: string
 }
 
-async function getReservationData(day: String, planeid: String): Promise<
-  Array<{
-    reservationId: string;
-    pilotId: string;
-    planeId: string;
-    instructorId: string;
-    startTime: string;
-    endTime: string
-    flightType: string;
-  }>
-> {
-
-  const params = {
-    startDate: day,
-    endDate: day,
-    planeId: planeid
-    
-}
-
-  try {
-    const responseData2 = await makeApiCall("/api/reservation/get", {}, "get", params);
-    return responseData2;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-}
 
 function AircraftSection(props: AircraftSectionProps) {
 
@@ -56,7 +30,7 @@ function AircraftSection(props: AircraftSectionProps) {
 
   useEffect(() => {
     async function fetchReservationData() {
-      const data = await getReservationData( props.Day, props.AircraftId);
+      const data = await getReservationData( props.Day, {planeid: props.AircraftId});
       setReservationData(data);
     }
 
@@ -67,14 +41,13 @@ function AircraftSection(props: AircraftSectionProps) {
   
   if (reservationData.length > 0) {
     reservations = reservationData.map((item, index) => (
-      <Reservation Title='Tommy' isDay={props.isDay} resStartTime={item.startTime} resEndTime={item.endTime} pilotid={item.pilotId} key={index}/>
+      <Reservation isDay={props.isDay} resStartTime={item.startTime} resEndTime={item.endTime} pilotid={item.pilotId} key={index}/>
     ));
   }
 
     return (
       <div className='container'>
         {reservations}
-        <Unavailable duration={60} startTime='14:00' isDay={props.isDay}/>
         <div className="mainBar">
           <Identifier Name={props.AircraftName}/>
           <Hour isDay={props.isDay}/>
