@@ -2,12 +2,14 @@ import React, { ReactNode, useState } from "react";
 
 interface AuthContextType {
   authorization: boolean;
-  login?: VoidFunction;
-  logout?: VoidFunction;
+  login: VoidFunction;
+  logout: VoidFunction;
 }
 
 export const AuthorizationContext = React.createContext<AuthContextType>({
   authorization: false,
+  login: () => {},
+  logout: () => {},
 });
 
 type AuthProviderPropsType = {
@@ -23,6 +25,7 @@ export const AuthProvider = ({ children }: AuthProviderPropsType) => {
 
   const logout = () => {
     setAuthorization(false);
+    console.log("logout", authorization);
   };
 
   return (
