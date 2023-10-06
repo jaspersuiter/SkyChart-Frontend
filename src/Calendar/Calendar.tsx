@@ -9,9 +9,82 @@ import { FormControl, InputLabel, MenuItem, NativeSelect, Select } from '@mui/ma
 import StaticSidebar from '../Sidebar/Sidebar';
 import Schedule from './Schedule/Schedule';
 import NewReservation from '../Reservation/NewReservation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+interface Plane {
+    id: number;
+    model: string;
+    grounded: boolean;
+    nickname: string;
+}
+
+interface Instructor {
+    id: number;
+    lastName: string;
+    firstName: string;
+    phoneNum: string;
+    rating: string;
+}
 
 function Calendar() {
+
+    const fetchPlanes = async () => {
+        try {
+            const planes = await fetch('http://localhost:5201/api/plane/get-all',
+            {credentials: 'include'})
+                .then((response) => response.json())
+                .then((data) => data);
+
+            const mappedPlanes = planes.map((plane: any) => ({
+                id: plane.planeId,
+                model: plane.model,
+                grounded: plane.grounded,
+                nickname: plane.nickName,
+            }));
+
+            setPlanes(mappedPlanes); 
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchPlanes();
+    }, []); 
+
+    const fetchInstructors = async () => {
+        try {
+            const instructors = await fetch('http://localhost:5201/api/instructor/get-all',
+            {credentials: 'include'})
+                .then((response) => response.json())
+                .then((data) => data);
+
+            // Create a new array of rows based on the instructors data
+            const mappedRows = instructors.map((instructor: any, index: number) => {
+                const nameParts = instructor.name.split(','); // Split by comma
+                return {
+                id: index + 1,
+                lastName: nameParts[0].trim(),
+                firstName: nameParts[1].trim(),
+                phoneNum: instructor.phone,
+                rating: instructor.instructorRatings?.join(', '),
+                }
+            });
+
+            setInstructors(mappedRows); // Update the state variable with the mapped rows
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    useEffect(() => {
+        fetchInstructors(); // Call fetchInstructors when the component mounts
+    }, []); // Empty dependency array means this effect runs once when the component mounts
+
+    const [planes, setPlanes] = useState<Plane[]>([]);
+    const [instructors, setInstructors] = useState<Instructor[]>([]); // Declare rows as a state variable
+
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -60,7 +133,11 @@ function Calendar() {
                         id="demo-select-small"
                         label="aircraft"
                     >
-                        <MenuItem>All</MenuItem>
+                        {planes.map((plane) => (
+                            <MenuItem key={plane.id} value={plane.id}>
+                                {`${plane.model} (${plane.nickname})`}
+                            </MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
 
@@ -82,7 +159,11 @@ function Calendar() {
                         id="demo-select-small"
                         label="instructor"
                     >
-                        <MenuItem>All</MenuItem>
+                        {instructors.map((instructor) => (
+                            <MenuItem key={instructor.id} value={instructor.id}>
+                                {instructor.firstName} {instructor.lastName}
+                            </MenuItem>
+                            ))}
                     </Select>
                 </FormControl>
             </div>
