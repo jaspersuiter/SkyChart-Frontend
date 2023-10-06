@@ -27,6 +27,7 @@ interface Instructor {
 
 interface Changes {
     preferredInstructor: string;
+    preferredAircraft: string;
 }
 
 interface UserCredentials { 
@@ -98,7 +99,7 @@ useEffect(() => {
 }, []); // Empty dependency array means this effect runs once when the component mounts
 
     const handleConfirmChanges = () => {
-        const changes: Changes = { preferredInstructor: selectedInstructor}
+        const changes: Changes = { preferredInstructor: selectedInstructor, preferredAircraft: selectedAircraft }
         console.log("Changes Confirmed")
         console.log("Selected Instructor:", selectedInstructor);
         console.log("Selected Aircraft:", selectedAircraft);
