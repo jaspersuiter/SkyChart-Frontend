@@ -1,12 +1,58 @@
+import { useEffect, useState } from 'react';
+import { makeApiCall } from '../../APICall';
 import './Reservation.css';
+import { title } from 'process';
 
 export interface ReservationProps {
   Title: string
-  duration: number
-  startTime: string;
   resStartTime: string;
   resEndTime: string;
+  pilotid: string;
   isDay: Boolean
+}
+
+async function getUserData(planeid: String): Promise<
+  {
+    userId: string;
+    username: string;
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string
+    phoneNumber: string;
+    address: string;
+    emergencyContactName: string;
+    emergencyContactPhoneNumber: string;
+    preferredInstructorId: string;
+    preferredPlanes: string;
+  }
+> {
+
+  const params = {
+    userId: planeid
+    
+}
+
+  try {
+    const responseData2 = await makeApiCall("/api/user/get", {}, "get", params);
+    return responseData2;
+  } catch (error) {
+    console.error(error);
+    return {
+      userId: "",
+      username: "",
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      address: "",
+      emergencyContactName: "",
+      emergencyContactPhoneNumber: "",
+      preferredInstructorId: "",
+      preferredPlanes: "",
+    };
+  }
 }
 
 function calculateLengthFromDuration(durationInMinutes: number, pixelsPerHour: number): number {
@@ -29,10 +75,26 @@ function calculateLeftPosition(startTime: string, pixelsPerHour: number): number
 
 function Reservation(props: ReservationProps) {
 
+  const [userData, SetUserData] = useState<any>({});
+
+  useEffect(() => {
+    async function fetchReservationData() {
+      const data = await getUserData(props.pilotid);
+      SetUserData(data);
+    }
+
+    fetchReservationData();
+  }, []);
+
   const startTime = convertToMilitaryTime(props.resStartTime)
   const endTime = convertToMilitaryTime(props.resEndTime)
   const duration = calculateDurationInMinutes(startTime, endTime)
+  
+  const startTimeDisplay = formatTime(props.resStartTime)
 
+
+
+  const Title = startTimeDisplay + " " + userData.firstName + " " + userData.lastName
     
     var pixelsPerHour = 67.6; // Define the scale
 
@@ -47,7 +109,7 @@ function Reservation(props: ReservationProps) {
 
     return (
       <div className='mainContainer' style={{ width: `${lengthInPixels}px`, left: `${leftPosition}px`}}>
-        <p className='mainText'>{props.Title}</p>
+        <p className='mainText'>{Title}</p>
       </div>
     );
 }
@@ -103,4 +165,21 @@ function convertToMilitaryTime(inputDateTime: string) {
   const militaryTime = `${militaryHoursstr}:${minutes}`;
 
   return militaryTime;
+}
+
+function formatTime(input: string) {
+  const date = new Date(input);
+
+  // Extract hour, minutes, and AM/PM
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const amOrPm = hours >= 12 ? "PM" : "AM";
+
+  // Convert hours to 12-hour format
+  const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+
+  // Add leading zeros to minutes if needed
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  return `${formattedHours}:${formattedMinutes} ${amOrPm}`;
 }

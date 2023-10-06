@@ -5,6 +5,7 @@ import Identifier from './Identifier';
 import Reservation from './Reservation';
 import Unavailable from './Unavailable';
 import { makeApiCall } from '../../APICall';
+import { it } from 'node:test';
 
 export interface AircraftSectionProps {
   isDay: Boolean;
@@ -43,7 +44,15 @@ async function getReservationData(day: String, planeid: String): Promise<
 
 function AircraftSection(props: AircraftSectionProps) {
 
-  const [reservationData, setReservationData] = useState<Array<any>>([]);
+  const [reservationData, setReservationData] = useState<Array<{
+    reservationId: string;
+    pilotId: string;
+    planeId: string;
+    instructorId: string;
+    startTime: string;
+    endTime: string
+    flightType: string;
+  }>>([]);
 
   useEffect(() => {
     async function fetchReservationData() {
@@ -53,10 +62,14 @@ function AircraftSection(props: AircraftSectionProps) {
 
     fetchReservationData();
   }, []);
+
+  let reservations = null;
   
-  const reservations = reservationData.map((item, index) => (
-    <Reservation Title='Tommy' duration={60} startTime='12:00' isDay={props.isDay} resStartTime={item.startTime} resEndTime={item.endTime} key={index}/>
-  ));
+  if (reservationData.length > 0) {
+    reservations = reservationData.map((item, index) => (
+      <Reservation Title='Tommy' isDay={props.isDay} resStartTime={item.startTime} resEndTime={item.endTime} pilotid={item.pilotId} key={index}/>
+    ));
+  }
 
     return (
       <div className='container'>
