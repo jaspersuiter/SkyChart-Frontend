@@ -8,38 +8,130 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import StaticSidebar from '../Sidebar/Sidebar';
 import SecondaryButton from '../Buttons/SecondaryButton';
 import InstructorAvailibility from './InstructorAvailability/InstructorAvailability';
+import { useEffect, useState } from 'react';
 
+interface Plane {
+    id: number;
+    model: string;
+    grounded: boolean;
+    nickname: string;
+  }
+
+  interface Instructor {
+    id: number;
+    lastName: string;
+    firstName: string;
+    phoneNum: string;
+    rating: string;
+    }
 function Settings() {
+    const [selectedInstructor, setSelectedInstructor] = useState('');
+    const [selectedAircraft, setSelectedAircraft] = useState('');
+    const [planes, setPlanes] = useState<Plane[]>([]);
+    const [instructors, setInstructors] = useState<Instructor[]>([]); // Declare rows as a state variable
+
+
+  
+  const fetchPlanes = async () => {
+    try {
+        const planes = await fetch('http://localhost:5201/api/plane/get-all',
+        {credentials: 'include'})
+            .then((response) => response.json())
+            .then((data) => data);
+
+        const mappedPlanes = planes.map((plane: any) => ({
+            id: plane.planeId,
+            model: plane.model,
+            grounded: plane.grounded,
+            nickname: plane.nickName,
+        }));
+
+        setPlanes(mappedPlanes); 
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+useEffect(() => {
+    fetchPlanes();
+}, []); 
+
+const fetchInstructors = async () => {
+    try {
+        const instructors = await fetch('http://localhost:5201/api/instructor/get-all',
+        {credentials: 'include'})
+            .then((response) => response.json())
+            .then((data) => data);
+
+        // Create a new array of rows based on the instructors data
+        const mappedRows = instructors.map((instructor: any, index: number) => {
+            const nameParts = instructor.name.split(','); // Split by comma
+            return {
+            id: index + 1,
+            lastName: nameParts[0].trim(),
+            firstName: nameParts[1].trim(),
+            phoneNum: instructor.phone,
+            rating: instructor.instructorRatings?.join(', '),
+            }
+        });
+
+        setInstructors(mappedRows); // Update the state variable with the mapped rows
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+useEffect(() => {
+    fetchInstructors(); // Call fetchInstructors when the component mounts
+}, []); // Empty dependency array means this effect runs once when the component mounts
+
+    const handleConfirmChanges = () => {
+        console.log("Changes Confirmed")
+        console.log("Selected Instructor:", selectedInstructor);
+        console.log("Selected Aircraft:", selectedAircraft);
+    }
+
     return (
         <div className="settings-page">
             <StaticSidebar />
             <div className="settings-content">
                 <div className="settings-top-content">
                     <FormControl sx={{ minWidth: 240 }} size="small">
-                        <InputLabel id="demo-select-small-label">Preferred Instructor</InputLabel>
+                        <InputLabel id="preferred-instructor-label">Preferred Instructor</InputLabel>
                         <Select
-                            labelId="demo-select-small-label"
-                            id="demo-select-small"
+                            labelId="instructor-label"
+                            id="instructor-select"
                             label="instructor"
+                            value={selectedInstructor} // Controlled value
+                            onChange={(e) => setSelectedInstructor(e.target.value)}
                         >
-                            <MenuItem>Tiark Rompf</MenuItem>
+                            {instructors.map((instructor) => (
+                            <MenuItem key={instructor.id} value={instructor.id}>
+                                {instructor.firstName} {instructor.lastName}
+                            </MenuItem>
+                        ))}
                         </Select>
                     </FormControl>
-                    <FormControl sx={{ minWidth: 240 }} size="small">
-                        <InputLabel id="demo-select-small-label">Preferred Aircraft</InputLabel>
-                        <Select
-                            labelId="demo-select-small-label"
-                            id="demo-select-small"
-                            label="aircraft"
-                        >
-                            <MenuItem>Boeing 747</MenuItem>
-                        </Select>
+                  <FormControl sx={{ minWidth: 240 }} size="small">
+                    <InputLabel id="preferred-aircraft-label">Preferred Aircraft</InputLabel>
+                    <Select
+                        labelId="aircraft-label"
+                        id="aircraft-select"
+                        label="aircraft"
+                        value={selectedAircraft}
+                        onChange={(e) => setSelectedAircraft(e.target.value)}
+                    >
+                        {planes.map((plane) => (
+                            <MenuItem key={plane.id} value={plane.id}>
+                                {`${plane.model} (${plane.nickname})`}
+                            </MenuItem>
+                        ))}
+                    </Select>
                     </FormControl>
-                    
                     <InstructorAvailibility />
                     
                     <div className="confirm-button">
-                        <PrimaryButton text="Confirm Changes" />
+                        <PrimaryButton text="Confirm Changes" onClick={handleConfirmChanges()}/>
                     </div>
                 </div>
             </div>
