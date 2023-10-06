@@ -34,7 +34,10 @@ function App() {
         <Routes>
 
           {!context.authorization ? (
-            <Route path="*" element={<Login />} />
+            <React.Fragment>
+              <Route path="*" element={<Login />} />
+              <Route path="/register" element={<Registration />} />
+            </React.Fragment>
           ) : (
             <React.Fragment>
               <Route path="/calendar" element={<Calendar />} />

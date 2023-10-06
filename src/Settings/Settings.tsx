@@ -26,8 +26,8 @@ interface Instructor {
 }
 
 interface Changes {
-    preferredInstructor: string;
-    preferredAircraft: string;
+    preferredInstructorId: string;
+    preferredPlanes: string[];
 }
 
 interface UserCredentials { 
@@ -98,28 +98,32 @@ function Settings() {
     }, []); // Empty dependency array means this effect runs once when the component mounts
 
     const handleConfirmChanges = () => {
-        const changes: Changes = { preferredInstructor: selectedInstructor, preferredAircraft: selectedAircraft }
-        console.log("This should only work if you click the button");
-        fetch('http://localhost:5201/api/user/update', {
-            method: 'PUT',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(changes), 
-        })
-            .then(response => response.json())
-            .then(data => {
-                
-                if (data.verified === true) { 
-                    console.log('Success:', data);
-                }
-                
+        const changes: Changes = { preferredInstructorId: selectedInstructor, preferredPlanes: [selectedAircraft] }
+        
+        console.log(changes)
+        const makeChanges = async () => {
+            await fetch('http://localhost:5201/api/user/update', {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(changes), 
             })
-            .catch(error => {
-                console.error(error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    
+                    if (data.verified === true) { 
+                        console.log('Success:', data);
+                    }
+                    
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
 
+        makeChanges();
     }
 
     return (
@@ -162,7 +166,7 @@ function Settings() {
                     <InstructorAvailibility />
                     
                     <div className="confirm-button">
-                        <PrimaryButton text="Confirm Changes" onClick={handleConfirmChanges()}/>
+                        <PrimaryButton text="Confirm Changes" onClick={handleConfirmChanges}/>
                     </div>
                 </div>
             </div>
