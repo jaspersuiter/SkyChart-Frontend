@@ -1,0 +1,23 @@
+.mainBar{
+    display: inline-flex;
+    align-items: flex-start;
+}
+
+.spacer {
+    width: 22.5px;
+    height: 44px;
+}
+
+.container {
+    position: relative;
+}
+
+.element1 {
+    position: absolute; /* Set the first element to absolute positioning */
+    top: 0; /* Adjust top position as needed */
+    left: 0; /* Adjust left position as needed */
+    width: 100px;
+    height: 100px;
+    z-index: 2; /* Set a higher z-index to place it on top */
+    background-color: #ff0000; /* Example background color for clarity */
+}
