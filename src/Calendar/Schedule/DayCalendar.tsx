@@ -4,7 +4,6 @@ import InstructorSelection from './Instructor';
 import AircraftSection from './AircraftSection';
 import { makeApiCall } from '../../APICall';
 import { useEffect, useState } from 'react';
-import { async } from 'q';
 
 export interface DayCalendarProps {
   isDay: Boolean;
@@ -23,7 +22,13 @@ async function getAircraftData(): Promise<
     hobbsHours: number;
   }>
 > {
+
+  const data = {
+    usernameOrEmail: "tkm",
+    password: "1234"
+  }
   try {
+    //const reponseDate = await makeApiCall("/api/user/authentication/login", data, "post")
     const responseData2 = await makeApiCall("/api/plane/get-all", {}, "get");
     return responseData2;
   } catch (error) {

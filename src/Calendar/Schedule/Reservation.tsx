@@ -1,11 +1,11 @@
 import './Reservation.css';
-import Hour from './HourIdentifier';
-import Identifier from './Identifier';
 
 export interface ReservationProps {
   Title: string
   duration: number
   startTime: string;
+  resStartTime: string;
+  resEndTime: string;
   isDay: Boolean
 }
 
@@ -29,6 +29,10 @@ function calculateLeftPosition(startTime: string, pixelsPerHour: number): number
 
 function Reservation(props: ReservationProps) {
 
+  const startTime = convertToMilitaryTime(props.resStartTime)
+  const endTime = convertToMilitaryTime(props.resEndTime)
+  const duration = calculateDurationInMinutes(startTime, endTime)
+
     
     var pixelsPerHour = 67.6; // Define the scale
 
@@ -36,8 +40,8 @@ function Reservation(props: ReservationProps) {
         pixelsPerHour = 65.6;
     }
 
-    const lengthInPixels = calculateLengthFromDuration(props.duration, pixelsPerHour);
-    var leftPosition = calculateLeftPosition(props.startTime, pixelsPerHour);
+    const lengthInPixels = calculateLengthFromDuration(duration, pixelsPerHour);
+    var leftPosition = calculateLeftPosition(startTime, pixelsPerHour);
     leftPosition = leftPosition + 154
 
 
@@ -46,6 +50,57 @@ function Reservation(props: ReservationProps) {
         <p className='mainText'>{props.Title}</p>
       </div>
     );
-  }
+}
   
+
   export default Reservation;
+
+  function calculateDurationInMinutes(startTime: string, endTime: string) {
+    // Parse the input times and extract hours and minutes
+    const startParts = startTime.split(':');
+    const endParts = endTime.split(':');
+    
+    // Convert hours and minutes to integers
+    const startHour = parseInt(startParts[0]);
+    const startMinute = parseInt(startParts[1]);
+    const endHour = parseInt(endParts[0]);
+    const endMinute = parseInt(endParts[1]);
+    
+    // Calculate the total minutes for each time
+    const startTotalMinutes = startHour * 60 + startMinute;
+    const endTotalMinutes = endHour * 60 + endMinute;
+    
+    // Calculate the duration in minutes
+    const durationInMinutes = endTotalMinutes - startTotalMinutes;
+    
+    return durationInMinutes;
+  }
+
+
+function convertToMilitaryTime(inputDateTime: string) {
+  // Split the input string by space to separate date and time
+  const dateTimeParts = inputDateTime.split(' ');
+
+  // Extract the time part (index 1)
+  const timePart = dateTimeParts[1];
+  const dem = dateTimeParts[2]
+
+  // Split the time by colon to get hours and minutes
+  const [hours, minutes] = timePart.split(':');
+
+  // Convert the hours to a number
+  let militaryHours = parseInt(hours);
+
+  // If it's PM and not 12:00 PM, add 12 to the military hours
+  if (dem === 'PM' && militaryHours !== 12) {
+    militaryHours += 12;
+  }
+
+  // Convert military hours back to string with leading zeros if needed
+  let militaryHoursstr = militaryHours.toString().padStart(2, '0');
+
+  // Construct the military time string
+  const militaryTime = `${militaryHoursstr}:${minutes}`;
+
+  return militaryTime;
+}

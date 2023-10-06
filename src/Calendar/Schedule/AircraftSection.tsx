@@ -49,14 +49,13 @@ function AircraftSection(props: AircraftSectionProps) {
     async function fetchReservationData() {
       const data = await getReservationData( props.Day, props.AircraftId);
       setReservationData(data);
-      console.log(data)
     }
 
     fetchReservationData();
   }, []);
   
   const reservations = reservationData.map((item, index) => (
-    <Reservation Title='Tommy' duration={60} startTime='12:00' isDay={props.isDay} key={index}/>
+    <Reservation Title='Tommy' duration={60} startTime='12:00' isDay={props.isDay} resStartTime={item.startTime} resEndTime={item.endTime} key={index}/>
   ));
 
     return (
