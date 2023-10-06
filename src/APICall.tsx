@@ -3,13 +3,14 @@ import axios from 'axios';
 const dataURL = 'http://localhost:5201';
 
 
-export async function makeApiCall(apiURL: string, data: object): Promise<any> {
+export async function makeApiCall(apiURL: string, data: object, method: string, params?: object): Promise<any> {
   const axiosConfig = {
-    method: 'post', // Use 'post' method for POST request
+    method: method, // Use 'post' method for POST request
     url: dataURL + apiURL, // Combine dataURL and apiURL
     headers: {
       'Content-Type': 'application/json', // Specify the content type as JSON
     },
+    params: params ? params: {},
     data: data, // Set the request data
     withCredentials: true, // Enable credentials in the request
   };

@@ -36,10 +36,10 @@ function StaticSidebar(props: any) {
     return (
       <Drawer
         sx={{
-          width: 224,
+          width: 180,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            width: 224,
+            width: 180,
             boxSizing: 'border-box',
             backgroundColor: '#E4E4E4',
           },

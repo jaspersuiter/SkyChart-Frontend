@@ -1,0 +1,29 @@
+.mainContainer {
+    position: absolute; 
+    top: 0; 
+    z-index: 3;
+    display: flex;
+    height: 40px;
+    padding: 2px 0px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--Primary-Color, #4DE8B4);
+}
+
+.mainText{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    flex: 1 0 0;
+    overflow: hidden;
+    color: var(--Black, #191919);
+    text-align: center;
+    text-overflow: ellipsis;
+    font-family: Inter;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}

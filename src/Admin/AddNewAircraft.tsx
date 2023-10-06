@@ -49,7 +49,7 @@ function AddNewAircraft(props: AddNewAircraftProp){
             hobbsHours: parseFloat(hobbsHours) 
         }
         try {
-            const responseData2 = await makeApiCall("/api/plane/create", data)
+            const responseData2 = await makeApiCall("/api/plane/create", data, 'post')
             resetAll()
         } catch (error) {
           

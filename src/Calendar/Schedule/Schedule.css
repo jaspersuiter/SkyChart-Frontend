@@ -1,0 +1,15 @@
+.main-calendar-frame{
+    display: flex;
+    align-items: flex-start;
+    flex: 1 0 0;
+    align-self: stretch;
+    flex-direction: column;
+    border-radius: 20px;
+    border: 4px solid var(--Trinary-Color, #4D81E8);
+}
+
+.breakLine{
+    height: 7px;
+    align-self: stretch;
+    background: var(--Light-Gray, #D3D3D3);
+}

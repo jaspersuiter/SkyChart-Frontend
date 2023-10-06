@@ -1,29 +1,41 @@
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Unstable_Grid2';
+import { Dayjs } from "dayjs";
+import DayCalendar from "./DayCalendar";
+import Hour from "./HourIdentifier";
+import HourBar from "./HourHolder";
+import './Schedule.css';
 
-function Schedule() {
+export interface ScheduleProps {
+  isDay: Boolean;
+  day: Dayjs;
+}
+
+function Schedule(props: ScheduleProps) {
+
+  const week = [];
+
+  if (!props.isDay){
+      var index = props.day.day()
+
+      for (let i = 0; i < 7; i++){
+        week.push(props.day.day(i))
+        index++
+      }
+  } else{
+    week.push(props.day)
+  } 
+
+  const dayCalendars = week.map((item, index) => (
+    <div key={index}>
+      <DayCalendar isDay={props.isDay} day={item} />
+      {(!props.isDay && index != 6) && <div className="breakLine"></div>}
+    </div>
+  ));
+
   return (
-    <Box sx={{ flexGrow: 1, p: 2}}>
-      <Grid
-        container
-        spacing={2}
-        sx={{
-          '--Grid-borderWidth': '1px',
-          borderTop: 'var(--Grid-borderWidth) solid',
-          borderLeft: 'var(--Grid-borderWidth) solid',
-          borderColor: 'black',
-          '& > div': {
-            borderRight: 'var(--Grid-borderWidth) solid',
-            borderBottom: 'var(--Grid-borderWidth) solid',
-            borderColor: 'black',
-          },
-        }}
-      >
-        {[...Array(160)].map((_, index) => (
-          <Grid key={index} {...{ sm: 0.75 }} minHeight={35} />
-        ))}
-      </Grid>
-    </Box>
+    <div className='main-calendar-frame'>
+      <HourBar isDay={props.isDay}/> 
+      {dayCalendars}
+    </div>
   );
 }
 
