@@ -44,9 +44,3 @@
     align-self: stretch;
 }
 
-.time-frame{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-

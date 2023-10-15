@@ -1,6 +1,6 @@
 .mainBar{
-    display: inline-flex;
-    align-items: flex-start;
+    width: 100%;
+    display: flex; 
 }
 
 .spacer {
@@ -9,6 +9,8 @@
 }
 
 .container {
+    width: 100%;
+    display: flex; 
     position: relative;
 }
 

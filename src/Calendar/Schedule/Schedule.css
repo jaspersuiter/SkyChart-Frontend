@@ -13,3 +13,9 @@
     align-self: stretch;
     background: var(--Light-Gray, #D3D3D3);
 }
+
+.frame{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
