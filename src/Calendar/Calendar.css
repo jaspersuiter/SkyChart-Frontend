@@ -1,16 +1,9 @@
-.mainpage{
-    display: flex;
-    padding: var(--none, 0px);
-    align-items: flex-start;
-    gap: var(--none, 0px);
-}
-
-.main-content{
-    display: flex;
+.content{
+    flex: 1;
     padding: 20px;
     flex-direction: column;
     align-items: flex-start;
-    flex-grow: 1;
+    overflow-x: hidden;
 }
 
 .top-content-frame{
@@ -44,3 +37,6 @@
     align-self: stretch;
 }
 
+.fullpage{
+    display: flex;
+}

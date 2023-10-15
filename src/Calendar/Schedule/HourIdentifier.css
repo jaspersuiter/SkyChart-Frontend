@@ -1,7 +1,7 @@
 .DaySelection{
     display: inline-flex;
     height: 24px;
-    padding: 10px 12px;
+    padding: 10px 2px;
     justify-content: center;
     align-items: center;
     gap: 10px;
@@ -13,13 +13,12 @@
 
 .WeekSelection{
     display: flex;
-    width: 40px;
     height: 24px;
-    padding: 10px 12px;
+    padding: 10px 2px;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    flex-shrink: 0;
+    flex-grow: 1;
     border-right: 1px solid var(--Dark-Gray, #949494);
     border-bottom: 1px solid var(--Dark-Gray, #949494);
     border-left: 1px solid var(--Dark-Gray, #949494);
