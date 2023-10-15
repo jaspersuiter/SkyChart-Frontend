@@ -148,11 +148,11 @@ function Calendar() {
                         id="demo-select-small"
                         label="aircraft"
                     >
-                        {planes.map((plane) => (
+                        {/* {planes.map((plane) => (
                             <MenuItem key={plane.id} value={plane.id}>
                                 {`${plane.model} (${plane.nickname})`}
                             </MenuItem>
-                        ))}
+                        ))} */}
                     </Select>
                     </FormControl>
 
@@ -174,11 +174,11 @@ function Calendar() {
                         id="demo-select-small"
                         label="instructor"
                     >
-                        {instructors.map((instructor) => (
+                        {/* {instructors.map((instructor) => (
                             <MenuItem key={instructor.id} value={instructor.id}>
                                 {instructor.firstName} {instructor.lastName}
                             </MenuItem>
-                            ))}
+                            ))} */}
                     </Select>
                     </FormControl>
                     </div>
