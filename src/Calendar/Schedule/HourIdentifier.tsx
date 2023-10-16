@@ -1,3 +1,4 @@
+import { Ref, forwardRef } from 'react';
 import './HourIdentifier.css';
 
 export interface HourIdentifierProps {
@@ -5,12 +6,12 @@ export interface HourIdentifierProps {
   Time?: String;
 }
 
-function Hour(props: HourIdentifierProps) {
+const Hour = forwardRef(function(props: HourIdentifierProps, ref: Ref<HTMLDivElement>) {
     return (
-      <div className={props.isDay ? 'DaySelection' : 'WeekSelection'}>
+      <div ref={ref} className={props.isDay ? 'DaySelection' : 'WeekSelection'}>
         {props.Time && <p className={props.isDay ? "DayText" : "WeekText"}>{props.Time}</p>}
       </div>
     );
-  }
+  })
   
   export default Hour;

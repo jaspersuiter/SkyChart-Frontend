@@ -1,6 +1,7 @@
 .mainSection{
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 .dayTextFormating{
@@ -14,4 +15,11 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+}
+
+.time-frame{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
 }

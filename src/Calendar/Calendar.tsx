@@ -1,19 +1,12 @@
 import './Calendar.css';
-import '../App.css';
 import PrimaryButton from '../Buttons/PrimaryButton';
 import { DateCalendar } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import Dialog from '@mui/material/Dialog';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { FormControl, InputLabel, MenuItem, NativeSelect, Select } from '@mui/material';
 import StaticSidebar from '../Sidebar/Sidebar';
 import Schedule from './Schedule/Schedule';
 import NewReservation from '../Reservation/NewReservation';
-import Hour from './Schedule/HourIdentifier';
-import Identifier from './Schedule/Identifier';
-import HourBar from './Schedule/HourHolder';
-import AircraftSection from './Schedule/AircraftSection';
-import InstructorSelection from './Schedule/Instructor';
 import dayjs, { Dayjs } from 'dayjs';
 import WeekPicker from './Schedule/WeekPicker';
 import React, { useEffect, useState } from 'react';
@@ -117,9 +110,9 @@ function Calendar() {
     }
 
   return (
-    <div className="mainpage">
+    <div className='fullpage'>
         <StaticSidebar />
-        <div className="main-content">
+        <div className="content">
 
             <div className='top-content-frame'>
                 <div>
@@ -155,11 +148,11 @@ function Calendar() {
                         id="demo-select-small"
                         label="aircraft"
                     >
-                        {planes.map((plane) => (
+                        {/* {planes.map((plane) => (
                             <MenuItem key={plane.id} value={plane.id}>
                                 {`${plane.model} (${plane.nickname})`}
                             </MenuItem>
-                        ))}
+                        ))} */}
                     </Select>
                     </FormControl>
 
@@ -181,11 +174,11 @@ function Calendar() {
                         id="demo-select-small"
                         label="instructor"
                     >
-                        {instructors.map((instructor) => (
+                        {/* {instructors.map((instructor) => (
                             <MenuItem key={instructor.id} value={instructor.id}>
                                 {instructor.firstName} {instructor.lastName}
                             </MenuItem>
-                            ))}
+                            ))} */}
                     </Select>
                     </FormControl>
                     </div>

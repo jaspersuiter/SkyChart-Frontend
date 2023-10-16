@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import './HourHolder.css';
 import Hour from './HourIdentifier';
 import Identifier from './Identifier';
@@ -41,7 +41,34 @@ async function getAvailabilityData(userid: string): Promise<
 }
 
 
+
+
 function InstructorSelection(props: InstructorSelectionProps) {
+
+  const divRef = useRef<HTMLDivElement | null>(null);
+
+  const [divWidth, setDivWidth] = useState(0);
+
+  const updateDivWidth = () => {
+    if (divRef.current) {
+      const rect = divRef.current.getBoundingClientRect();
+      setDivWidth(rect.width);
+    }
+  };
+
+  useEffect(() => {
+    updateDivWidth();
+
+    const resizeObserver = new ResizeObserver(updateDivWidth);
+
+    if (divRef.current) {
+      resizeObserver.observe(divRef.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   const [reservationData, setReservationData] = useState<Array<{
     reservationId: string;
@@ -93,7 +120,7 @@ function InstructorSelection(props: InstructorSelectionProps) {
   
   if (reservationData.length > 0) {
     perferred = preferredArray.map((item, index) => (
-      <Unavailable resStartTime={item.startTime} resEndTime={item.endTime} isDay={props.isDay} type='Perfered' key={index}/>
+      <Unavailable resStartTime={item.startTime} resEndTime={item.endTime} isDay={props.isDay} type='Perfered' width={divWidth} key={index}/>
     ));
   }
 
@@ -101,7 +128,7 @@ function InstructorSelection(props: InstructorSelectionProps) {
     availabilityId: "Not Available Generated Unavailable",
     day: "Friday",
     startTime: "6:00 AM",
-    endTime: "10:00 PM",
+    endTime: "11:00 PM",
     userId: props.InstructorId,
     type: "Unavailable"
   };
@@ -112,7 +139,7 @@ function InstructorSelection(props: InstructorSelectionProps) {
   
   if (unavailableArray.length > 0) {
     unavailablecomp = unavailableArray.map((item, index) => (
-      <Unavailable resStartTime={item.startTime} resEndTime={item.endTime} isDay={props.isDay} type='Unavailable' key={index}/>
+      <Unavailable resStartTime={item.startTime} resEndTime={item.endTime} isDay={props.isDay} type='Unavailable' width={divWidth} key={index}/>
     ));
   }
 
@@ -124,7 +151,7 @@ function InstructorSelection(props: InstructorSelectionProps) {
         {unavailablecomp}
       <div className="mainBar">
         <Identifier Name={props.InstructorName}/>
-        <Hour isDay={props.isDay}/>
+        <Hour isDay={props.isDay} ref={divRef}/>
         <Hour isDay={props.isDay}/>
         <Hour isDay={props.isDay}/>
         <Hour isDay={props.isDay}/>

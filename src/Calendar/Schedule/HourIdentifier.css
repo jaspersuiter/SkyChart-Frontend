@@ -1,51 +1,49 @@
 .DaySelection{
-    display: inline-flex;
-    width: 42px;
+    flex: 1;
     height: 24px;
-    padding: 10px 12px;
+    padding: 10px 2px;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    flex-shrink: 0;
     border-right: 1px solid var(--Dark-Gray, #949494);
-    border-bottom: 1px solid var(--Dark-Gray, #949494);
     border-left: 1px solid var(--Dark-Gray, #949494);
 }
+
+.DaySelection:last-child {
+    border-right: none;
+  }
 
 .WeekSelection{
-    display: flex;
-    width: 40px;
+    flex: 1;
     height: 24px;
-    padding: 10px 12px;
+    padding: 10px 2px;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    flex-shrink: 0;
     border-right: 1px solid var(--Dark-Gray, #949494);
-    border-bottom: 1px solid var(--Dark-Gray, #949494);
     border-left: 1px solid var(--Dark-Gray, #949494);
 }
 
+.WeekSelection:last-child {
+    border-right: none;
+  }
+
 .DayText{
-    width: 60px; 
     margin: 0;
     color: var(--Black, #191919);
     text-align: center;
     font-family: Inter;
-    font-size: 20px;
+    font-size: min(1.0416666vw, 20px);
     font-style: normal;
     font-weight: 400;
-    line-height: normal;
 }
 
 .WeekText{
-    width: 58px; 
     margin: 0;
     color: var(--Black, #191919);
     text-align: center;
     font-family: Inter;
-    font-size: 20px;
+    font-size: min(1.0416666vw, 20px);
     font-style: normal;
     font-weight: 400;
-    line-height: normal;
 }

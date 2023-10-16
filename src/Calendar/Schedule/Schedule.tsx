@@ -1,6 +1,5 @@
 import { Dayjs } from "dayjs";
 import DayCalendar from "./DayCalendar";
-import Hour from "./HourIdentifier";
 import HourBar from "./HourHolder";
 import './Schedule.css';
 
@@ -25,7 +24,7 @@ function Schedule(props: ScheduleProps) {
   } 
 
   const dayCalendars = week.map((item, index) => (
-    <div key={index}>
+    <div className= 'frame' key={index}>
       <DayCalendar isDay={props.isDay} day={item} />
       {(!props.isDay && index != 6) && <div className="breakLine"></div>}
     </div>

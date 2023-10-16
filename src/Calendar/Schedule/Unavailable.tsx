@@ -6,6 +6,7 @@ export interface UnavailableProps {
   resEndTime: string;
   isDay: Boolean
   type: string
+  width: number| undefined
 }
 
 
@@ -14,17 +15,17 @@ function Unavailable(props: UnavailableProps) {
   const startTime = convertToMilitaryTimeNoDate(props.resStartTime)
   const endTime = convertToMilitaryTimeNoDate(props.resEndTime)
   const duration = calculateDurationInMinutes(startTime, endTime)
+  var namesection = 154
 
     
-    var pixelsPerHour = 67.6; // Define the scale
-
-    if(!props.isDay){
-        pixelsPerHour = 65.6;
+    var pixelsPerHour = props.width; // Define the scale
+    if(pixelsPerHour == undefined){
+      pixelsPerHour= 64
     }
 
     const lengthInPixels = calculateLengthFromDuration(duration, pixelsPerHour);
     var leftPosition = calculateLeftPosition(startTime, pixelsPerHour);
-    leftPosition = leftPosition + 154
+    leftPosition = leftPosition + namesection
 
 
     return (

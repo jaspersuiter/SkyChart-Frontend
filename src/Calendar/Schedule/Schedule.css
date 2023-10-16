@@ -13,3 +13,10 @@
     align-self: stretch;
     background: var(--Light-Gray, #D3D3D3);
 }
+
+.frame{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
