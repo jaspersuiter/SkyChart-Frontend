@@ -1,6 +1,5 @@
 import { Dayjs } from "dayjs";
 import DayCalendar from "./DayCalendar";
-import Hour from "./HourIdentifier";
 import HourBar from "./HourHolder";
 import './Schedule.css';
 

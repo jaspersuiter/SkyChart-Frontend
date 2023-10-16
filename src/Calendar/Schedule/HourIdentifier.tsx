@@ -1,4 +1,4 @@
-import { MutableRefObject, Ref, forwardRef } from 'react';
+import { Ref, forwardRef } from 'react';
 import './HourIdentifier.css';
 
 export interface HourIdentifierProps {

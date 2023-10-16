@@ -1,4 +1,4 @@
-import React,{ useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import './HourHolder.css';
 import Hour from './HourIdentifier';
 import Identifier from './Identifier';
@@ -6,7 +6,6 @@ import Reservation from './Reservation';
 import { convertToMilitaryTimeNoDate, getReservationData } from './Util';
 import Unavailable from './Unavailable';
 import { makeApiCall } from '../../APICall';
-import { useResizeDetector } from 'react-resize-detector';
 
 export interface InstructorSelectionProps {
   isDay: Boolean;

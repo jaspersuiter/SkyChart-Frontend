@@ -1,4 +1,3 @@
-import { width } from '@mui/system';
 import './Unavailable.css';
 import { calculateDurationInMinutes, calculateLeftPosition, calculateLengthFromDuration, convertToMilitaryTime, convertToMilitaryTimeNoDate } from './Util';
 
@@ -22,10 +21,6 @@ function Unavailable(props: UnavailableProps) {
     var pixelsPerHour = props.width; // Define the scale
     if(pixelsPerHour == undefined){
       pixelsPerHour= 64
-    }
-
-    if(!props.isDay){
-        pixelsPerHour = 65.6;
     }
 
     const lengthInPixels = calculateLengthFromDuration(duration, pixelsPerHour);
