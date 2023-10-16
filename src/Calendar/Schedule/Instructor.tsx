@@ -46,7 +46,34 @@ async function getAvailabilityData(userid: string): Promise<
 
 function InstructorSelection(props: InstructorSelectionProps) {
 
-  const { width, height, ref } = useResizeDetector();
+  const divRef = useRef<HTMLDivElement | null>(null);
+
+  const [divWidth, setDivWidth] = useState(0);
+
+  const updateDivWidth = () => {
+    if (divRef.current) {
+      const rect = divRef.current.getBoundingClientRect();
+      setDivWidth(rect.width);
+    }
+  };
+
+  useEffect(() => {
+    updateDivWidth();
+
+    const resizeObserver = new ResizeObserver(updateDivWidth);
+
+    if (divRef.current) {
+      resizeObserver.observe(divRef.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  const onWidthChange = () => {
+    console.log('Updated width:', divWidth);
+  };
 
   const [reservationData, setReservationData] = useState<Array<{
     reservationId: string;
@@ -98,7 +125,7 @@ function InstructorSelection(props: InstructorSelectionProps) {
   
   if (reservationData.length > 0) {
     perferred = preferredArray.map((item, index) => (
-      <Unavailable resStartTime={item.startTime} resEndTime={item.endTime} isDay={props.isDay} type='Perfered' width={width} key={index}/>
+      <Unavailable resStartTime={item.startTime} resEndTime={item.endTime} isDay={props.isDay} type='Perfered' width={divWidth} key={index}/>
     ));
   }
 
@@ -117,7 +144,7 @@ function InstructorSelection(props: InstructorSelectionProps) {
   
   if (unavailableArray.length > 0) {
     unavailablecomp = unavailableArray.map((item, index) => (
-      <Unavailable resStartTime={item.startTime} resEndTime={item.endTime} isDay={props.isDay} type='Unavailable' width={width} key={index}/>
+      <Unavailable resStartTime={item.startTime} resEndTime={item.endTime} isDay={props.isDay} type='Unavailable' width={divWidth} key={index}/>
     ));
   }
 
@@ -129,7 +156,7 @@ function InstructorSelection(props: InstructorSelectionProps) {
         {unavailablecomp}
       <div className="mainBar">
         <Identifier Name={props.InstructorName}/>
-        <Hour isDay={props.isDay} ref={ref}/>
+        <Hour isDay={props.isDay} ref={divRef}/>
         <Hour isDay={props.isDay}/>
         <Hour isDay={props.isDay}/>
         <Hour isDay={props.isDay}/>
