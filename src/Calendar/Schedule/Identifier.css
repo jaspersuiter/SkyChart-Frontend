@@ -6,7 +6,6 @@
     align-items: center;
     gap: 10px;
     border-right: 4px solid var(--Dark-Gray, #949494);
-    border-bottom: 1px solid var(--Dark-Gray, #949494); 
 }
 
 .Text{

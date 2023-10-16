@@ -1,6 +1,11 @@
 .mainBar{
     width: 100%;
     display: flex; 
+    border-bottom: 1px solid var(--Dark-Gray, #949494); 
+}
+
+.mainBar:last-child{
+    border-bottom: none;
 }
 
 .spacer {
@@ -12,6 +17,11 @@
     width: 100%;
     display: flex; 
     position: relative;
+    border-bottom: 1px solid var(--Dark-Gray, #949494); 
+}
+
+.container:last-child{
+    border-bottom: none;
 }
 
 .element1 {
