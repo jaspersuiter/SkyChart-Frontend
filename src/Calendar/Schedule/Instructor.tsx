@@ -71,10 +71,6 @@ function InstructorSelection(props: InstructorSelectionProps) {
     };
   }, []);
 
-  const onWidthChange = () => {
-    console.log('Updated width:', divWidth);
-  };
-
   const [reservationData, setReservationData] = useState<Array<{
     reservationId: string;
     pilotId: string;
