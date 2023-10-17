@@ -1,4 +1,5 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
+import { env } from "./env";
 
 interface AuthContextType {
   authorization: boolean;
@@ -18,6 +19,24 @@ type AuthProviderPropsType = {
 
 export const AuthProvider = ({ children }: AuthProviderPropsType) => {
   const [authorization, setAuthorization] = useState(false);
+  const apiUrl = env.SKYCHART_API_URL;
+  useEffect(() => {
+    async function autoLogin() {
+      const response = await fetch(
+        `${apiUrl}/api/user/authentication/auth-verification`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+      if (response.status === 200) {
+        setAuthorization(true);
+      } else {
+        setAuthorization(false);
+      }
+    }
+    autoLogin();
+  }, []);
 
   const login = () => {
     setAuthorization(true);
