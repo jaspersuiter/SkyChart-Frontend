@@ -9,7 +9,7 @@ import React from 'react';
 import ModifyAircraft from './ModifyAircraft';
 
 interface Plane {
-  id: number;
+  id: string;
   model: string;
   grounded: boolean;
   nickname: string;
@@ -18,8 +18,10 @@ interface Plane {
 function Aircraft() {
 
   const [open, setOpen] = React.useState(false);
+  const [currentPlaneId, setCurrentPlaneId] = React.useState("");
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (plane: any) => {
+    setCurrentPlaneId(plane);
     setOpen(true);
   };
 
@@ -80,20 +82,20 @@ useEffect(() => {
             <Grid container spacing={2}>
               {planes.map((plane, index) => (
               <Grid item xs={12} sm={6} md={4} key={index} >
-                <Paper elevation={3} style={{...customStyles.paper, flexDirection: 'column', flexWrap: 'nowrap'}}>  
-                  <Typography variant="h4" align="center">
-                    {plane.nickname}
-                  </Typography>
-                  <Typography align="center">
-                    {`${plane.model}, ${plane.grounded ? 'Grounded' : 'In Service'}`}
-                  </Typography>
-                  
+                <Paper elevation={3} style={{...customStyles.paper, flexDirection: 'column', flexWrap: 'nowrap'}}>
+                  <Button fullWidth onClick={()=>{handleClickOpen(plane.id)}}>  
+                    <Typography variant="h4" align="center">
+                      {plane.nickname}
+                    </Typography>
+                    <Typography align="center">
+                      {`${plane.model}, ${plane.grounded ? 'Grounded' : 'In Service'}`}
+                    </Typography>
+                  </Button>
                 </Paper>
               </Grid>
             ))}
           </Grid>
-          <SecondaryButton text="Temporary Button" onClick={handleClickOpen}/>
-          <ModifyAircraft open={open} onClose={handleClose}/>
+          <ModifyAircraft open={open} onClose={handleClose} planeId={currentPlaneId}/>
         </div>
       </div>       
     </div>      

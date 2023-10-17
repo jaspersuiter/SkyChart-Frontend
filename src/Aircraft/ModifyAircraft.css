@@ -1,5 +1,9 @@
 .modify-aircraft-popup {
     display: inline-flex;
     width: 80em;
-    padding: 2em;
+    padding: 10em;
+}
+
+.modify-aircraft-button {
+    margin-top: 30em;
 }
