@@ -57,7 +57,7 @@ function ModifyAircraft(props: ModifyAircraftProps) {
                 },
               }}>
                 <div className="modify-aircraft-popup-content">
-                    <h1>Set a Nickname</h1>
+                    <h1>Admin - Modify Aircraft</h1>
                     <form>
                         <TextField id="nickname" label="Nickname" type="name" value={nickname} onChange={handleNicknameChange} />
                     </form>
