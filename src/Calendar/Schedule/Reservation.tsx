@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { makeApiCall } from '../../APICall';
 import './Reservation.css';
+import EditReservation from './EditReservation';
 import { title } from 'process';
 import { calculateDurationInMinutes, calculateLeftPosition, calculateLengthFromDuration, convertToMilitaryTime, formatTime } from './Util';
 
@@ -8,7 +9,18 @@ export interface ReservationProps {
   resStartTime: string;
   resEndTime: string;
   pilotid: string;
-  isDay: Boolean
+  isDay: Boolean;
+  reservationData: ReservationData;
+}
+
+export interface ReservationData {
+  reservationId: string;
+  pilotId: string;
+  planeId: string;
+  instructorId: string;
+  startTime: string;
+  endTime: string;
+  flightType: string;
 }
 
 async function getUserData(planeid: String): Promise<
@@ -31,7 +43,7 @@ async function getUserData(planeid: String): Promise<
   const params = {
     userId: planeid
     
-}
+  }
 
   try {
     const responseData2 = await makeApiCall("/api/user/get", {}, "get", params);
@@ -59,6 +71,7 @@ async function getUserData(planeid: String): Promise<
 function Reservation(props: ReservationProps) {
 
   const [userData, SetUserData] = useState<any>({});
+  const [openEditReservation, setOpenEditReservation] = useState(false);
 
   useEffect(() => {
     async function fetchReservationData() {
@@ -91,8 +104,12 @@ function Reservation(props: ReservationProps) {
 
 
     return (
-      <div className='mainContainer' style={{ width: `${lengthInPixels}px`, left: `${leftPosition}px`}}>
+      <div className='mainContainer' style={{ width: `${lengthInPixels}px`, left: `${leftPosition}px` }} onClick={() => openEditReservation}>
         <p className='mainText'>{Title}</p>
+        <EditReservation
+          open={openEditReservation}
+          onClose={() => setOpenEditReservation(false)}
+          reservationData={props.reservationData} />
       </div>
     );
 }
