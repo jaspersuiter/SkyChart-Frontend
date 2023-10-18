@@ -16,19 +16,17 @@ interface Changes {
 }
 
 function ModifyAircraft(props: ModifyAircraftProps) {
+    const [nickname, setNickname] = useState('');
+    const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNickname(e.target.value);
+    }
+    const {open, onClose } = props;
 
-    const context = useContext(AuthorizationContext);
-  
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    interface UserCredentials { 
-        UserNameOrEmail: string, 
-        password: string 
+    const handleClose = () => {
+        onClose();
     };
 
     const handleConfirm = async () => {
-        const userCredentials: UserCredentials = { UserNameOrEmail: email, password: password };
         const changes: Changes = { planeId: props.planeId, nickname: nickname };
         await fetch('http://localhost:5201/api/plane/update', {
             method: 'PUT',
@@ -39,32 +37,11 @@ function ModifyAircraft(props: ModifyAircraftProps) {
             body: JSON.stringify(changes), 
         })
         .then(response => response.json())
-        .then(data => {
-            console.log(changes.planeId)
-        })
         .catch(error => {
             console.error(error);
             alert('You are not allowed to modify airplane nicknames');
         });
     }
-
-    const [nickname, setNickname] = useState('');
-    const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNickname(e.target.value);
-    }
-
-    const navigate = useNavigate();
-
-    const {open, onClose } = props;
-
-    const handleClose = () => {
-        onClose();
-    };
-
-    interface UserCredentials { 
-        UserNameOrEmail: string, 
-        password: string 
-    };
 
     return (
         <div className="modify-aircraft-popup">
