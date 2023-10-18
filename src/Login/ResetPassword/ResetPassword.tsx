@@ -1,0 +1,71 @@
+import CancelButton from '../../Buttons/CancelButton';
+import Dialog from '@mui/material/Dialog';
+import SecondaryButton from '../../Buttons/SecondaryButton';
+import { useNavigate } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { AuthorizationContext } from '../../AuthContext';
+import { response } from 'express';
+
+export interface ResetPasswordProps {
+    open: boolean;
+    onClose: () => void;
+  }
+
+
+function ResetPassword(props: ResetPasswordProps) {
+    const context = useContext(AuthorizationContext);
+    const navigate = useNavigate();
+
+    const {open, onClose } = props;
+
+    const handleClose = () => {
+        onClose();
+    };
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+
+    const handleLogOut = () => {
+        
+        fetch('http://localhost:5201/api/user/authentication/logout', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            console.log('Success:');
+              context.logout();
+              navigate('/login');
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            // Handle the error, e.g., by showing an error message to the user
+          });
+      
+          navigate('/login');
+        onClose();
+      }
+      
+
+    return (
+        <div className="logout-popup">
+            <Dialog onClose={handleClose} open={open}>
+                <h1>Are you sure that you want to log out?</h1>
+                
+                {/* Confirm and Cancel Buttons */}
+                <div className="reservation-buttons" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '16px' }}>
+                    <CancelButton text="Logout" onClick={handleLogOut}/>
+                    <SecondaryButton text="Cancel" onClick={handleClose}/>
+                </div>
+            </Dialog>
+        </div>
+    );
+}
+
+export default ResetPassword;
