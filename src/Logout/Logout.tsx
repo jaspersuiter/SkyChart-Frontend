@@ -9,7 +9,7 @@ import { response } from 'express';
 export interface LogoutProps {
     open: boolean;
     onClose: () => void;
-  }
+}
 
 
 function LogoutPopup(props: LogoutProps) {
