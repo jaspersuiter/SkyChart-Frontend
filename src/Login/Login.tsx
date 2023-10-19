@@ -80,7 +80,7 @@ function Login() {
         </form>
         <br/>
         <PrimaryButton text="Log in" onClick={handleLogin}/>
-        <a onClick={handleClickOpen}>Reset your Password</a>
+        <a onClick={handleClickOpen}><u>Reset your Password</u></a>
         <ResetPassword open={open} onClose={handleClose} />
       </div>
     </div>

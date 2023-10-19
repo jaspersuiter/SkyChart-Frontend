@@ -5,17 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { AuthorizationContext } from '../../AuthContext';
 import { response } from 'express';
+import PrimaryButton from '../../Buttons/PrimaryButton';
+import './ResetPassword.css';
+import { TextField } from '@mui/material';
 
 export interface ResetPasswordProps {
     open: boolean;
     onClose: () => void;
   }
 
-
 function ResetPassword(props: ResetPasswordProps) {
-    const context = useContext(AuthorizationContext);
-    const navigate = useNavigate();
-
     const {open, onClose } = props;
 
     const handleClose = () => {
@@ -23,45 +22,40 @@ function ResetPassword(props: ResetPasswordProps) {
     };
 
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-
-    const handleLogOut = () => {
-        
-        fetch('http://localhost:5201/api/user/authentication/logout', {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            console.log('Success:');
-              context.logout();
-              navigate('/login');
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            // Handle the error, e.g., by showing an error message to the user
-          });
-      
-          navigate('/login');
-        onClose();
-      }
-      
 
     return (
         <div className="logout-popup">
-            <Dialog onClose={handleClose} open={open}>
-                <h1>Are you sure that you want to log out?</h1>
-                
-                {/* Confirm and Cancel Buttons */}
-                <div className="reservation-buttons" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '16px' }}>
-                    <CancelButton text="Logout" onClick={handleLogOut}/>
-                    <SecondaryButton text="Cancel" onClick={handleClose}/>
+            <Dialog onClose={handleClose} open={open} sx={{
+                "& .MuiDialog-container": {
+                  "& .MuiPaper-root": {
+                    width: "100%",
+                    maxWidth: "32em",
+                    height: "100%",
+                    maxHeight: "20em",
+                    padding: "1em",
+                    backgroundColor: "#D3D3D3"
+                  },
+                },
+              }}>
+                <div className="reset-password-content">
+                  <p className="reset-password-text">
+                    Please enter the email associated with your account
+                  </p>
+
+                  <TextField id="Email" 
+                              label="Email" 
+                              value={email} 
+                              onChange={(event) => {setEmail(event.target.value)}}
+                              sx={{
+                                width: "21em",
+                                margin: "2em"
+                              }}
+                />
+
+                  <div className="reset-password-button">
+                      <PrimaryButton text="Request Password Reset"/>
+                  </div>
+                  <a onClick={()=>handleClose()}><u className="reset-password-link-text">Return to Log In</u></a>
                 </div>
             </Dialog>
         </div>
