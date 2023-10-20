@@ -5,9 +5,20 @@ import PrimaryButton from '../Buttons/PrimaryButton';
 import { useContext, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthorizationContext } from '../AuthContext';
+import React from 'react';
+import ResetPassword from './ResetPassword/ResetPassword';
 
 
 function Login() {
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
   const context = useContext(AuthorizationContext);
   
@@ -69,6 +80,8 @@ function Login() {
         </form>
         <br/>
         <PrimaryButton text="Log in" onClick={handleLogin}/>
+        <a onClick={handleClickOpen}><u>Reset your Password</u></a>
+        <ResetPassword open={open} onClose={handleClose} />
       </div>
     </div>
   );

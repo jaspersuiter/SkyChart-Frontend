@@ -65,8 +65,8 @@ function AddNewAircraft(props: AddNewAircraftProp){
                     width: "100%",
                     maxWidth: "900px",
                     height: "100%",
-                    maxHeight: "650px",
-                    padding: "30px"
+                    maxHeight: "40em",
+                    padding: "2em"
                   },
                 },
               }} >
