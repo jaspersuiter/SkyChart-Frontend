@@ -11,19 +11,24 @@ import dayjs, { Dayjs } from 'dayjs';
 import WeekPicker from './Schedule/WeekPicker';
 import React, { useEffect, useState } from 'react';
 
-interface Plane {
-    id: number;
+export interface Plane {
+    planeId: string;
+    tailNumber: string;
     model: string;
+    nickName: string;
+    hourlyRate: number;
+    numEngines: number;
+    tachHours: number;
+    hobbsHours: number;
     grounded: boolean;
-    nickname: string;
 }
 
-interface Instructor {
-    id: number;
-    lastName: string;
-    firstName: string;
-    phoneNum: string;
-    rating: string;
+export interface Instructor {
+    userId: string;
+    name: string;
+    email: string;
+    phone: string;
+    instructorRatings: Array<string>;
 }
 
 function Calendar() {
@@ -33,16 +38,9 @@ function Calendar() {
             const planes = await fetch('http://localhost:5201/api/plane/get-all',
             {credentials: 'include'})
                 .then((response) => response.json())
-                .then((data) => data);
+                .then((data) => data) as Array<Plane>;
 
-            const mappedPlanes = planes.map((plane: any) => ({
-                id: plane.planeId,
-                model: plane.model,
-                grounded: plane.grounded,
-                nickname: plane.nickName,
-            }));
-
-            setPlanes(mappedPlanes); 
+            setPlanes(planes); 
         } catch (error) {
             console.log(error);
         }
@@ -57,21 +55,9 @@ function Calendar() {
             const instructors = await fetch('http://localhost:5201/api/instructor/get-all',
             {credentials: 'include'})
                 .then((response) => response.json())
-                .then((data) => data);
+                .then((data) => data) as Array<Instructor>;
 
-            // Create a new array of rows based on the instructors data
-            const mappedRows = instructors.map((instructor: any, index: number) => {
-                const nameParts = instructor.name.split(','); // Split by comma
-                return {
-                id: index + 1,
-                lastName: nameParts[0].trim(),
-                firstName: nameParts[1].trim(),
-                phoneNum: instructor.phone,
-                rating: instructor.instructorRatings?.join(', '),
-                }
-            });
-
-            setInstructors(mappedRows); // Update the state variable with the mapped rows
+            setInstructors(instructors);
         } catch (error) {
             console.log(error);
         }
@@ -189,7 +175,7 @@ function Calendar() {
 
            
         </div>
-        <NewReservation open={open} onClose={handleClose}/>
+        <NewReservation open={open} onClose={handleClose} Instructors={instructors} Planes={planes}/>
     </div>
   )}
 
