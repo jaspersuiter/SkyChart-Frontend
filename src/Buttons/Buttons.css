@@ -9,6 +9,18 @@
     border-radius: 5px;
     background: var(--Primary-Color, #4DE8B4);
   }
+
+  .primary-button-disabled {
+    display: inline-flex;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    border-color: var(--Light-Gray, #D3D3D3);
+    gap: 10px;
+  
+    border-radius: 5px;
+    background: var(--Light-Gray, #D3D3D3);
+  }
   
 .secondary-button {
   display: inline-flex;

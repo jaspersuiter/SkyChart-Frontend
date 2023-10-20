@@ -1,13 +1,13 @@
 import './NewReservation.css'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import PrimaryButton from '../Buttons/PrimaryButton';
-import CancelButton from '../Buttons/CancelButton';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
 import { makeApiCall } from '../APICall';
 import { useState } from 'react';
+import dayjs, { Dayjs } from 'dayjs';
 
 export interface NewReservationProps {
     open: boolean;
@@ -18,9 +18,11 @@ function NewReservation(props: NewReservationProps) {
 
     const {open, onClose } = props;
 
-    const handleClose = () => {
-        setSelectedValue("")
-        onClose();
+    const handleClose = (event?: any, reason?: any) => {
+        if (reason !== 'backdropClick') {
+            setSelectedValue("")
+            onClose();
+          } 
       };
 
     const enum flightType {
@@ -38,6 +40,7 @@ function NewReservation(props: NewReservationProps) {
         setInstructorId("")
         setStartTime(null)
         setEndTime(null)
+        setDay(null)
         setFlightType(0)  
         handleClose()
       }
@@ -45,9 +48,10 @@ function NewReservation(props: NewReservationProps) {
     const [PilotId, setPilotId] = useState('');
     const [PlaneId, setPlaneId] = useState('');
     const [InstructorId, setInstructorId] = useState('');
-    const [StartTime, setStartTime] = useState<Date | null>(null);
-    const [EndTime, setEndTime] = useState<Date | null>(null);
+    const [StartTime, setStartTime] = useState<Dayjs | null>(null);
+    const [EndTime, setEndTime] = useState<Dayjs | null>(null);
     const [FlightType, setFlightType] = useState<flightType>(0);
+    const [Day, setDay] = useState<Dayjs | null>(null);
     
     const createReservation = async () => {
             const data = {
@@ -76,84 +80,122 @@ function NewReservation(props: NewReservationProps) {
         setFlightType(event.target.value);
     };
 
-    const handleStartTime = (newTime: Date | null) => {
+    const handleStartTime = (newTime: Dayjs | null) => {
         setStartTime(newTime);
     };
 
-    const handleEndTime = (newTime: Date | null) => {
+    const handleEndTime = (newTime: Dayjs | null) => {
         setEndTime(newTime);
+    };
+
+    const handleDay = (day: Dayjs | null) => {
+        setDay(day);
     };
 
     return (
         <div className="reservation-popup">
-            <Dialog onClose={handleClose} open={open}>
-                <h1>Create a Reservation</h1>
+            <Dialog onClose={handleClose} open={open}
+            sx={{
+                "& .MuiDialog-container": {
+                  "& .MuiPaper-root": {
+                    width: "100%",
+                    maxWidth: "57.5vw",
+                    height: "100%",
+                    maxHeight: "80vh",
+                    padding: "30px"
+                  },
+                },
+              }}>
+
+                <div className='TitleBar'>
+                    <div className='spaceFiller'/>
+                    <h1 className='h1'>Create a Reservation</h1>
+                    <div className='spaceFiller'>
+                    <CloseIcon onClick={resetAll}/>
+                    </div>
+                </div>
+
+                <div className='dialogBox'>
+                    {/* Dropdown Menus for Selecting Aircraft & Instructor */}
+                    <div className='flexRow'>
+                        <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
+                            <InputLabel id="demo-select-small-label">Instructor</InputLabel>
+                            <Select
+                                labelId="demo-select-small-label"
+                                id="demo-select-small"
+                                label="instructor"
+                            >
+                                <MenuItem>All</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
+                            <InputLabel id="demo-select-small-label">Aircraft</InputLabel>
+                            <Select
+                                labelId="demo-select-small-label"
+                                id="demo-select-small"
+                                label="aircraft"
+                            >
+                                <MenuItem>All</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
+                            <InputLabel id="demo-select-small-label">Type of flight</InputLabel>
+                            <Select
+                                labelId="demo-select-small-label"
+                                id="demo-select-small"
+                                label="type of flight"
+                                value={selectedValue} // Set the selected value here
+                                onChange={handleChange} // Handle change event
+                            >
+                                <MenuItem value="" style={{ color: '#FF8080' }}>Clear</MenuItem>
+                                <MenuItem value={flightType.DualLesson}>dual lesson</MenuItem>
+                                <MenuItem value={flightType.StudentSolo}>student solo</MenuItem>
+                                <MenuItem value={flightType.Checkride}>checkride</MenuItem>
+                                <MenuItem value={flightType.StandardReserved}>standard reserved</MenuItem>
+                                <MenuItem value={flightType.AircraftCheckout}>aircraft checkout</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
+
+                    {/* Date and Time Pickers to Select Reservation Time */}
+                    <div className='flexRow'>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker label="Select Day" value={Day} onChange={handleDay} sx={{
+                                    svg: { color: '#4DE8B4' },
+                            }}/>
+                        </LocalizationProvider>
+
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            
+                            <TimePicker label="Start Time" value={StartTime} onChange={handleStartTime}
+                            minTime={dayjs().set('hour', 6)}
+                            maxTime={dayjs().set('hour', 22).set('minute', 59)} 
+                            sx={{
+                                svg: { color: '#4DE8B4' },
+                            }}/>
+
+                        </LocalizationProvider>
+
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            
+                            <TimePicker label="End Time" value={EndTime} onChange={handleEndTime}
+                            minTime={dayjs().set('hour', 6)}
+                            maxTime={dayjs().set('hour', 22).set('minute', 59)} 
+                            sx={{
+                                svg: { color: '#4DE8B4' },
+                            }}/>
+
+                        </LocalizationProvider>
+                    </div>
+                </div>
                 
-                {/* Dropdown Menus for Selecting Aircraft & Instructor */}
-                <div className="reservation-dropdown">
-                    <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
-                        <InputLabel id="demo-select-small-label">Instructor</InputLabel>
-                        <Select
-                            labelId="demo-select-small-label"
-                            id="demo-select-small"
-                            label="instructor"
-                        >
-                            <MenuItem>All</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
-                        <InputLabel id="demo-select-small-label">Aircraft</InputLabel>
-                        <Select
-                            labelId="demo-select-small-label"
-                            id="demo-select-small"
-                            label="aircraft"
-                        >
-                            <MenuItem>All</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
-                        <InputLabel id="demo-select-small-label">Type of flight</InputLabel>
-                        <Select
-                            labelId="demo-select-small-label"
-                            id="demo-select-small"
-                            label="type of flight"
-                            value={selectedValue} // Set the selected value here
-                            onChange={handleChange} // Handle change event
-                        >
-                            <MenuItem value="" style={{ color: '#FF8080' }}>Clear</MenuItem>
-                            <MenuItem value={flightType.DualLesson}>dual lesson</MenuItem>
-                            <MenuItem value={flightType.StudentSolo}>student solo</MenuItem>
-                            <MenuItem value={flightType.Checkride}>checkride</MenuItem>
-                            <MenuItem value={flightType.StandardReserved}>standard reserved</MenuItem>
-                            <MenuItem value={flightType.AircraftCheckout}>aircraft checkout</MenuItem>
-                        </Select>
-                    </FormControl>
-                </div>
-
-                {/* Date and Time Pickers to Select Reservation Time */}
-                <div className="reservation-time">
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker label="Select Day"/>
-                    </LocalizationProvider>
-
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={['TimePicker']}>
-                            <TimePicker label="Start Time" value={StartTime} onChange={handleStartTime} />
-                        </DemoContainer>
-                    </LocalizationProvider>
-
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={['TimePicker']}>
-                            <TimePicker label="End Time" value={EndTime} onChange={handleEndTime} />
-                        </DemoContainer>
-                    </LocalizationProvider>
-                </div>
+                
+                
 
 
                 {/* Confirm and Cancel Buttons */}
-                <div className="reservation-buttons">
-                    <PrimaryButton text="Create Reservation" onClick={createReservation}/>
-                    <CancelButton text="Cancel" onClick={handleClose}/>
+                <div className='TitleBar'>
+                    <PrimaryButton text="Create Reservation" onClick={createReservation} disabled={StartTime === null && EndTime === null}/>
                 </div>
             </Dialog>
         </div>
