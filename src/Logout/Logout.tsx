@@ -59,9 +59,21 @@ function LogoutPopup(props: LogoutProps) {
 
     return (
         <div className="logout-popup">
-            <Dialog onClose={handleClose} open={open}>
-                <h1>Are you sure that you want to log out?</h1>
-                
+            <Dialog onClose={handleClose} open={open}
+              sx={{
+                "& .MuiDialog-container": {
+                  "& .MuiPaper-root": {
+                    width: "30%",
+                    maxWidth: "57.5vw",
+                    height: "15%",
+                    maxHeight: "80vh",
+                    paddingBottom: "30px",
+                    paddingLeft: "30px",
+                    paddingRight: "30px"
+                  },
+                },
+              }}>
+                <h2>Are you sure that you want to log out?</h2>
                 {/* Confirm and Cancel Buttons */}
                 <div className="reservation-buttons" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '16px' }}>
                     <CancelButton text="Logout" onClick={handleLogOut}/>
