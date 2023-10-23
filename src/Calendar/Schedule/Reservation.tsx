@@ -73,6 +73,13 @@ function Reservation(props: ReservationProps) {
   const [userData, SetUserData] = useState<any>({});
   const [openEditReservation, setOpenEditReservation] = useState(false);
 
+  const closeEditReservationDialog = () => {
+    setOpenEditReservation(false);
+  }
+  const openEditReservationDialog = () => {
+    setOpenEditReservation(true);
+  }
+
   useEffect(() => {
     async function fetchReservationData() {
       const data = await getUserData(props.pilotid);
@@ -104,11 +111,11 @@ function Reservation(props: ReservationProps) {
 
 
     return (
-      <div className='mainContainer' style={{ width: `${lengthInPixels}px`, left: `${leftPosition}px` }} onClick={() => openEditReservation}>
+      <div className='mainContainer' style={{ width: `${lengthInPixels}px`, left: `${leftPosition}px` }} onClick={openEditReservationDialog}>
         <p className='mainText'>{Title}</p>
         <EditReservation
           open={openEditReservation}
-          onClose={() => setOpenEditReservation(false)}
+          onClose={closeEditReservationDialog}
           reservationData={props.reservationData} />
       </div>
     );
