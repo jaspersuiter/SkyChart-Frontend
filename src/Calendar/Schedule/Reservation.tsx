@@ -4,6 +4,7 @@ import './Reservation.css';
 import EditReservation from './EditReservation';
 import { title } from 'process';
 import { calculateDurationInMinutes, calculateLeftPosition, calculateLengthFromDuration, convertToMilitaryTime, formatTime } from './Util';
+import { Instructor, Plane } from '../Calendar';
 
 export interface ReservationProps {
   resStartTime: string;
@@ -11,6 +12,8 @@ export interface ReservationProps {
   pilotid: string;
   isDay: Boolean;
   reservationData: ReservationData;
+  Instructors: Array<Instructor>;
+  Planes: Array<Plane>;
 }
 
 export interface ReservationData {
@@ -116,7 +119,9 @@ function Reservation(props: ReservationProps) {
         <EditReservation
           open={openEditReservation}
           onClose={closeEditReservationDialog}
-          reservationData={props.reservationData} />
+          reservationData={props.reservationData}
+          Instructors={props.Instructors}
+          Planes={props.Planes} />
       </div>
     );
 }

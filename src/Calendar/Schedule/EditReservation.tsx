@@ -7,23 +7,28 @@ import './EditReservation.css'
 import PrimaryButton from '../../Buttons/PrimaryButton';
 import { useState } from 'react';
 import { ReservationData } from './Reservation';
+import { Instructor, Plane } from '../Calendar';
+import InstructorDropDown from '../../DropDowns/InstructorDropDown';
+import PlaneDropDown from '../../DropDowns/PlaneDropDown';
+import ReservationTypeDropDown, { ReservationType } from '../../DropDowns/ReservationTypeDropDown';
+
 
 export interface EditReservationProp {
   open: boolean;
   onClose: () => void;
   reservationData: ReservationData;
+  Instructors: Array<Instructor>;
+  Planes: Array<Plane>;
 }
 function AddNewAircraft(props: EditReservationProp) {
   const { open, onClose, reservationData } = props;
   const [plane, setPlane] = useState(reservationData.planeId);
   const [instructor, setInstructor] = useState(reservationData.instructorId);
-  const [flightType, setFlightType] = useState(reservationData.flightType);
+  const [flightType, setFlightType] = useState<ReservationType>(reservationData.flightType as unknown as ReservationType);
   const [startTime, setStartTime] = useState(reservationData.startTime);
   const [endTime, setEndTime] = useState(reservationData.endTime);
 
-  const planes = ['Plane 1', 'Plane 2', 'Plane 3']; // TODO: get from API
-  const instructors = ['Instructor 1', 'Instructor 2', 'Instructor 3']; //TODO: get from API
-  const flightTypes = ['DualLesson', 'StudentSolo', 'Checkride', 'StandardReserved', 'AircraftCheckout', 'GroundSchool'];
+  console.log(flightType);
 
   const handleClose = () => {
     onClose();
@@ -62,53 +67,17 @@ function AddNewAircraft(props: EditReservationProp) {
       <div className='maincontent'>
         <div className='top-title'>
           <div className='space-filler'></div>
-          <h1>Add New Aircraft</h1>
+          <h1>Edit Reservation</h1>
           <div className='boxframe'><CloseIcon onClick={handleClose} /></div>
         </div>
 
         <div className='maindropdowncontent'>
           <div className='threewide'>
-            <TextField
-              select
-              label="Plane"
-              value={plane}
-              onChange={(event) => setPlane(event.target.value)}
-              fullWidth
-            >
-              {planes.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
+            <InstructorDropDown Instructors={props.Instructors} InstructorId={instructor} setInstructorIdParent={setInstructor} />
 
-            <TextField
-              select
-              label="Instructor"
-              value={instructor}
-              onChange={(event) => setInstructor(event.target.value)}
-              fullWidth
-            >
-              {instructors.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
+            <PlaneDropDown Planes={props.Planes} PlaneID={plane} SetPlaneIdParent={setPlane} />
 
-            <TextField
-              select
-              label="Flight Type"
-              value={flightType}
-              onChange={(event) => setFlightType(event.target.value)}
-              fullWidth
-            >
-              {flightTypes.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
+            <ReservationTypeDropDown ReservationType={flightType} setReservationTypeParent={setFlightType} />
           </div>
           <div className='twowide'>
 
