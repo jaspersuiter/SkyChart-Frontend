@@ -1,8 +1,9 @@
 import { Dialog } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import MenuItem from '@mui/material/MenuItem';
+import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { makeApiCall } from '../../APICall';
-import TextField from '@mui/material/TextField';
 import './EditReservation.css'
 import PrimaryButton from '../../Buttons/PrimaryButton';
 import { useState } from 'react';
@@ -25,13 +26,27 @@ function AddNewAircraft(props: EditReservationProp) {
   const [plane, setPlane] = useState(reservationData.planeId);
   const [instructor, setInstructor] = useState(reservationData.instructorId);
   const [flightType, setFlightType] = useState<ReservationType>(reservationData.flightType as unknown as ReservationType);
-  const [startTime, setStartTime] = useState(reservationData.startTime);
-  const [endTime, setEndTime] = useState(reservationData.endTime);
+  const [startTime, setStartTime] = useState<Dayjs | null>(dayjs(reservationData.startTime, "YYYY-MM-DD HH:mm:ssA"));
+  const [endTime, setEndTime] = useState<Dayjs | null>(dayjs(reservationData.endTime, "YYYY-MM-DD HH:mm:ssA"));
+  const [day, setDay] = useState<Dayjs | null>(dayjs(reservationData.startTime, "YYYY-MM-DD HH:mm:ssA"));
 
-  console.log(flightType);
+
+  console.log(reservationData);
 
   const handleClose = () => {
     onClose();
+  };
+
+  const handleStartTime = (newTime: Dayjs | null) => {
+    setStartTime(newTime);
+  };
+
+  const handleEndTime = (newTime: Dayjs | null) => {
+    setEndTime(newTime);
+  };
+
+  const handleDay = (day: Dayjs | null) => {
+    setDay(day);
   };
 
   const editReservation = async () => {
@@ -79,8 +94,34 @@ function AddNewAircraft(props: EditReservationProp) {
 
             <ReservationTypeDropDown ReservationType={flightType} setReservationTypeParent={setFlightType} />
           </div>
-          <div className='twowide'>
+          <div className='flexRow'>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker label="Select Day" value={day} onChange={handleDay} sx={{
+                svg: { color: '#4DE8B4' },
+              }} />
+            </LocalizationProvider>
 
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+              <TimePicker label="Start Time" value={startTime} onChange={handleStartTime}
+                minTime={dayjs().set('hour', 6)}
+                maxTime={dayjs().set('hour', 22).set('minute', 59)}
+                sx={{
+                  svg: { color: '#4DE8B4' },
+                }} />
+
+            </LocalizationProvider>
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+              <TimePicker label="End Time" value={endTime} onChange={handleEndTime}
+                minTime={dayjs().set('hour', 6)}
+                maxTime={dayjs().set('hour', 22).set('minute', 59)}
+                sx={{
+                  svg: { color: '#4DE8B4' },
+                }} />
+
+            </LocalizationProvider>
           </div>
         </div>
 
