@@ -4,6 +4,6 @@ const SKYCHART_API_URL = "$SKYCHART_API_URL";
 
 export const env: IEnvironment = {
   SKYCHART_API_URL: SKYCHART_API_URL.includes("SKYCHART_API_URL")
-    ? "https://localhost:5201"
+    ? "http://localhost:5201"
     : SKYCHART_API_URL,
 };

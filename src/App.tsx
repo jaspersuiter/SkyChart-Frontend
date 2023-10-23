@@ -1,8 +1,13 @@
-
 import React, { useContext, useEffect } from "react";
 import "./App.css";
 
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  BrowserRouter,
+} from "react-router-dom";
 
 import Calendar from "./Calendar/Calendar";
 import Settings from "./Settings/Settings";
@@ -17,22 +22,11 @@ import { AuthorizationContext } from "./AuthContext";
 
 function App() {
   const context = useContext(AuthorizationContext);
-  
-  useEffect(() => {
-    console.log(context.authorization);
-  }, [context.authorization]);
-
-  useEffect(() => {
-    if (!context.authorization) {
-      <Navigate to='/login'/>
-    }
-  }, [context.authorization]);
 
   return (
     <div className="App">
       <Router>
         <Routes>
-
           {!context.authorization ? (
             <React.Fragment>
               <Route path="*" element={<Login />} />
@@ -48,11 +42,8 @@ function App() {
               <Route path="/logout" element={<Logout />} />
               <Route path="/verify" element={<VerificationPage />} />
               <Route path="/admin" element={<Admin />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Registration />} />
             </React.Fragment>
           )}
-
         </Routes>
       </Router>
     </div>
