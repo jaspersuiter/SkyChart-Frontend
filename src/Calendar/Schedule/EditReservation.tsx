@@ -26,12 +26,13 @@ function AddNewAircraft(props: EditReservationProp) {
   const [plane, setPlane] = useState(reservationData.planeId);
   const [instructor, setInstructor] = useState(reservationData.instructorId);
   const [flightType, setFlightType] = useState<ReservationType>(reservationData.flightType as unknown as ReservationType);
-  const [startTime, setStartTime] = useState<Dayjs | null>(dayjs(reservationData.startTime, "YYYY-MM-DD HH:mm:ssA"));
-  const [endTime, setEndTime] = useState<Dayjs | null>(dayjs(reservationData.endTime, "YYYY-MM-DD HH:mm:ssA"));
-  const [day, setDay] = useState<Dayjs | null>(dayjs(reservationData.startTime, "YYYY-MM-DD HH:mm:ssA"));
+  const [startTime, setStartTime] = useState<Dayjs | null>(dayjs(reservationData.startTime, "YYYY/MM/DD HH:mm:ssA"));
+  const [endTime, setEndTime] = useState<Dayjs | null>(dayjs(reservationData.endTime, "YYYY/MM/DD HH:mm:ssA"));
+  const [day, setDay] = useState<Dayjs | null>(dayjs(reservationData.startTime, "YYYY/MM/DD HH:mm:ssA"));
 
 
   console.log(reservationData);
+  console.log(startTime, endTime, day)
 
   const handleClose = () => {
     onClose();
