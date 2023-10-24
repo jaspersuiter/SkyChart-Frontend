@@ -70,18 +70,30 @@ function Login() {
   return (
     <div className="login-page">
       <div className="login-form">
-        <h2>SkyChart</h2>
-        <form>
-          <TextField id="email" label="Email" type="email" required value={email} onChange={handleEmailChange} />
-        </form>
+        <div className='TitleBar'>
+          <h2 style={{fontSize: 35}}>SkyChart</h2>
+        </div>
+        <div className='TextFieldBar'>
+          <h5 style={{fontSize: 18}}>Enter Email</h5>
+        </div>
+        <div className="FlexColumnItem">
+          <TextField id="email" label="Email" type="email" required value={email} onChange={handleEmailChange} fullWidth />
+          <br/>
+        </div>
+        <div className='TextFieldBar'>
+            <h5 style={{fontSize: 18}}>Enter Password</h5>
+        </div>
+        <div className="FlexColumnItemPadded">
+          <TextField id="password" label="Password" type="password" required value={password} onChange={handlePasswordChange} fullWidth />
+        </div>
+        <div className="FlexColumnItem">
+          <PrimaryButton text="Log in" onClick={handleLogin} width="100%" />
+        </div>
         <br/>
-        <form>
-          <TextField id="password" label="Password" type="password" required value={password} onChange={handlePasswordChange}/>
-        </form>
-        <br/>
-        <PrimaryButton text="Log in" onClick={handleLogin}/>
-        <a onClick={handleClickOpen}><u>Reset your Password</u></a>
-        <ResetPassword open={open} onClose={handleClose} />
+        <div className="FlexColumnItem">
+          <a onClick={handleClickOpen}><u>Reset your Password</u></a>
+          <ResetPassword open={open} onClose={handleClose} />
+        </div>
       </div>
     </div>
   );
