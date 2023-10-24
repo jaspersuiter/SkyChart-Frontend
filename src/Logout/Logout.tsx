@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { AuthorizationContext } from '../AuthContext';
 import { response } from 'express';
+import "./Logout.css";
 
 export interface LogoutProps {
     open: boolean;
@@ -65,17 +66,19 @@ function LogoutPopup(props: LogoutProps) {
                   "& .MuiPaper-root": {
                     width: "30%",
                     maxWidth: "57.5vw",
-                    height: "15%",
-                    maxHeight: "80vh",
+                    height: "25%",
+                    maxHeight: "95vh",
                     paddingBottom: "30px",
                     paddingLeft: "30px",
                     paddingRight: "30px"
                   },
                 },
               }}>
-                <h2>Are you sure that you want to log out?</h2>
+                <div className="logout-header">
+                  <h2>Are you sure that you want to log out?</h2>
+                </div>
                 {/* Confirm and Cancel Buttons */}
-                <div className="reservation-buttons" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '16px' }}>
+                <div className='FlexRowItem'>
                     <CancelButton text="Logout" onClick={handleLogOut}/>
                     <SecondaryButton text="Cancel" onClick={handleClose}/>
                 </div>
