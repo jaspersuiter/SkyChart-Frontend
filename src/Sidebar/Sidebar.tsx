@@ -7,7 +7,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import React from 'react';
 import LogoutPopup from '../Logout/Logout';
-import { Navigate } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 function StaticSidebar(props: any) {
@@ -33,6 +32,10 @@ function StaticSidebar(props: any) {
         { text: 'Admin', icon: <SettingsIcon/>, link: '/admin'},
     ]
 
+    if (userRole === 'admin') {
+      sidebarItems.push({ text: 'Admin', icon: <SettingsIcon />, link: '/admin' });
+    }
+
     return (
       <Drawer
         sx={{
@@ -49,7 +52,7 @@ function StaticSidebar(props: any) {
         anchor="left"
       >
         <List>
-          {sidebarItems.map((item, index) => (
+          {sidebarItems.map((item) => (
             <ListItem key={item.text} disablePadding>
               <ListItemButton onClick={(event) => {
                 const clickedItem = sidebarItems.find(item => item.text === event.currentTarget.textContent);
