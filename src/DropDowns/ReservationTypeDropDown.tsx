@@ -13,6 +13,7 @@ export enum ReservationType {
     StandardReserved,
     AircraftCheckout,
     GroundSchool,
+    Simulator
 }
 
 function ReservationTypeDropDown ( props: ReservationTypeSelectionProps) {
@@ -37,6 +38,7 @@ function ReservationTypeDropDown ( props: ReservationTypeSelectionProps) {
                 <MenuItem value={ReservationType.Checkride}>Checkride</MenuItem>
                 <MenuItem value={ReservationType.StandardReserved}>Standard Reserved</MenuItem>
                 <MenuItem value={ReservationType.AircraftCheckout}>Aircraft Checkout</MenuItem>
+                <MenuItem value={ReservationType.Simulator}>Simulator</MenuItem>
             </Select>
         </FormControl>
     );
