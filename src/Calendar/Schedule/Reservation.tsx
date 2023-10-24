@@ -9,6 +9,7 @@ export interface ReservationProps {
   resEndTime: string;
   pilotid: string;
   isDay: Boolean
+  width: number| undefined
 }
 
 async function getUserData(planeid: String): Promise<
@@ -72,6 +73,7 @@ function Reservation(props: ReservationProps) {
   const startTime = convertToMilitaryTime(props.resStartTime)
   const endTime = convertToMilitaryTime(props.resEndTime)
   const duration = calculateDurationInMinutes(startTime, endTime)
+  var namesection = 154
   
   const startTimeDisplay = formatTime(props.resStartTime)
 
@@ -79,15 +81,14 @@ function Reservation(props: ReservationProps) {
 
   const Title = startTimeDisplay + " " + userData.firstName + " " + userData.lastName
     
-    var pixelsPerHour = 67.6; // Define the scale
-
-    if(!props.isDay){
-        pixelsPerHour = 65.6;
-    }
+  var pixelsPerHour = props.width; // Define the scale
+  if(pixelsPerHour == undefined){
+    pixelsPerHour= 64
+  }
 
     const lengthInPixels = calculateLengthFromDuration(duration, pixelsPerHour);
     var leftPosition = calculateLeftPosition(startTime, pixelsPerHour);
-    leftPosition = leftPosition + 154
+    leftPosition = leftPosition + namesection
 
 
     return (

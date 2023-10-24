@@ -108,7 +108,7 @@ function InstructorSelection(props: InstructorSelectionProps) {
   
   if (reservationData.length > 0) {
     reservations = reservationData.map((item, index) => (
-      <Reservation isDay={props.isDay} resStartTime={item.startTime} resEndTime={item.endTime} pilotid={item.pilotId} key={index}/>
+      <Reservation isDay={props.isDay} resStartTime={item.startTime} resEndTime={item.endTime} pilotid={item.pilotId} key={index} width={divWidth}/>
     ));
   }
 

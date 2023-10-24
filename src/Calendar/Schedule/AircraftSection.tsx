@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './HourHolder.css';
 import Hour from './HourIdentifier';
 import Identifier from './Identifier';
@@ -17,6 +17,31 @@ export interface AircraftSectionProps {
 
 
 function AircraftSection(props: AircraftSectionProps) {
+
+  const divRef = useRef<HTMLDivElement | null>(null);
+
+  const [divWidth, setDivWidth] = useState(0);
+
+  const updateDivWidth = () => {
+    if (divRef.current) {
+      const rect = divRef.current.getBoundingClientRect();
+      setDivWidth(rect.width);
+    }
+  };
+
+  useEffect(() => {
+    updateDivWidth();
+
+    const resizeObserver = new ResizeObserver(updateDivWidth);
+
+    if (divRef.current) {
+      resizeObserver.observe(divRef.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   const [reservationData, setReservationData] = useState<Array<{
     reservationId: string;
@@ -41,7 +66,7 @@ function AircraftSection(props: AircraftSectionProps) {
   
   if (reservationData.length > 0) {
     reservations = reservationData.map((item, index) => (
-      <Reservation isDay={props.isDay} resStartTime={item.startTime} resEndTime={item.endTime} pilotid={item.pilotId} key={index}/>
+      <Reservation isDay={props.isDay} resStartTime={item.startTime} resEndTime={item.endTime} pilotid={item.pilotId} width={divWidth} key={index}/>
     ));
   }
 
@@ -50,7 +75,7 @@ function AircraftSection(props: AircraftSectionProps) {
         {reservations}
         <div className="mainBar">
           <Identifier Name={props.AircraftName}/>
-          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay} ref={divRef}/>
           <Hour isDay={props.isDay}/>
           <Hour isDay={props.isDay}/>
           <Hour isDay={props.isDay}/>
