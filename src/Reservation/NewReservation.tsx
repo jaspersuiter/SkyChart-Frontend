@@ -54,6 +54,10 @@ function NewReservation(props: NewReservationProps) {
     
     const createReservation = async () => {
 
+       
+        console.log(day)
+        console.log(startTime)
+        console.log(endTime)
             const data = {
                 PlaneId: planeId,
                 InstructorId: instructorId,
@@ -89,15 +93,27 @@ function NewReservation(props: NewReservationProps) {
         setReservationType(event.target.value);
     };
 
-    const handleStartTime = (newTime: Dayjs | null) => {
-        setStartTime(newTime);
+    function addDatetoTime(time: Dayjs | null){
+        let newTime = (time ? time.set('date', (day ? day?.date(): dayjs().date())): null)
+        newTime = (newTime ? newTime.set('month', (day ? day?.month(): dayjs().month())) : null)
+        newTime = (newTime? newTime.set('year', (day ? day?.year(): dayjs().year())) : null)
+        return newTime
+    }
+
+    const handleStartTime = (newTime: Dayjs | null) => { 
+        setStartTime(addDatetoTime(newTime));
     };
 
     const handleEndTime = (newTime: Dayjs | null) => {
-        setEndTime(newTime);
+        setEndTime(addDatetoTime(newTime));
     };
 
     const handleDay = (day: Dayjs | null) => {
+
+        setStartTime(addDatetoTime(startTime));
+
+        setEndTime(addDatetoTime(endTime));
+
         setDay(day);
     };
 
