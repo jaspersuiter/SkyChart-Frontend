@@ -58,8 +58,11 @@ function AddNewAircraft(props: EditReservationProp) {
       endTime: endTime,
       flightType: flightType
     }
+
     try {
       const responseData = await makeApiCall("/api/reservation/update", data, 'put')
+
+      onClose();
     } catch (error) {
       console.error(error);
     }
