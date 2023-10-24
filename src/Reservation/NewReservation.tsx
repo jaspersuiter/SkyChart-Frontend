@@ -39,7 +39,8 @@ function NewReservation(props: NewReservationProps) {
         setStartTime(null)
         setEndTime(null)
         setDay(null)
-        setReservationType(0)  
+        setReservationType(0)
+        setErrormessage("")  
         handleClose()
       }
 
@@ -49,6 +50,7 @@ function NewReservation(props: NewReservationProps) {
     const [endTime, setEndTime] = useState<Dayjs | null>(null);
     const [reservationType, setReservationType] = useState<ReservationType>(0);
     const [day, setDay] = useState<Dayjs | null>(null);
+    const [errormessage, setErrormessage] = useState('')
     
     const createReservation = async () => {
 
@@ -60,9 +62,19 @@ function NewReservation(props: NewReservationProps) {
                 FlightType: reservationType,
             }
 
+            let responseData2 = null
             try {
-                const responseData2 = await makeApiCall("/api/reservation/create", data, "get")
+                responseData2 = await makeApiCall("/api/reservation/create", data, "post")
+
                 console.log(responseData2)
+                
+                if (responseData2 === "Reservation cannot be created due to conflicts with other reservations."){
+                    setErrormessage(responseData2)
+                    return
+                }else if (responseData2 === "Start time must be before end time."){
+                    setErrormessage(responseData2)
+                    return
+                }
                 resetAll()
             } catch (error) {
                 console.error(error)
@@ -135,7 +147,7 @@ function NewReservation(props: NewReservationProps) {
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             
                             <TimePicker label="Start Time" value={startTime} onChange={handleStartTime}
-                            minTime={dayjs().set('hour', 6)}
+                            minTime={dayjs().set('hour', 5).set('minute', 59)}
                             maxTime={dayjs().set('hour', 22).set('minute', 59)} 
                             sx={{
                                 svg: { color: '#4DE8B4' },
@@ -146,7 +158,7 @@ function NewReservation(props: NewReservationProps) {
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             
                             <TimePicker label="End Time" value={endTime} onChange={handleEndTime}
-                            minTime={dayjs().set('hour', 6)}
+                            minTime={dayjs().set('hour', 5).set('minute', 59)}
                             maxTime={dayjs().set('hour', 22).set('minute', 59)} 
                             sx={{
                                 svg: { color: '#4DE8B4' },
@@ -154,7 +166,13 @@ function NewReservation(props: NewReservationProps) {
 
                         </LocalizationProvider>
                     </div>
+
+                    <div className='error-message'>
+                        {errormessage}
+                    </div>
+
                 </div>
+                
                 
                 
                 
