@@ -21,11 +21,12 @@ export interface EditReservationProp {
   Instructors: Array<Instructor>;
   Planes: Array<Plane>;
 }
+
 function AddNewAircraft(props: EditReservationProp) {
   const { open, onClose, reservationData } = props;
   const [plane, setPlane] = useState(reservationData.planeId);
   const [instructor, setInstructor] = useState(reservationData.instructorId);
-  const [flightType, setFlightType] = useState<ReservationType>(reservationData.flightType as unknown as ReservationType);
+  const [flightType, setFlightType] = useState<ReservationType>(reservationData.flightType as ReservationType);
   const [startTime, setStartTime] = useState<Dayjs | null>(dayjs(reservationData.startTime, "MM/DD/YYYY h:mm:ssA"));
   const [endTime, setEndTime] = useState<Dayjs | null>(dayjs(reservationData.endTime, "MM/DD/YYYY h:mm:ssA"));
   const [day, setDay] = useState<Dayjs | null>(dayjs(reservationData.startTime, "MM/DD/YYYY h:mm:ssA"));

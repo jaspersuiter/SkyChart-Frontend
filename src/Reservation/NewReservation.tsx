@@ -39,7 +39,7 @@ function NewReservation(props: NewReservationProps) {
         setStartTime(null)
         setEndTime(null)
         setDay(null)
-        setReservationType(0)  
+        setReservationType(ReservationType.DualLesson)  
         handleClose()
       }
 
@@ -47,7 +47,7 @@ function NewReservation(props: NewReservationProps) {
     const [instructorId, setInstructorId] = useState('');
     const [startTime, setStartTime] = useState<Dayjs | null>(null);
     const [endTime, setEndTime] = useState<Dayjs | null>(null);
-    const [reservationType, setReservationType] = useState<ReservationType>(0);
+    const [reservationType, setReservationType] = useState<ReservationType>(ReservationType.DualLesson);
     const [day, setDay] = useState<Dayjs | null>(null);
     
     const createReservation = async () => {

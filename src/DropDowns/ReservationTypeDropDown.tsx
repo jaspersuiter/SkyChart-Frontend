@@ -7,12 +7,12 @@ export interface ReservationTypeSelectionProps {
 }
 
 export enum ReservationType {
-    DualLesson,
-    StudentSolo,
-    Checkride,
-    StandardReserved,
-    AircraftCheckout,
-    GroundSchool,
+    DualLesson = "DualLesson",
+    StudentSolo = "StudentSolo",
+    Checkride = "Checkride",
+    StandardReserved = "StandardReserved",
+    AircraftCheckout = "AircraftCheckout",
+    GroundSchool = "GroundSchool",
 }
 
 function ReservationTypeDropDown ( props: ReservationTypeSelectionProps) {
