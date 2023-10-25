@@ -20,6 +20,7 @@ async function getAircraftData(): Promise<
     numEngines: number;
     tachHours: number;
     hobbsHours: number;
+    Grounded: Boolean;
   }>
 > {
 
@@ -88,7 +89,7 @@ function DayCalendar(props: DayCalendarProps) {
 
   // Map the aircraft data to JSX elements
   const planes = aircraftData.map((item, index) => (
-    <AircraftSection isDay={props.isDay} AircraftName={item.nickName} AircraftId={item.planeId} Day={daystr} key={index} />
+    <AircraftSection isDay={props.isDay} AircraftName={item.nickName} AircraftId={item.planeId} Day={daystr} isGrounded={item.grounded} key={index} />
   ));
 
   const instruictors = InstructorData.map((item, index) => (

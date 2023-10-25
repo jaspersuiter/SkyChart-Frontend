@@ -13,8 +13,8 @@ export interface AircraftSectionProps {
   AircraftName: String;
   AircraftId: string;
   Day: string
+  isGrounded: Boolean;
 }
-
 
 function AircraftSection(props: AircraftSectionProps) {
 
@@ -45,11 +45,27 @@ function AircraftSection(props: AircraftSectionProps) {
     ));
   }
 
+  let unavailable = null;
+
+  if (props.isGrounded) {
+    // Create unavailable container with grounded times
+    let unavailableProps = {
+      resStartTime: '9:00', // Grounded Start Time
+      resEndTime: '11:00', // Grounded End Time
+      isDay: props.isDay,
+      type: 'Unavailable',
+      width: undefined
+    }
+    
+    unavailable = Unavailable(unavailableProps);
+  }
+
     return (
       <div className='container'>
         {reservations}
         <div className="mainBar">
           <Identifier Name={props.AircraftName}/>
+          {unavailable}
           <Hour isDay={props.isDay}/>
           <Hour isDay={props.isDay}/>
           <Hour isDay={props.isDay}/>
