@@ -3,8 +3,13 @@ import './Buttons.css'
 
 function PrimaryButton(props: any) {
   return (
-    <div>
-        <button className={(props.disabled ? 'primary-button-disabled' : 'primary-button')} onClick={props.onClick} disabled={props.disabled}>
+    <div style={{width: props.width || 'auto'}}>
+        <button 
+          className={(props.disabled ? 'primary-button-disabled' : 'primary-button')} 
+          onClick={props.onClick} 
+          disabled={props.disabled}
+          style={{width: props.width || 'auto'}}
+        >
             <div className="text-style">
               {props.text}
             </div>
