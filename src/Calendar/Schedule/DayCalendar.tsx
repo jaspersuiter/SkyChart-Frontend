@@ -88,11 +88,11 @@ function DayCalendar(props: DayCalendarProps) {
 
   // Map the aircraft data to JSX elements
   const planes = aircraftData.map((item, index) => (
-    <AircraftSection isDay={props.isDay} AircraftName={item.nickName} AircraftId={item.planeId} Day={daystr} key={index} />
+    <AircraftSection isDay={props.isDay} AircraftName={item.nickName} AircraftId={item.planeId} Day={daystr} key={index} Instructors={InstructorData} Planes={aircraftData} />
   ));
 
   const instruictors = InstructorData.map((item, index) => (
-    <InstructorSelection isDay={props.isDay} InstructorName={item.name} key={index} Day={daystr} InstructorId={item.userId} DayName={dayNames[props.day.day()]}/>
+    <InstructorSelection isDay={props.isDay} InstructorName={item.name} key={index} Day={daystr} InstructorId={item.userId} DayName={dayNames[props.day.day()]} Instructors={InstructorData} Planes={aircraftData} />
   ));
 
   return (

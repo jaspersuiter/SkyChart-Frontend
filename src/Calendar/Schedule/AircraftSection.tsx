@@ -7,12 +7,15 @@ import Unavailable from './Unavailable';
 import { makeApiCall } from '../../APICall';
 import { it } from 'node:test';
 import { getReservationData } from './Util';
+import { Instructor, Plane } from '../Calendar';
 
 export interface AircraftSectionProps {
   isDay: Boolean;
   AircraftName: String;
   AircraftId: string;
   Day: string
+  Instructors: Array<Instructor>;
+  Planes: Array<Plane>;
 }
 
 
@@ -41,7 +44,15 @@ function AircraftSection(props: AircraftSectionProps) {
   
   if (reservationData.length > 0) {
     reservations = reservationData.map((item, index) => (
-      <Reservation isDay={props.isDay} resStartTime={item.startTime} resEndTime={item.endTime} pilotid={item.pilotId} key={index}/>
+      <Reservation
+        isDay={props.isDay}
+        resStartTime={item.startTime}
+        resEndTime={item.endTime}
+        pilotid={item.pilotId}
+        key={index}
+        reservationData={item}
+        Instructors={props.Instructors}
+        Planes={props.Planes} />
     ));
   }
 
