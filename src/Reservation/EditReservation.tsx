@@ -3,15 +3,17 @@ import CloseIcon from '@mui/icons-material/Close';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
-import { makeApiCall } from '../../APICall';
+import { makeApiCall } from '../APICall';
 import './EditReservation.css'
-import PrimaryButton from '../../Buttons/PrimaryButton';
+import PrimaryButton from '../Buttons/PrimaryButton';
 import { useState } from 'react';
-import { ReservationData } from './Reservation';
-import { Instructor, Plane } from '../Calendar';
-import InstructorDropDown from '../../DropDowns/InstructorDropDown';
-import PlaneDropDown from '../../DropDowns/PlaneDropDown';
-import ReservationTypeDropDown, { ReservationType } from '../../DropDowns/ReservationTypeDropDown';
+import { ReservationData } from '../Calendar/Schedule/Reservation';
+import { Instructor, Plane } from '../Calendar/Calendar';
+import InstructorDropDown from '../DropDowns/InstructorDropDown';
+import PlaneDropDown from '../DropDowns/PlaneDropDown';
+import ReservationTypeDropDown, { ReservationType } from '../DropDowns/ReservationTypeDropDown';
+import CancelButton from '../Buttons/CancelButton';
+import ConfirmPopup from '../ConfirmPopup/Confirm';
 
 
 export interface EditReservationProp {
@@ -23,7 +25,7 @@ export interface EditReservationProp {
   updateScreen: () => void;
 }
 
-function AddNewAircraft(props: EditReservationProp) {
+function EditReservation(props: EditReservationProp) {
   const { open, onClose, reservationData } = props;
   const [plane, setPlane] = useState(reservationData.planeId);
   const [instructor, setInstructor] = useState(reservationData.instructorId);
@@ -31,7 +33,8 @@ function AddNewAircraft(props: EditReservationProp) {
   const [startTime, setStartTime] = useState<Dayjs | null>(dayjs(reservationData.startTime, "MM/DD/YYYY h:mm:ssA"));
   const [endTime, setEndTime] = useState<Dayjs | null>(dayjs(reservationData.endTime, "MM/DD/YYYY h:mm:ssA"));
   const [day, setDay] = useState<Dayjs | null>(dayjs(reservationData.startTime, "MM/DD/YYYY h:mm:ssA"));
-
+  const [openCancelConfirm, setOpenCancelConfirm] = useState(false);
+  const [openEditConfirm, setOpenEditConfirm] = useState(false);
 
   const handleClose = () => {
     onClose();
@@ -49,6 +52,20 @@ function AddNewAircraft(props: EditReservationProp) {
     setDay(day);
   };
 
+  const closeCancelConfirmDialog = () => {
+    setOpenCancelConfirm(false);
+  }
+  const openCancelConfirmDialog = () => {
+    setOpenCancelConfirm(true);
+  }
+
+  const closeEditConfirmDialog = () => {
+    setOpenEditConfirm(false);
+  }
+  const openEditConfirmDialog = () => {
+    setOpenEditConfirm(true);
+  }
+
   const editReservation = async () => {
     const data = {
       reservationId: reservationData.reservationId,
@@ -62,6 +79,17 @@ function AddNewAircraft(props: EditReservationProp) {
 
     try {
       const responseData = await makeApiCall("/api/reservation/update", data, 'put')
+      props.updateScreen();
+      onClose();
+    } catch (error) {
+      console.error(error);
+    }
+
+  }
+
+  const cancelReservation = async () => {
+    try {
+      const responseData = await makeApiCall("/api/reservation/delete", {}, 'delete', { reservationId: reservationData.reservationId })
       props.updateScreen();
       onClose();
     } catch (error) {
@@ -132,14 +160,29 @@ function AddNewAircraft(props: EditReservationProp) {
 
         </div>
 
-        <div className='confirmationbutton'>
-          <PrimaryButton text="Save Changes" onClick={editReservation} />
+        <div className='flexRow'>
+          <div className='button'>
+            <PrimaryButton text="Save Changes" onClick={openEditConfirmDialog} />
+            <ConfirmPopup
+              open={openEditConfirm}
+              onClose={closeEditConfirmDialog}
+              func={editReservation}
+              text="Are you sure you want to make these changes?" />
+          </div>
+
+          <div className='button'>
+            <CancelButton text="Cancel Reservation" onClick={openCancelConfirmDialog} />
+            <ConfirmPopup
+              open={openCancelConfirm}
+              onClose={closeCancelConfirmDialog}
+              func={cancelReservation}
+              text="Are you sure you want to cancel this reservation?" />
+          </div>
         </div>
+
       </div>
-
-
     </Dialog>
   );
 
 }
-export default AddNewAircraft
+export default EditReservation
