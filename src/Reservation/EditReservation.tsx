@@ -3,16 +3,16 @@ import CloseIcon from '@mui/icons-material/Close';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
-import { makeApiCall } from '../../APICall';
+import { makeApiCall } from '../APICall';
 import './EditReservation.css'
-import PrimaryButton from '../../Buttons/PrimaryButton';
+import PrimaryButton from '../Buttons/PrimaryButton';
 import { useState } from 'react';
-import { ReservationData } from './Reservation';
-import { Instructor, Plane } from '../Calendar';
-import InstructorDropDown from '../../DropDowns/InstructorDropDown';
-import PlaneDropDown from '../../DropDowns/PlaneDropDown';
-import ReservationTypeDropDown, { ReservationType } from '../../DropDowns/ReservationTypeDropDown';
-import CancelButton from '../../Buttons/CancelButton';
+import { ReservationData } from '../Calendar/Schedule/Reservation';
+import { Instructor, Plane } from '../Calendar/Calendar';
+import InstructorDropDown from '../DropDowns/InstructorDropDown';
+import PlaneDropDown from '../DropDowns/PlaneDropDown';
+import ReservationTypeDropDown, { ReservationType } from '../DropDowns/ReservationTypeDropDown';
+import CancelButton from '../Buttons/CancelButton';
 
 
 export interface EditReservationProp {
