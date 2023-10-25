@@ -33,7 +33,8 @@ function EditReservation(props: EditReservationProp) {
   const [startTime, setStartTime] = useState<Dayjs | null>(dayjs(reservationData.startTime, "MM/DD/YYYY h:mm:ssA"));
   const [endTime, setEndTime] = useState<Dayjs | null>(dayjs(reservationData.endTime, "MM/DD/YYYY h:mm:ssA"));
   const [day, setDay] = useState<Dayjs | null>(dayjs(reservationData.startTime, "MM/DD/YYYY h:mm:ssA"));
-  const [openConfirm, setOpenConfirm] = useState(false);
+  const [openCancelConfirm, setOpenCancelConfirm] = useState(false);
+  const [openEditConfirm, setOpenEditConfirm] = useState(false);
 
   const handleClose = () => {
     onClose();
@@ -51,11 +52,18 @@ function EditReservation(props: EditReservationProp) {
     setDay(day);
   };
 
-  const closeConfirmDialog = () => {
-    setOpenConfirm(false);
+  const closeCancelConfirmDialog = () => {
+    setOpenCancelConfirm(false);
   }
-  const openConfirmDialog = () => {
-    setOpenConfirm(true);
+  const openCancelConfirmDialog = () => {
+    setOpenCancelConfirm(true);
+  }
+
+  const closeEditConfirmDialog = () => {
+    setOpenEditConfirm(false);
+  }
+  const openEditConfirmDialog = () => {
+    setOpenEditConfirm(true);
   }
 
   const editReservation = async () => {
@@ -154,14 +162,19 @@ function EditReservation(props: EditReservationProp) {
 
         <div className='flexRow'>
           <div className='button'>
-            <PrimaryButton text="Save Changes" onClick={editReservation} />
+            <PrimaryButton text="Save Changes" onClick={openEditConfirmDialog} />
+            <ConfirmPopup
+              open={openEditConfirm}
+              onClose={closeEditConfirmDialog}
+              func={editReservation}
+              text="Are you sure you want to make these changes?" />
           </div>
 
           <div className='button'>
-            <CancelButton text="Cancel Reservation" onClick={openConfirmDialog} />
+            <CancelButton text="Cancel Reservation" onClick={openCancelConfirmDialog} />
             <ConfirmPopup
-              open={openConfirm}
-              onClose={closeConfirmDialog}
+              open={openCancelConfirm}
+              onClose={closeCancelConfirmDialog}
               func={cancelReservation}
               text="Are you sure you want to cancel this reservation?" />
           </div>
