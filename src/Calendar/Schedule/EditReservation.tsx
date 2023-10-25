@@ -70,6 +70,17 @@ function AddNewAircraft(props: EditReservationProp) {
 
   }
 
+  const cancelReservation = async () => {
+    try {
+      const responseData = await makeApiCall("/api/reservation/delete", {}, 'delete', { reservationId: reservationData.reservationId })
+      props.updateScreen();
+      onClose();
+    } catch (error) {
+      console.error(error);
+    }
+
+  }
+
   return (
     <Dialog onClose={handleClose} open={open} sx={{
       "& .MuiDialog-container": {
@@ -132,9 +143,16 @@ function AddNewAircraft(props: EditReservationProp) {
 
         </div>
 
-        <div className='confirmationbutton'>
-          <PrimaryButton text="Save Changes" onClick={editReservation} />
+        <div className='flexRow'>
+          <div className='confirmationbutton'>
+            <PrimaryButton text="Save Changes" onClick={editReservation} />
+          </div>
+
+          <div className='confirmationbutton'>
+            <PrimaryButton text="Cancel Reservation" onClick={cancelReservation} />
+          </div>
         </div>
+
       </div>
 
 
