@@ -24,7 +24,7 @@ export interface EditReservationProp {
   updateScreen: () => void;
 }
 
-function AddNewAircraft(props: EditReservationProp) {
+function EditReservation(props: EditReservationProp) {
   const { open, onClose, reservationData } = props;
   const [plane, setPlane] = useState(reservationData.planeId);
   const [instructor, setInstructor] = useState(reservationData.instructorId);
@@ -161,4 +161,4 @@ function AddNewAircraft(props: EditReservationProp) {
   );
 
 }
-export default AddNewAircraft
+export default EditReservation
