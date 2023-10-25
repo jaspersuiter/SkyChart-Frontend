@@ -6,6 +6,7 @@ import Reservation from './Reservation';
 import { convertToMilitaryTimeNoDate, getReservationData } from './Util';
 import Unavailable from './Unavailable';
 import { makeApiCall } from '../../APICall';
+import { Instructor, Plane } from '../Calendar';
 
 export interface InstructorSelectionProps {
   isDay: Boolean;
@@ -13,6 +14,9 @@ export interface InstructorSelectionProps {
   InstructorId: string;
   Day: string;
   DayName: string;
+  Instructors: Array<Instructor>;
+  Planes: Array<Plane>;
+  updateScreen: () => void;
 }
 
 async function getAvailabilityData(userid: string): Promise<
@@ -108,7 +112,17 @@ function InstructorSelection(props: InstructorSelectionProps) {
   
   if (reservationData.length > 0) {
     reservations = reservationData.map((item, index) => (
-      <Reservation isDay={props.isDay} resStartTime={item.startTime} resEndTime={item.endTime} pilotid={item.pilotId} key={index}/>
+      <Reservation
+        isDay={props.isDay}
+        resStartTime={item.startTime}
+        resEndTime={item.endTime}
+        pilotid={item.pilotId}
+        key={index}
+        reservationData={item}
+        width={divWidth}
+        Instructors={props.Instructors}
+        Planes={props.Planes} 
+        updateScreen={props.updateScreen}/>
     ));
   }
 

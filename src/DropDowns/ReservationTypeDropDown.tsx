@@ -7,23 +7,23 @@ export interface ReservationTypeSelectionProps {
 }
 
 export enum ReservationType {
-    DualLesson,
-    StudentSolo,
-    Checkride,
-    StandardReserved,
-    AircraftCheckout,
-    GroundSchool,
-    Simulator
+    DualLesson = "DualLesson",
+    StudentSolo = "StudentSolo",
+    Checkride = "Checkride",
+    StandardReserved = "StandardReserved",
+    AircraftCheckout = "AircraftCheckout",
+    GroundSchool = "GroundSchool",
+    Simulator = "Simulator"
 }
 
-function ReservationTypeDropDown ( props: ReservationTypeSelectionProps) {
+function ReservationTypeDropDown(props: ReservationTypeSelectionProps) {
 
     const [reservationType, setReservationType] = useState<ReservationType>(props.ReservationType);
 
     const handleReservationType = (event: SelectChangeEvent<unknown>) => {
         setReservationType(event.target.value as ReservationType);
         props.setReservationTypeParent(event.target.value as ReservationType);
-    } 
+    }
 
     return (
         <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
