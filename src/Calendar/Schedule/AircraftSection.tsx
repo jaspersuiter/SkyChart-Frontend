@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './HourHolder.css';
 import Hour from './HourIdentifier';
 import Identifier from './Identifier';
@@ -16,10 +16,36 @@ export interface AircraftSectionProps {
   Day: string
   Instructors: Array<Instructor>;
   Planes: Array<Plane>;
+  updateScreen: () => void;
 }
 
 
 function AircraftSection(props: AircraftSectionProps) {
+
+  const divRef = useRef<HTMLDivElement | null>(null);
+
+  const [divWidth, setDivWidth] = useState(0);
+
+  const updateDivWidth = () => {
+    if (divRef.current) {
+      const rect = divRef.current.getBoundingClientRect();
+      setDivWidth(rect.width);
+    }
+  };
+
+  useEffect(() => {
+    updateDivWidth();
+
+    const resizeObserver = new ResizeObserver(updateDivWidth);
+
+    if (divRef.current) {
+      resizeObserver.observe(divRef.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   const [reservationData, setReservationData] = useState<Array<{
     reservationId: string;
@@ -51,8 +77,10 @@ function AircraftSection(props: AircraftSectionProps) {
         pilotid={item.pilotId}
         key={index}
         reservationData={item}
+        width={divWidth}
         Instructors={props.Instructors}
-        Planes={props.Planes} />
+        Planes={props.Planes} 
+        updateScreen={props.updateScreen}/>
     ));
   }
 
@@ -61,7 +89,7 @@ function AircraftSection(props: AircraftSectionProps) {
         {reservations}
         <div className="mainBar">
           <Identifier Name={props.AircraftName}/>
-          <Hour isDay={props.isDay}/>
+          <Hour isDay={props.isDay} ref={divRef}/>
           <Hour isDay={props.isDay}/>
           <Hour isDay={props.isDay}/>
           <Hour isDay={props.isDay}/>

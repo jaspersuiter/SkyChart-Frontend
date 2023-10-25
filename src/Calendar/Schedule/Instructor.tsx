@@ -16,6 +16,7 @@ export interface InstructorSelectionProps {
   DayName: string;
   Instructors: Array<Instructor>;
   Planes: Array<Plane>;
+  updateScreen: () => void;
 }
 
 async function getAvailabilityData(userid: string): Promise<
@@ -118,8 +119,10 @@ function InstructorSelection(props: InstructorSelectionProps) {
         pilotid={item.pilotId}
         key={index}
         reservationData={item}
+        width={divWidth}
         Instructors={props.Instructors}
-        Planes={props.Planes} />
+        Planes={props.Planes} 
+        updateScreen={props.updateScreen}/>
     ));
   }
 

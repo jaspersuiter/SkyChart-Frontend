@@ -14,6 +14,8 @@ export interface ReservationProps {
   reservationData: ReservationData;
   Instructors: Array<Instructor>;
   Planes: Array<Plane>;
+  width: number| undefined
+  updateScreen: () => void;
 }
 
 export interface ReservationData {
@@ -95,6 +97,7 @@ function Reservation(props: ReservationProps) {
   const startTime = convertToMilitaryTime(props.resStartTime)
   const endTime = convertToMilitaryTime(props.resEndTime)
   const duration = calculateDurationInMinutes(startTime, endTime)
+  var namesection = 154
   
   const startTimeDisplay = formatTime(props.resStartTime)
 
@@ -102,15 +105,14 @@ function Reservation(props: ReservationProps) {
 
   const Title = startTimeDisplay + " " + userData.firstName + " " + userData.lastName
     
-    var pixelsPerHour = 67.6; // Define the scale
-
-    if(!props.isDay){
-        pixelsPerHour = 65.6;
-    }
+  var pixelsPerHour = props.width; // Define the scale
+  if(pixelsPerHour == undefined){
+    pixelsPerHour= 64
+  }
 
     const lengthInPixels = calculateLengthFromDuration(duration, pixelsPerHour);
     var leftPosition = calculateLeftPosition(startTime, pixelsPerHour);
-    leftPosition = leftPosition + 154
+    leftPosition = leftPosition + namesection
 
 
     return (
@@ -121,7 +123,8 @@ function Reservation(props: ReservationProps) {
           onClose={closeEditReservationDialog}
           reservationData={props.reservationData}
           Instructors={props.Instructors}
-          Planes={props.Planes} />
+          Planes={props.Planes} 
+          updateScreen={props.updateScreen}/>
       </div>
     );
 }

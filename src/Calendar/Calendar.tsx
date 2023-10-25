@@ -72,6 +72,7 @@ function Calendar() {
     const [instructors, setInstructors] = useState<Instructor[]>([]); // Declare rows as a state variable
 
     const [open, setOpen] = React.useState(false);
+    const [updateScreen, setUpdateScreen] = React.useState(false);
     const [isDay, setIsDay] = React.useState(true);
     const [day, SetDay] = React.useState<Dayjs | null>(dayjs());
 
@@ -93,6 +94,10 @@ function Calendar() {
 
     const setToday = () => {
         SetDay(dayjs())
+    }
+
+    const updateScreenFunction = () => {
+        setUpdateScreen(!updateScreen)
     }
 
   return (
@@ -171,7 +176,7 @@ function Calendar() {
 
             </div>
 
-            { day && <Schedule isDay={isDay} day={day} key={day.toString() + isDay.toString()}/>}
+            { day && <Schedule isDay={isDay} day={day}  updateScreen={updateScreenFunction} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString()}/>}
 
            
         </div>

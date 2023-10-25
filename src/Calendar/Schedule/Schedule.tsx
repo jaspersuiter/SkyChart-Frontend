@@ -6,6 +6,7 @@ import './Schedule.css';
 export interface ScheduleProps {
   isDay: Boolean;
   day: Dayjs;
+  updateScreen: () => void;
 }
 
 function Schedule(props: ScheduleProps) {
@@ -25,7 +26,7 @@ function Schedule(props: ScheduleProps) {
 
   const dayCalendars = week.map((item, index) => (
     <div className= 'frame' key={index}>
-      <DayCalendar isDay={props.isDay} day={item} />
+      <DayCalendar isDay={props.isDay} day={item} updateScreen={props.updateScreen} />
       {(!props.isDay && index != 6) && <div className="breakLine"></div>}
     </div>
   ));
