@@ -60,7 +60,7 @@
     height: 175px;
 }
 
-.confirmationbutton {
+.button {
     display: flex;
     padding: 2px 0px;
     flex-direction: column;

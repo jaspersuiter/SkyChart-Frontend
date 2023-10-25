@@ -12,6 +12,7 @@ import { Instructor, Plane } from '../Calendar';
 import InstructorDropDown from '../../DropDowns/InstructorDropDown';
 import PlaneDropDown from '../../DropDowns/PlaneDropDown';
 import ReservationTypeDropDown, { ReservationType } from '../../DropDowns/ReservationTypeDropDown';
+import CancelButton from '../../Buttons/CancelButton';
 
 
 export interface EditReservationProp {
@@ -144,12 +145,12 @@ function AddNewAircraft(props: EditReservationProp) {
         </div>
 
         <div className='flexRow'>
-          <div className='confirmationbutton'>
+          <div className='button'>
             <PrimaryButton text="Save Changes" onClick={editReservation} />
           </div>
 
-          <div className='confirmationbutton'>
-            <PrimaryButton text="Cancel Reservation" onClick={cancelReservation} />
+          <div className='button'>
+            <CancelButton text="Cancel Reservation" onClick={cancelReservation} />
           </div>
         </div>
 
