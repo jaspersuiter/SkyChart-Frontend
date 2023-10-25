@@ -13,6 +13,7 @@ import InstructorDropDown from '../DropDowns/InstructorDropDown';
 import PlaneDropDown from '../DropDowns/PlaneDropDown';
 import ReservationTypeDropDown, { ReservationType } from '../DropDowns/ReservationTypeDropDown';
 import CancelButton from '../Buttons/CancelButton';
+import ConfirmPopup from '../ConfirmPopup/Confirm';
 
 
 export interface EditReservationProp {
@@ -32,7 +33,7 @@ function EditReservation(props: EditReservationProp) {
   const [startTime, setStartTime] = useState<Dayjs | null>(dayjs(reservationData.startTime, "MM/DD/YYYY h:mm:ssA"));
   const [endTime, setEndTime] = useState<Dayjs | null>(dayjs(reservationData.endTime, "MM/DD/YYYY h:mm:ssA"));
   const [day, setDay] = useState<Dayjs | null>(dayjs(reservationData.startTime, "MM/DD/YYYY h:mm:ssA"));
-
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   const handleClose = () => {
     onClose();
@@ -49,6 +50,13 @@ function EditReservation(props: EditReservationProp) {
   const handleDay = (day: Dayjs | null) => {
     setDay(day);
   };
+
+  const closeConfirmDialog = () => {
+    setOpenConfirm(false);
+  }
+  const openConfirmDialog = () => {
+    setOpenConfirm(true);
+  }
 
   const editReservation = async () => {
     const data = {
@@ -150,13 +158,16 @@ function EditReservation(props: EditReservationProp) {
           </div>
 
           <div className='button'>
-            <CancelButton text="Cancel Reservation" onClick={cancelReservation} />
+            <CancelButton text="Cancel Reservation" onClick={openConfirmDialog} />
+            <ConfirmPopup
+              open={openConfirm}
+              onClose={closeConfirmDialog}
+              func={cancelReservation}
+              text="Are you sure you want to cancel this reservation?" />
           </div>
         </div>
 
       </div>
-
-
     </Dialog>
   );
 
