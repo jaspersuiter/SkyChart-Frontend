@@ -20,6 +20,7 @@ export interface EditReservationProp {
   reservationData: ReservationData;
   Instructors: Array<Instructor>;
   Planes: Array<Plane>;
+  updateScreen: () => void;
 }
 
 function AddNewAircraft(props: EditReservationProp) {
@@ -61,7 +62,7 @@ function AddNewAircraft(props: EditReservationProp) {
 
     try {
       const responseData = await makeApiCall("/api/reservation/update", data, 'put')
-
+      props.updateScreen();
       onClose();
     } catch (error) {
       console.error(error);

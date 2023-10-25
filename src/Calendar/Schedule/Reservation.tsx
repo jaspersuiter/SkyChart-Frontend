@@ -15,6 +15,7 @@ export interface ReservationProps {
   Instructors: Array<Instructor>;
   Planes: Array<Plane>;
   width: number| undefined
+  updateScreen: () => void;
 }
 
 export interface ReservationData {
@@ -122,7 +123,8 @@ function Reservation(props: ReservationProps) {
           onClose={closeEditReservationDialog}
           reservationData={props.reservationData}
           Instructors={props.Instructors}
-          Planes={props.Planes} />
+          Planes={props.Planes} 
+          updateScreen={props.updateScreen}/>
       </div>
     );
 }
