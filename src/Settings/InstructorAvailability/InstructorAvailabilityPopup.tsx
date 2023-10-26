@@ -13,6 +13,9 @@ import { makeApiCall } from '../../APICall';
 import { useState } from 'react';
 import PrimaryButton from '../../Buttons/PrimaryButton';
 import { time } from 'console';
+import './InstructorAvailabilityPopup.css'
+import CloseIcon from '@mui/icons-material/Close';
+
 
 export interface InstructorAvailibilityProps {
     open: boolean;
@@ -43,6 +46,7 @@ function InstructorAvailibilityPopup(props: InstructorAvailibilityProps) {
         setStartTime(null)
         setEndTime(null)
         setAvailabilityType(AvailabilityType.Available)
+        handleClose();
       }
 
     const [day, setDay] = useState<Dayjs | null>(null);
@@ -100,10 +104,29 @@ function InstructorAvailibilityPopup(props: InstructorAvailibilityProps) {
     };
 
     return (
-        <div className="logout-popup">
-            <Dialog onClose={handleClose} open={open}>
-                <div className="reservation-time">
-                <FormControl sx={{ minWidth: 244 }} size="medium">
+        <div className="availability-popup">
+            <Dialog onClose={handleClose} open={open}
+            sx={{
+                "& .MuiDialog-container": {
+                  "& .MuiPaper-root": {
+                    width: "100%",
+                    maxWidth: "57.5vw",
+                    height: "50%",
+                    maxHeight: "80vh",
+                    padding: "30px"
+                  },
+                },
+              }}>
+                <div className='TitleBar'>
+                    <div className='spaceFiller' />
+                    <h1 className='h1'>Please enter times you are available</h1>
+                    <div className='spaceFiller'>
+                        <CloseIcon onClick={resetAll}/>
+                    </div>
+                </div>
+                <div className='dialogBox'>
+                <div className="flexRow">
+                <FormControl sx={{ minWidth: 244, marginTop: 1 }} size="medium" >
                         <InputLabel id="demo-select-small-label">Day</InputLabel>
                         <Select
                             labelId="demo-select-small-label"
@@ -143,8 +166,13 @@ function InstructorAvailibilityPopup(props: InstructorAvailibilityProps) {
                             }}/>
                         </DemoContainer>
                     </LocalizationProvider>
-
+                </div>
+                </div>
+                <div className='TitleBar'>
                     <PrimaryButton text="Confirm" onClick={createAvailability} />
+                </div>
+                <div className='error-message'>
+                    {errormessage}
                 </div>
             </Dialog>
         </div>
