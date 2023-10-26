@@ -1,11 +1,11 @@
 import './FinishFlight.css'
-import { Dialog } from '@mui/material';
+import { Dialog, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import { makeApiCall } from '../../APICall';
 import PrimaryButton from '../../Buttons/PrimaryButton';
 import { ReservationData } from '../../Calendar/Schedule/Reservation';
-import { Instructor, Plane } from '../../Calendar/Calendar';
+import { Plane } from '../../Calendar/Calendar';
 import CancelButton from '../../Buttons/CancelButton';
 
 
@@ -13,12 +13,15 @@ export interface FinishFlightProp {
   open: boolean;
   onClose: () => void;
   reservationData: ReservationData;
+  planeData: Plane;
   updateScreen: () => void;
 }
 
 function FinishFlight(props: FinishFlightProp) {
-  const { open, onClose, reservationData } = props;
+  const { open, onClose, reservationData, planeData } = props;
   const [plane, setPlane] = useState(reservationData.planeId);
+  const [tach, setTach] = useState(planeData.tachHours);
+  const [hobbs, setHobbs] = useState(planeData.hobbsHours);
 
   const handleClose = () => {
     onClose();
@@ -60,29 +63,23 @@ function FinishFlight(props: FinishFlightProp) {
       <div className='maincontent'>
         <div className='top-title'>
           <div className='space-filler'></div>
-          <h1>Edit Reservation</h1>
+          <h1>Finish Flight for {planeData.tailNumber}</h1>
           <div className='boxframe'><CloseIcon onClick={handleClose} /></div>
         </div>
 
-        <div className='maindropdowncontent'>
-          <div className='threewide'>
-
-          </div>
+        <div className='row'>
+          <h2>Starting Tach: {tach}</h2>
+          <TextField id="tach" label="Tach Hours" type="number" />
+        </div>
+        <div className='row'>
+          <h2>Starting Hobbs: {hobbs}</h2>
+          <TextField id="hobb" label="Hobbs Hours" type="number" />
         </div>
 
-        <div className='spacertwo'>
+        <div className='row'>
+          <PrimaryButton text="Save Changes" onClick={() => 0} />
 
-        </div>
-
-        <div className='flexRow'>
-
-          <div className='button'>
-            <PrimaryButton text="Save Changes" onClick={() => 0} />
-          </div>
-
-          <div className='button'>
-            <CancelButton text="Cancel" onClick={() => 0} />
-          </div>
+          <CancelButton text="Cancel" onClick={handleClose} />
         </div>
 
       </div>
