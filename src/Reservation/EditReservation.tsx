@@ -14,6 +14,7 @@ import PlaneDropDown from '../DropDowns/PlaneDropDown';
 import ReservationTypeDropDown, { ReservationType } from '../DropDowns/ReservationTypeDropDown';
 import CancelButton from '../Buttons/CancelButton';
 import ConfirmPopup from '../ConfirmPopup/Confirm';
+import { Days } from '../../api-typescript/data-contracts';
 
 
 export interface EditReservationProp {
@@ -67,13 +68,24 @@ function EditReservation(props: EditReservationProp) {
   }
 
   const editReservation = async () => {
+    let day_str = day?.format("YYYY-MM-DD");
+    let start_str = startTime?.format("HH:mm:ss");
+    let end_str = endTime?.format("HH:mm:ss");
+
+    if (day_str == null) {
+      day_str = props.reservationData.startTime;
+    }
+
+    let start_date = dayjs(day_str + start_str, "YYYY-MM-DDHH:mm:ss");
+    let end_date = dayjs(day_str + end_str, "YYYY-MM-DDHH:mm:ss");
+
     const data = {
       reservationId: reservationData.reservationId,
       pilotId: reservationData.pilotId,
       planeId: plane,
       instructorId: instructor,
-      startTime: startTime,
-      endTime: endTime,
+      startTime: start_date,
+      endTime: end_date,
       flightType: flightType
     }
 
