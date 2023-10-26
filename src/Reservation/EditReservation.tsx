@@ -15,6 +15,7 @@ import ReservationTypeDropDown, { ReservationType } from '../DropDowns/Reservati
 import CancelButton from '../Buttons/CancelButton';
 import ConfirmPopup from '../ConfirmPopup/Confirm';
 import { Days } from '../../api-typescript/data-contracts';
+import FinishFlight from './FinishFlight/FinishFlight';
 
 
 export interface EditReservationProp {
@@ -36,6 +37,7 @@ function EditReservation(props: EditReservationProp) {
   const [day, setDay] = useState<Dayjs | null>(dayjs(reservationData.startTime, "MM/DD/YYYY h:mm:ssA"));
   const [openCancelConfirm, setOpenCancelConfirm] = useState(false);
   const [openEditConfirm, setOpenEditConfirm] = useState(false);
+  const [finishFlight, setFinishFlight] = useState(false);
 
   const handleClose = () => {
     onClose();
@@ -65,6 +67,13 @@ function EditReservation(props: EditReservationProp) {
   }
   const openEditConfirmDialog = () => {
     setOpenEditConfirm(true);
+  }
+
+  const closeFinishFlight = () => {
+    setFinishFlight(false);
+  }
+  const openFinishFlight = () => {
+    setFinishFlight(true);
   }
 
   const editReservation = async () => {
@@ -173,6 +182,16 @@ function EditReservation(props: EditReservationProp) {
         </div>
 
         <div className='flexRow'>
+          <div className='button'>
+            <PrimaryButton text="Finish Flight" onClick={openFinishFlight} />
+            <FinishFlight
+              open={finishFlight}
+              onClose={closeFinishFlight}
+              reservationData={reservationData}
+              updateScreen={props.updateScreen}
+            />
+          </div>
+
           <div className='button'>
             <PrimaryButton text="Save Changes" onClick={openEditConfirmDialog} />
             <ConfirmPopup
