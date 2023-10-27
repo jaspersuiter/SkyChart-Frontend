@@ -158,8 +158,10 @@ export interface UserViewModel {
   phoneNumber?: string | null;
   address?: string | null;
   emergencyContactName?: string | null;
+  type?: string | null;
   emergencyContactPhoneNumber?: string | null;
   /** @format uuid */
   preferredInstructorId?: string | null;
+  preferredInstructor?: InstructorViewModel;
   preferredPlanes?: string[] | null;
 }
