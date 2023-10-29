@@ -92,7 +92,7 @@ useEffect(() => {
               </Grid>
             ))}
           </Grid>
-          <AircraftPopup open={open} onClose={handleClose} plane={currentPlane} openSquawk={handleClickOpenSquawk}/>
+          <AircraftPopup open={open} onClose={handleClose} plane={currentPlane} openSquawk={handleClickOpenSquawk} key={openSquawk.toString()}/>
           <AddSqawkPopup open={openSquawk} onClose={handleCloseSquawk} plane={currentPlane}/>
           {/* <ModifyAircraft open={open} onClose={handleClose} planeId={currentPlaneId}/> */}
         </div>
