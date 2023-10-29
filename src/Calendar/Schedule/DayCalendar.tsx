@@ -24,12 +24,7 @@ async function getAircraftData(): Promise<
   }>
 > {
 
-  const data = {
-    usernameOrEmail: "tkm",
-    password: "1234"
-  }
   try {
-    //const reponseDate = await makeApiCall("/api/user/authentication/login", data, "post")
     const responseData2 = await makeApiCall("/api/plane/get-all", {}, "get");
     return responseData2;
   } catch (error) {
@@ -89,7 +84,7 @@ function DayCalendar(props: DayCalendarProps) {
 
   // Map the aircraft data to JSX elements
   const planes = aircraftData.map((item, index) => (
-    <AircraftSection isDay={props.isDay} AircraftName={item.nickName} AircraftId={item.planeId} Day={daystr} key={index} Instructors={InstructorData} Planes={aircraftData} updateScreen={props.updateScreen}/>
+    <AircraftSection isDay={props.isDay} Aircraft={item} Day={daystr} key={index} Instructors={InstructorData} Planes={aircraftData} updateScreen={props.updateScreen}/>
   ));
 
   const instruictors = InstructorData.map((item, index) => (
