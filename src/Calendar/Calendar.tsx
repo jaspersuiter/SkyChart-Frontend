@@ -10,6 +10,7 @@ import NewReservation from '../Reservation/NewReservation';
 import dayjs, { Dayjs } from 'dayjs';
 import WeekPicker from './Schedule/WeekPicker';
 import React, { useEffect, useState } from 'react';
+import AircraftPopup from '../Aircraft/AircraftPopup';
 
 export interface Plane {
     planeId: string;
@@ -70,8 +71,9 @@ function Calendar() {
 
     const [planes, setPlanes] = useState<Plane[]>([]);
     const [instructors, setInstructors] = useState<Instructor[]>([]); // Declare rows as a state variable
-
+    const [plane, setPlane] = useState<Plane>({planeId: '', tailNumber: '', model: '', nickName: '', hourlyRate: 0, numEngines: 0, tachHours: 0, hobbsHours: 0, grounded: false});
     const [open, setOpen] = React.useState(false);
+    const [openAircraft, setOpenAircraft] = React.useState(false);
     const [updateScreen, setUpdateScreen] = React.useState(false);
     const [isDay, setIsDay] = React.useState(true);
     const [day, SetDay] = React.useState<Dayjs | null>(dayjs());
@@ -82,6 +84,15 @@ function Calendar() {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleClickOpenAircraft = (plane: Plane) => {
+        setOpenAircraft(true);
+        setPlane(plane);
+    };
+
+    const handleCloseAircraft = () => {
+        setOpenAircraft(false);
     };
 
     const handleSwapDayWeek = () => {
@@ -176,11 +187,12 @@ function Calendar() {
 
             </div>
 
-            { day && <Schedule isDay={isDay} day={day}  updateScreen={updateScreenFunction} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString()}/>}
+            { day && <Schedule isDay={isDay} day={day} openAirplane={handleClickOpenAircraft} updateScreen={updateScreenFunction} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString()}/>}
 
            
         </div>
         <NewReservation open={open} onClose={handleClose} Instructors={instructors} Planes={planes}/>
+        <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane}/>
     </div>
   )}
 
