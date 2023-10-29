@@ -4,11 +4,13 @@ import InstructorSelection from './Instructor';
 import AircraftSection from './AircraftSection';
 import { makeApiCall } from '../../APICall';
 import { useEffect, useState } from 'react';
+import { Plane } from '../Calendar';
 
 export interface DayCalendarProps {
   isDay: Boolean;
   day: Dayjs;
   updateScreen: () => void;
+  openAirplane: (plane: Plane) => void;
 }
 
 async function getAircraftData(): Promise<
@@ -84,7 +86,7 @@ function DayCalendar(props: DayCalendarProps) {
 
   // Map the aircraft data to JSX elements
   const planes = aircraftData.map((item, index) => (
-    <AircraftSection isDay={props.isDay} Aircraft={item} Day={daystr} key={index} Instructors={InstructorData} Planes={aircraftData} updateScreen={props.updateScreen}/>
+    <AircraftSection isDay={props.isDay} Aircraft={item} Day={daystr} key={index} Instructors={InstructorData} Planes={aircraftData} updateScreen={props.updateScreen} openAirplane={props.openAirplane}/>
   ));
 
   const instruictors = InstructorData.map((item, index) => (

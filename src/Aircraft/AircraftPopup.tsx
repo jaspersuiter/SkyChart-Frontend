@@ -22,14 +22,13 @@ export enum SquawkType {
 }
 
 function AircraftPopup (props: AircraftPopupProps) {
-    const {open, onClose } = props;
     const [rows, setRows] = useState([{id: 1, date_opened: '10/23/23', description: 'test', type: 'Planned'}]);
     
 
 
     const handleClose = (event?: any, reason?: any) => {
         if (reason !== 'backdropClick') {
-            onClose();
+            props.onClose();
           } 
       };
 
@@ -59,7 +58,7 @@ function AircraftPopup (props: AircraftPopupProps) {
 
       return (
         <div className="reservation-popup">
-            <Dialog onClose={handleClose} open={open}
+            <Dialog onClose={handleClose} open={props.open}
             sx={{
                 "& .MuiDialog-container": {
                   "& .MuiPaper-root": {

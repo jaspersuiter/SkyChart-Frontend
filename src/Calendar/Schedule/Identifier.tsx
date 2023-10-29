@@ -6,27 +6,21 @@ import AircraftPopup from '../../Aircraft/AircraftPopup';
 export interface HourIdentifierProps {
   Name?: String
   Aircraft?: Plane
+  openAirplane?: (plane: Plane) => void;
 }
 
 function Identifier(props: HourIdentifierProps) {
 
-  const [open, setOpen] = React.useState(false);
-
   const handleClick = () => {
-    if (props.Aircraft) {
-      setOpen(true);
+    if (props.openAirplane && props.Aircraft) {
+      props.openAirplane(props.Aircraft);
     } 
-  };
-
-  const handleClose = () => {
-    setOpen(false);
   };
 
 
     return (
-      <div className="mainbody" onClick={handleClick}>
+      <div className="mainbody" onClick={handleClick} >
         {props.Name && <p className='Text'>{props.Name}</p>}
-        {props.Aircraft && <AircraftPopup open={open} onClose={handleClose} plane={props.Aircraft}/>}
       </div>
     );
   }
