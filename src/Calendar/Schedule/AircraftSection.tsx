@@ -55,6 +55,8 @@ function AircraftSection(props: AircraftSectionProps) {
     startTime: string;
     endTime: string
     flightType: string;
+    tachHours?: number;
+    hobbsHours?: number;
   }>>([]);
 
   useEffect(() => {
