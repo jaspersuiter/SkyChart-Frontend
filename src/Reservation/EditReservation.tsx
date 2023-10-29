@@ -1,4 +1,4 @@
-import { Dialog } from '@mui/material';
+import { Dialog, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -38,6 +38,7 @@ function EditReservation(props: EditReservationProp) {
   const [openCancelConfirm, setOpenCancelConfirm] = useState(false);
   const [openEditConfirm, setOpenEditConfirm] = useState(false);
   const [finishFlight, setFinishFlight] = useState(false);
+  const [recurrances, setRecurrances] = useState(0);
 
   const handleClose = () => {
     onClose();
@@ -177,9 +178,17 @@ function EditReservation(props: EditReservationProp) {
           </div>
         </div>
 
-        <div className='spacertwo'>
-
+        <div className='horizontal'>
+          <TextField
+            id="recur"
+            label="Weeks to repeat"
+            type="number"
+            value={recurrances}
+            onChange={(e) => setRecurrances(parseInt(e.target.value))}/>
+          <p>Number of weeks to repeat reservation (leave as default 0 to not repeat)</p>
         </div>
+
+        <div className='spacertwo'></div>
 
         <div className='flexRow'>
           <div className='button'>
