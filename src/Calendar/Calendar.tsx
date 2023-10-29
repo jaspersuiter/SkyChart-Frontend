@@ -11,6 +11,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import WeekPicker from './Schedule/WeekPicker';
 import React, { useEffect, useState } from 'react';
 import AircraftPopup from '../Aircraft/AircraftPopup';
+import AddSqawkPopup from '../Aircraft/AddSquawkPopup';
 
 export interface Plane {
     planeId: string;
@@ -200,8 +201,9 @@ function Calendar() {
 
            
         </div>
-        <NewReservation open={open} onClose={handleClose} Instructors={instructors} Planes={planes}/>
-        <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane} openSquawk={handleClickOpenSquawk}/>
+        <NewReservation open={open} onClose={handleClose} Instructors={instructors} Planes={planes} SelectedPlane={plane}/>
+        <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane} openSquawk={handleClickOpenSquawk} openCreateReservation={handleClickOpen}/>
+        <AddSqawkPopup open={openSquawk} onClose={handleCloseSquawk} plane={plane}/>
     </div>
   )}
 

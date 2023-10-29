@@ -19,6 +19,7 @@ export interface NewReservationProps {
     Instructors: Array<Instructor>;
     Planes: Array<Plane>;
     onClose: () => void;
+    SelectedPlane?: Plane;
 }
 
 function NewReservation(props: NewReservationProps) {
@@ -44,7 +45,7 @@ function NewReservation(props: NewReservationProps) {
         handleClose()
       }
 
-    const [planeId, setPlaneId] = useState('');
+    const [planeId, setPlaneId] = useState((props.SelectedPlane ? props.SelectedPlane.planeId : ''));
     const [instructorId, setInstructorId] = useState('');
     const [startTime, setStartTime] = useState<Dayjs | null>(null);
     const [endTime, setEndTime] = useState<Dayjs | null>(null);

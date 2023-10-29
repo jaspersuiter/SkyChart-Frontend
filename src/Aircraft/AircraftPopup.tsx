@@ -13,6 +13,7 @@ export interface AircraftPopupProps {
     plane: Plane;
     onClose: () => void;
     openSquawk: () => void;
+    openCreateReservation: () => void;
 }
 
 export enum SquawkType {
@@ -120,7 +121,7 @@ function AircraftPopup (props: AircraftPopupProps) {
 
                 {/* Confirm and Cancel Buttons */}
                 <div className='bottomBar'>
-                    <PrimaryButton text="Create Reservation" />
+                    <PrimaryButton text="Create Reservation" onClick={props.openCreateReservation} />
                     <PrimaryButton text="Add Squawk" onClick= {props.openSquawk}/>
                 </div>
             </Dialog>
