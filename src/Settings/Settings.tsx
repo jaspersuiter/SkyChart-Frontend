@@ -9,6 +9,7 @@ import StaticSidebar from '../Sidebar/Sidebar';
 import SecondaryButton from '../Buttons/SecondaryButton';
 import InstructorAvailibility from './InstructorAvailability/InstructorAvailability';
 import { useEffect, useState } from 'react';
+import { makeApiCall } from '../APICall';
 
 interface Plane {
     id: number;
@@ -43,6 +44,24 @@ function Settings() {
     const [selectedAircraft, setSelectedAircraft] = useState('');
     const [planes, setPlanes] = useState<Plane[]>([]);
     const [instructors, setInstructors] = useState<Instructor[]>([]); // Declare rows as a state variable
+
+    const updatePreferredItems = async () => {
+
+        const data = {
+            PreferredInstructorId: selectedInstructor,
+            PreferredPlanes: [selectedAircraft]
+        }
+
+        let responseData2 = null
+        try {
+            responseData2 = await makeApiCall("/api/user/update", data, "put")
+
+            console.log(responseData2)
+            
+        } catch (error) {
+            console.error(error)
+        }
+    }
   
     const fetchPlanes = async () => {
         try {
@@ -97,35 +116,6 @@ function Settings() {
         fetchInstructors(); // Call fetchInstructors when the component mounts
     }, []); // Empty dependency array means this effect runs once when the component mounts
 
-    const handleConfirmChanges = () => {
-        const changes: Changes = { preferredInstructorId: selectedInstructor, preferredPlanes: [selectedAircraft] }
-        
-        console.log(changes)
-        const makeChanges = async () => {
-            await fetch('http://localhost:5201/api/user/update', {
-                method: 'PUT',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(changes), 
-            })
-                .then(response => response.json())
-                .then(data => {
-                    
-                    if (data.verified === true) { 
-                        console.log('Success:', data);
-                    }
-                    
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        }
-
-        makeChanges();
-    }
-
     return (
         <div className="settings-page">
             <StaticSidebar />
@@ -166,7 +156,7 @@ function Settings() {
                     <InstructorAvailibility />
                     
                     <div className="confirm-button">
-                        <PrimaryButton text="Confirm Changes" onClick={handleConfirmChanges}/>
+                        <PrimaryButton text="Confirm Changes" onClick={updatePreferredItems}/>
                     </div>
                 </div>
             </div>
