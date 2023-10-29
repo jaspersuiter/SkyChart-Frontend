@@ -13,21 +13,17 @@ export interface FinishFlightProp {
   open: boolean;
   onClose: () => void;
   reservationData: ReservationData;
-  planeData: Plane;
+  plane: Plane;
   updateScreen: () => void;
 }
 
 function FinishFlight(props: FinishFlightProp) {
-  const { open, onClose, reservationData, planeData } = props;
-  const [plane, setPlane] = useState(reservationData.planeId);
-  const [tach, setTach] = useState(planeData.tachHours);
-  const [hobbs, setHobbs] = useState(planeData.hobbsHours);
+  const { open, onClose, reservationData, plane } = props;
+  const [planeId, setplaneId] = useState(reservationData.planeId);
+  const [tach, setTach] = useState(plane.tachHours);
+  const [hobbs, setHobbs] = useState(plane.hobbsHours);
   const [resTach, setResTach] = useState(reservationData.tachHours);
   const [resHobb, setResHobb] = useState(reservationData.hobbsHours);
-
-  const handleTachChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setResTach(parseFloat(e.target.value));
-  }
 
   if (resTach == null) {
     setResTach(0);
@@ -41,13 +37,13 @@ function FinishFlight(props: FinishFlightProp) {
   };
 
   const saveFlightHours = async () => {
-    let tach_delta = (resTach ? resTach : 0) - (reservationData.tachHours ? reservationData.tachHours : 0);
-    let hobb_delta = (resHobb ? resHobb : 0) - (reservationData.hobbsHours ? reservationData.hobbsHours : 0);
+    let tach_delta = (resTach ? resTach : 0) - (reservationData.tachHours ? reservationData.tachHours : 0) + plane.tachHours;
+    let hobb_delta = (resHobb ? resHobb : 0) - (reservationData.hobbsHours ? reservationData.hobbsHours : 0) + plane.hobbsHours;
 
     const resData = { // data to update reservation
       reservationId: reservationData.reservationId,
       pilotId: reservationData.pilotId,
-      planeId: plane,
+      planeId: planeId,
       instructorId: reservationData.instructorId,
       startTime: reservationData.startTime,
       endTime: reservationData.endTime,
@@ -56,10 +52,27 @@ function FinishFlight(props: FinishFlightProp) {
       hobbsHours: resHobb,
     }
 
+    const planeData = {
+      planeId: planeId,
+      nickName: plane.nickName,
+      hourlyRate: plane.hourlyRate,
+      numEngines: plane.numEngines,
+      tachHours: tach_delta,
+      hobbsHours: hobb_delta,
+      grounded: plane.grounded,
+    }
+
     try {
-      const responseData = await makeApiCall("/api/reservation/update", resData, 'put')
-      props.updateScreen();
-      onClose();
+      const resResponseData = await makeApiCall("/api/reservation/update", resData, "put");
+      
+      try {
+        const planeResponseData = await makeApiCall("/api/plane/update", planeData, "put");
+
+        props.updateScreen();  
+        onClose();
+      } catch (error) {
+        console.error(error);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -81,7 +94,7 @@ function FinishFlight(props: FinishFlightProp) {
       <div className='maincontent'>
         <div className='top-title'>
           <div className='space-filler'></div>
-          <h1>Finish Flight for {planeData.tailNumber}</h1>
+          <h1>Finish Flight for {plane.tailNumber}</h1>
           <div className='boxframe'><CloseIcon onClick={handleClose} /></div>
         </div>
 

@@ -188,7 +188,7 @@ function EditReservation(props: EditReservationProp) {
               open={finishFlight}
               onClose={closeFinishFlight}
               reservationData={reservationData}
-              planeData={props.Planes.find((value, index, obj) => value.planeId === plane) || props.Planes[0]}
+              plane={props.Planes.find((value, index, obj) => value.planeId === plane) || props.Planes[0]}
               updateScreen={props.updateScreen}
             />
           </div>
