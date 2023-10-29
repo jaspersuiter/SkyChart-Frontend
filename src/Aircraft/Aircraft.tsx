@@ -9,10 +9,12 @@ import React from 'react';
 import ModifyAircraft from './ModifyAircraft';
 import AircraftPopup from './AircraftPopup';
 import { Plane } from '../Calendar/Calendar';
+import AddSqawkPopup from './AddSquawkPopup';
 
 function Aircraft() {
 
   const [open, setOpen] = React.useState(false);
+  const [openSquawk, setOpenSquawk] = React.useState(false);
   const [currentPlane, setCurrentPlane] = React.useState<Plane>({} as Plane);
 
   const handleClickOpen = (plane: any) => {
@@ -23,6 +25,13 @@ function Aircraft() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleClickOpenSquawk = () => {
+    setOpenSquawk(true);
+  };
+  const handleCloseSquawk = () => {
+    setOpenSquawk(false);
+  }
 
   const [planes, setPlanes] = useState<Plane[]>([]);
 
@@ -83,7 +92,8 @@ useEffect(() => {
               </Grid>
             ))}
           </Grid>
-          <AircraftPopup open={open} onClose={handleClose} plane={currentPlane}/>
+          <AircraftPopup open={open} onClose={handleClose} plane={currentPlane} openSquawk={handleClickOpenSquawk}/>
+          <AddSqawkPopup open={openSquawk} onClose={handleCloseSquawk} plane={currentPlane}/>
           {/* <ModifyAircraft open={open} onClose={handleClose} planeId={currentPlaneId}/> */}
         </div>
       </div>       

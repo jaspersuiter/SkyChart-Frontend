@@ -78,6 +78,8 @@ function Calendar() {
     const [isDay, setIsDay] = React.useState(true);
     const [day, SetDay] = React.useState<Dayjs | null>(dayjs());
 
+    const [openSquawk, setOpenSquawk] = React.useState(false);
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -94,6 +96,13 @@ function Calendar() {
     const handleCloseAircraft = () => {
         setOpenAircraft(false);
     };
+
+    const handleClickOpenSquawk = () => {
+        setOpenSquawk(true);
+      };
+      const handleCloseSquawk = () => {
+        setOpenSquawk(false);
+      }
 
     const handleSwapDayWeek = () => {
         setIsDay(!isDay);
@@ -192,7 +201,7 @@ function Calendar() {
            
         </div>
         <NewReservation open={open} onClose={handleClose} Instructors={instructors} Planes={planes}/>
-        <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane}/>
+        <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane} openSquawk={handleClickOpenSquawk}/>
     </div>
   )}
 
