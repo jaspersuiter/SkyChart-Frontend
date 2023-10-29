@@ -22,24 +22,42 @@ function FinishFlight(props: FinishFlightProp) {
   const [plane, setPlane] = useState(reservationData.planeId);
   const [tach, setTach] = useState(planeData.tachHours);
   const [hobbs, setHobbs] = useState(planeData.hobbsHours);
+  const [resTach, setResTach] = useState(reservationData.tachHours);
+  const [resHobb, setResHobb] = useState(reservationData.hobbsHours);
+
+  const handleTachChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setResTach(parseFloat(e.target.value));
+  }
+
+  if (resTach == null) {
+    setResTach(0);
+  }
+  if (resHobb == null) {
+    setResHobb(0);
+  }
 
   const handleClose = () => {
     onClose();
   };
 
   const saveFlightHours = async () => {
-    const data = {
+    let tach_delta = (resTach ? resTach : 0) - (reservationData.tachHours ? reservationData.tachHours : 0);
+    let hobb_delta = (resHobb ? resHobb : 0) - (reservationData.hobbsHours ? reservationData.hobbsHours : 0);
+
+    const resData = { // data to update reservation
       reservationId: reservationData.reservationId,
       pilotId: reservationData.pilotId,
       planeId: plane,
       instructorId: reservationData.instructorId,
       startTime: reservationData.startTime,
       endTime: reservationData.endTime,
-      flightType: reservationData.flightType
+      flightType: reservationData.flightType,
+      tachHours: resTach,
+      hobbsHours: resHobb,
     }
 
     try {
-      const responseData = await makeApiCall("/api/reservation/update", data, 'put')
+      const responseData = await makeApiCall("/api/reservation/update", resData, 'put')
       props.updateScreen();
       onClose();
     } catch (error) {
@@ -47,7 +65,7 @@ function FinishFlight(props: FinishFlightProp) {
     }
 
   }
-
+  
   return (
     <Dialog onClose={handleClose} open={open} sx={{
       "& .MuiDialog-container": {
@@ -69,15 +87,25 @@ function FinishFlight(props: FinishFlightProp) {
 
         <div className='row'>
           <h2>Starting Tach: {tach}</h2>
-          <TextField id="tach" label="Tach Hours" type="number" />
+          <TextField        
+            id="tach"
+            label="Tach Hours"
+            type="number"
+            value={resTach}
+            onChange={(e) => setResTach(parseFloat(e.target.value))}/>
         </div>
         <div className='row'>
           <h2>Starting Hobbs: {hobbs}</h2>
-          <TextField id="hobb" label="Hobbs Hours" type="number" />
+          <TextField
+            id="hobb"
+            label="Hobbs Hours"
+            type="number"
+            value={resHobb}
+            onChange={(e) => setResHobb(parseFloat(e.target.value))}/>
         </div>
 
         <div className='row'>
-          <PrimaryButton text="Save Changes" onClick={() => 0} />
+          <PrimaryButton text="Save Changes" onClick={saveFlightHours} />
 
           <CancelButton text="Cancel" onClick={handleClose} />
         </div>
