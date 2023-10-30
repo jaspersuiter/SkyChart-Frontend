@@ -32,6 +32,12 @@ function Login() {
 
   const navigate = useNavigate();
   
+  const handleKeyDown = (event: any) => {
+    if (event.key === 'Enter') {
+      handleLogin()
+    }
+  }
+
   const handleLogin = () => {
    
     const userCredentials: UserCredentials = { UserNameOrEmail: email, password: password };
@@ -68,7 +74,12 @@ function Login() {
   }
 
   return (
-    <div className="login-page">
+    <div className="login-page" onKeyDown={(e:any)=>{
+      console.log(e.key)
+      if(e.key === "Enter") {
+        handleLogin()
+      }
+    }}>
       <div className="login-form">
         <div className='TitleBar'>
           <h2 style={{fontSize: 35}}>SkyChart</h2>
@@ -77,7 +88,12 @@ function Login() {
           <h5 style={{fontSize: 18}}>Enter Email</h5>
         </div>
         <div className="FlexColumnItem">
-          <TextField id="email" label="Email" type="email" required value={email} onChange={handleEmailChange} fullWidth />
+          <TextField id="email" label="Email" type="email" required value={email} onKeyDown={(e:any)=>{
+            console.log(e.key)
+            if(e.key === "Enter") {
+              console.log("Give me a kiss Ben")
+            }
+          }} onChange={handleEmailChange} fullWidth />
           <br/>
         </div>
         <div className='TextFieldBar'>
