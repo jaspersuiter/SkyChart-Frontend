@@ -5,6 +5,7 @@ import InviteNewUser from "./InviteNewUser";
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import './Admin.css'
+import { env } from "../env";
 
 function Admin() {
 
@@ -87,6 +88,24 @@ function Admin() {
             console.log(error);
         }
     }
+    const apiUrl = env.SKYCHART_API_URL;
+    const [admin, setAdmin] = React.useState(false);
+    useEffect(() => {
+      async function isAdmin() {
+        const isAdmin = await fetch(
+          `${apiUrl}/api/user/get-current-is-admin`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        ).then((response) => response.json())
+        .then((data) => data) as boolean;
+        setAdmin(isAdmin);
+        
+        console.log("isAdmin", isAdmin);
+      }
+      isAdmin();
+    }, []);
 
     useEffect(() => {
         fetchUsers(); // Call fetchUsers when the component mounts
@@ -96,12 +115,12 @@ function Admin() {
 
         <div className="mainpage">
             <StaticSidebar/>
-            <div className="main-content">
+            {admin ?(<div className="main-content">
 
                 <div className="title">
                     <h1>Admin Page</h1>
                 </div>
-
+                
                 <div className="subtitle">
                     <h2>Creation Tools</h2>
 
@@ -139,9 +158,9 @@ function Admin() {
                 <InviteNewUser
                     open={openInviteUser}
                     onClose={handleCloseInviteUser}
-                />
+                /> 
                 
-            </div>
+            </div>): null}
         </div>
     );
 }
