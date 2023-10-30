@@ -1,15 +1,11 @@
-.logout-popup {
-    font-family: Inter;
-}
-
-.logout-header{
+.confirmText {
     display: flex;
     width: 100%;
     margin-top: 5%;
     margin-bottom: 8%;
 }
 
-.FlexRowItem{
+.FlexRowItem {
     display: flex;
     justify-content: center;
     align-items: center;

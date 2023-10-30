@@ -17,13 +17,14 @@ export async function makeApiCall(apiURL: string, data: object, method: string, 
 
   try {
     const response = await axios(axiosConfig);
+    return response.data;
+  } catch (error: any) {
 
-    if (response.status !== 200) {
-      throw new Error('Network response was not ok');
+    if (error.response && error.response.status === 400) {
+      // Handle the 400 response here
+      return error.response.data;
     }
 
-    return response.data;
-  } catch (error) {
-    throw new Error('Axios error: ' + error);
+    throw new Error('Axios error: ' + error );
   }
 }

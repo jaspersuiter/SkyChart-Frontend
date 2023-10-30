@@ -7,21 +7,16 @@ import { Link } from 'react-router-dom';
 import SecondaryButton from '../Buttons/SecondaryButton';
 import React from 'react';
 import ModifyAircraft from './ModifyAircraft';
-
-interface Plane {
-  id: string;
-  model: string;
-  grounded: boolean;
-  nickname: string;
-}
+import AircraftPopup from './AircraftPopup';
+import { Plane } from '../Calendar/Calendar';
 
 function Aircraft() {
 
   const [open, setOpen] = React.useState(false);
-  const [currentPlaneId, setCurrentPlaneId] = React.useState("");
+  const [currentPlane, setCurrentPlane] = React.useState<Plane>({} as Plane);
 
   const handleClickOpen = (plane: any) => {
-    setCurrentPlaneId(plane);
+    setCurrentPlane(plane);
     setOpen(true);
   };
 
@@ -37,16 +32,9 @@ function Aircraft() {
         const planes = await fetch('http://localhost:5201/api/plane/get-all',
         {credentials: 'include'})
             .then((response) => response.json())
-            .then((data) => data);
+            .then((data) => data) as Array<Plane>;
 
-        const mappedPlanes = planes.map((plane: any) => ({
-            id: plane.planeId,
-            model: plane.model,
-            grounded: plane.grounded,
-            nickname: plane.nickName,
-        }));
-
-        setPlanes(mappedPlanes); 
+        setPlanes(planes); 
     } catch (error) {
         console.log(error);
     }
@@ -83,9 +71,9 @@ useEffect(() => {
               {planes.map((plane, index) => (
               <Grid item xs={12} sm={6} md={4} key={index} >
                 <Paper elevation={3} style={{...customStyles.paper, flexDirection: 'column', flexWrap: 'nowrap'}}>
-                  <Button fullWidth onClick={()=>{handleClickOpen(plane.id)}}>  
+                  <Button fullWidth onClick={()=>{handleClickOpen(plane)}}>  
                     <Typography variant="h4" align="center">
-                      {plane.nickname}
+                      {plane.nickName}
                     </Typography>
                     <Typography align="center">
                       {`${plane.model}, ${plane.grounded ? 'Grounded' : 'In Service'}`}
@@ -95,7 +83,8 @@ useEffect(() => {
               </Grid>
             ))}
           </Grid>
-          <ModifyAircraft open={open} onClose={handleClose} planeId={currentPlaneId}/>
+          <AircraftPopup open={open} onClose={handleClose} plane={currentPlane}/>
+          {/* <ModifyAircraft open={open} onClose={handleClose} planeId={currentPlaneId}/> */}
         </div>
       </div>       
     </div>      
