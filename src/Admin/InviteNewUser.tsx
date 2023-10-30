@@ -16,6 +16,7 @@ export interface InviteNewUserProps {
 function InviteNewUser(props: InviteNewUserProps) {
     const [email, setEmail] = React.useState('');
     const {open, onClose } = props;
+    const [errormessage, setErrormessage] = React.useState('')
 
     const handleClose = () => {
         onClose();
@@ -27,6 +28,7 @@ function InviteNewUser(props: InviteNewUserProps) {
 
     const resetAll = () => {
         setEmail('');
+        setErrormessage('');
         handleClose();
     }
 
@@ -36,6 +38,14 @@ function InviteNewUser(props: InviteNewUserProps) {
       }
       try {
           const responseData2 = await makeApiCall("/api/user/create", {}, "post", params)
+
+          if (responseData2 === "User already exists"){
+            setErrormessage(responseData2)
+            return
+           } else if(responseData2 === "Invalid Email"){
+            setErrormessage(responseData2)
+            return
+          }
           resetAll();
       } catch (error) {
         
@@ -53,6 +63,9 @@ function InviteNewUser(props: InviteNewUserProps) {
               <TextField id="email" label="Email" value={email} onChange={(event) => {setEmail(event.target.value)}} required />
             </form>
             <br/>
+            <div className='error-message'>
+              {errormessage}
+            </div>
             <div className='invite-new-user-buttons' style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '16px' }}>
               <PrimaryButton text="Send Invatation" onClick={createNewUser}/>
               <CancelButton text="Cancel" onClick={handleClose}/>
