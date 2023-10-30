@@ -42,7 +42,7 @@ function Admin() {
         headerName: 'Account Type',
         width: 400,
         type: 'string',
-        editable: true,
+        editable: false,
     },
     ];
 
@@ -71,11 +71,11 @@ function Admin() {
                 .then((data) => data);
 
             const mappedRows = users.map((user: any, index: number) => {
-                const nameParts = user.name.split(','); // Split by comma
+               
                 return {
                     id: index + 1,
-                    lastName: nameParts[0].trim(),
-                    firstName: nameParts[1].trim(),
+                    lastName: user.lastName,
+                    firstName: user.firstName,
                     phoneNum: user.phoneNumber,
                     email: user.email,
                     accountType: user.type,
