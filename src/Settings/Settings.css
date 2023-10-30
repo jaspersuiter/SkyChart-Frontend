@@ -1,5 +1,6 @@
 .settings-content {
     display: inline-flex;
+    flex-direction: row;
 }
 
 .settings-top-content {
@@ -8,7 +9,64 @@
     margin-left: 16em;
 }
 
+.row-container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 50%;
+    margin-left: 30%;
+}
+
 .confirm-button {
+    display: flex;
+    margin-top: 10%;
+}
+
+.TitleBar{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.spaceFiller{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.h1 {
     display: block;
-    margin-top: 32em;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    white-space: nowrap;
+    padding: .5em;
+    
+}
+
+.flexRow{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: 5%;
+}
+
+.dialogBox{
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+    width: 100%;
+    height: 100%;
+}
+
+.error-message{
+    display: flex;
+    justify-content: center;
+    color: #FF8080;
+    font-size: 1.5em;
 }
