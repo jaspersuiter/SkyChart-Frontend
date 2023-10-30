@@ -90,7 +90,7 @@ function AircraftSection(props: AircraftSectionProps) {
       <div className='container'>
         {reservations}
         <div className="mainBar">
-          <Identifier Name={props.Aircraft.nickName} Aircraft={props.Aircraft} openAirplane={props.openAirplane}/>
+          <Identifier Name={props.Aircraft.tailNumber + " - [" + props.Aircraft.nickName + "]"} Aircraft={props.Aircraft} openAirplane={props.openAirplane}/>
           <Hour isDay={props.isDay} ref={divRef}/>
           <Hour isDay={props.isDay}/>
           <Hour isDay={props.isDay}/>
