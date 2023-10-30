@@ -7,6 +7,8 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthorizationContext } from '../AuthContext';
 import React from 'react';
 import ResetPassword from './ResetPassword/ResetPassword';
+import { User } from '../../api-typescript/User';
+import { UserLoginModel } from '../../api-typescript/data-contracts';
 
 
 function Login() {
@@ -25,16 +27,12 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  interface UserCredentials { 
-    UserNameOrEmail: string, 
-    password: string 
-  };
-
+  
   const navigate = useNavigate();
   
   const handleLogin = () => {
    
-    const userCredentials: UserCredentials = { UserNameOrEmail: email, password: password };
+    const userCredentials: UserLoginModel = { usernameOrEmail: email, password: password };
     fetch('http://localhost:5201/api/user/authentication/login', {
       method: 'POST',
       credentials: 'include',

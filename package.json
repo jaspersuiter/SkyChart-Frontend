@@ -31,7 +31,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "regen": "swagger-typescript-api -p http://localhost:5201/swagger/v1/swagger.json -o ./api-typescript -n SkyChartApi.ts -t ./api-typescript/templates --clean-output --module-name-index 1 --modular"
+    "regen": "swagger-typescript-api -p http://localhost:5201/swagger/v1/swagger.json -o ./api-typescript -n data-contract.ts --clean-output --no-client"
   },
   "eslintConfig": {
     "extends": [

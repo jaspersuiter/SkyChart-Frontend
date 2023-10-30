@@ -128,6 +128,10 @@ export interface ReservationViewModel {
   startTime?: string | null;
   endTime?: string | null;
   flightType?: FlightType;
+  /** @format double */
+  tachHours?: number | null;
+  /** @format double */
+  hobbsHours?: number | null;
 }
 
 export interface UserCreateForm {

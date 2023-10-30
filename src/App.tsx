@@ -42,6 +42,7 @@ function App() {
               <Route path="/logout" element={<Logout />} />
               <Route path="/verify" element={<VerificationPage />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/register" element={<Registration />} />
             </React.Fragment>
           )}
         </Routes>
