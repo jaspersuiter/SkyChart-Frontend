@@ -55,10 +55,6 @@ function NewReservation(props: NewReservationProps) {
     
     const createReservation = async () => {
 
-       
-        console.log(day)
-        console.log(startTime)
-        console.log(endTime)
             const data = {
                 PlaneId: planeId,
                 InstructorId: instructorId,
