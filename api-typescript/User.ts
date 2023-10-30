@@ -130,4 +130,31 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       method: "GET",
       ...params,
     });
+  /**
+   * No description
+   *
+   * @tags User
+   * @name UserGetAllUsersList
+   * @request GET:/api/user/get-all-users
+   */
+  userGetAllUsersList = (params: RequestParams = {}) =>
+    this.request<UserViewModel[], any>({
+      path: `/api/user/get-all-users`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags User
+   * @name UserGetCurrentList
+   * @request GET:/api/user/get-current
+   */
+  userGetCurrentList = (params: RequestParams = {}) =>
+    this.request<void, any>({
+      path: `/api/user/get-current`,
+      method: "GET",
+      ...params,
+    });
 }
