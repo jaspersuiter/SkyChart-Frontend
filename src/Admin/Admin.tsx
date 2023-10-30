@@ -2,7 +2,7 @@ import PrimaryButton from "../Buttons/PrimaryButton";
 import StaticSidebar from "../Sidebar/Sidebar";
 import AddNewAircraft from "./AddNewAircraft";
 import InviteNewUser from "./InviteNewUser";
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridCellEditStopParams, GridCellEditStopReasons, GridColDef, GridValueGetterParams, MuiEvent } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import './Admin.css'
 
@@ -41,8 +41,9 @@ function Admin() {
       field: 'accountType',
         headerName: 'Account Type',
         width: 400,
-        type: 'string',
-        editable: false,
+        type: 'singleSelect',
+        editable: true,
+        valueOptions: ['Instructor', 'Pilot'],
     },
     ];
 
