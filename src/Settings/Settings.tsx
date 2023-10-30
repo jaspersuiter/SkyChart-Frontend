@@ -1,5 +1,5 @@
 import './Settings.css'
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Checkbox, Chip, FormControl, InputLabel, ListItemText, MenuItem, Select, SelectChangeEvent, Stack } from '@mui/material';
 import PrimaryButton from '../Buttons/PrimaryButton';
 import CancelButton from '../Buttons/CancelButton';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
@@ -10,6 +10,9 @@ import SecondaryButton from '../Buttons/SecondaryButton';
 import InstructorAvailibility from './InstructorAvailability/InstructorAvailability';
 import { useEffect, useState } from 'react';
 import { makeApiCall } from '../APICall';
+import CloseIcon from '@mui/icons-material/Close';
+import ConfirmPopup from '../ConfirmPopup/Confirm';
+
 
 interface Plane {
     id: number;
@@ -41,15 +44,45 @@ function Settings() {
     const [password, setPassword] = useState('');
 
     const [selectedInstructor, setSelectedInstructor] = useState('');
-    const [selectedAircraft, setSelectedAircraft] = useState('');
+    const [selectedAircraft, setSelectedAircraft] = useState<Array<string>>([]);
     const [planes, setPlanes] = useState<Plane[]>([]);
     const [instructors, setInstructors] = useState<Instructor[]>([]); // Declare rows as a state variable
+    const [openPreferenceConfirm, setOpenPreferenceConfirm] = useState(false);
+
+    const resetAll = () => {
+        setSelectedInstructor("")
+        setSelectedAircraft([])
+    }
+
+    const closePreferenceConfirmDialog = () => {
+        resetAll();
+        setOpenPreferenceConfirm(false);
+      }
+      const openPreferenceConfirmDialog = () => {
+        setOpenPreferenceConfirm(true);
+      }
+
+    const handleChange = (event: SelectChangeEvent<typeof selectedAircraft>) => {
+        const {
+          target: { value },
+        } = event;
+
+        const newSelection = typeof value === 'string' ? value.split(',') : value;
+
+        if (newSelection.length <= 3) {
+            setSelectedAircraft(
+                newSelection
+            );
+        } else {
+            console.log("Max number of preferred planes is 3");
+        }
+      };
 
     const updatePreferredItems = async () => {
 
         const data = {
             PreferredInstructorId: selectedInstructor,
-            PreferredPlanes: [selectedAircraft]
+            PreferredPlanes: selectedAircraft
         }
 
         let responseData2 = null
@@ -120,44 +153,66 @@ function Settings() {
         <div className="settings-page">
             <StaticSidebar />
             <div className="settings-content">
-                <div className="settings-top-content">
-                    <FormControl sx={{ minWidth: 240 }} size="small">
-                        <InputLabel id="preferred-instructor-label">Preferred Instructor</InputLabel>
+                <div className="row-container">
+                    <h1 className="h1">Set Preferences</h1>
+                    <div className="flexRow">
+                        <FormControl sx={{ minWidth: 300 }} size="small">
+                            <InputLabel id="preferred-instructor-label">Preferred Instructor</InputLabel>
+                            <Select
+                                labelId="instructor-label"
+                                id="instructor-select"
+                                label="instructor"
+                                value={selectedInstructor} // Controlled value
+                                onChange={(e) => setSelectedInstructor(e.target.value)}
+                            >
+                                {instructors.map((instructor) => (
+                                <MenuItem key={instructor.id} value={instructor.id}>
+                                    {instructor.firstName} {instructor.lastName}
+                                </MenuItem>
+                            ))}
+                            </Select>
+                        </FormControl>
+                    <FormControl sx={{ minWidth: 300, maxWidth: 300 }} size="small">
+                        <InputLabel id="preferred-aircraft-label">Preferred Aircraft</InputLabel>
                         <Select
-                            labelId="instructor-label"
-                            id="instructor-select"
-                            label="instructor"
-                            value={selectedInstructor} // Controlled value
-                            onChange={(e) => setSelectedInstructor(e.target.value)}
+                            multiple
+                            labelId="aircraft-label"
+                            id="aircraft-select"
+                            label="aircraft"
+                            value={selectedAircraft}
+                            onChange={handleChange}
+                            renderValue={(selected) => {
+                                if (Array.isArray(selected)) {
+                                    return selected.map((planeId) => {
+                                        const plane = planes.find((p) => `${p.id}` === `${planeId}`);
+                                        return plane ? `${plane.model} (${plane.nickname})` : '';
+                                    }).join(', ');
+                                }
+                                return '';
+                            }}
                         >
-                            {instructors.map((instructor) => (
-                            <MenuItem key={instructor.id} value={instructor.id}>
-                                {instructor.firstName} {instructor.lastName}
-                            </MenuItem>
-                        ))}
+                            {planes.map((plane) => (
+                                <MenuItem key={plane.id} value={plane.id} sx={{ justifyContent: "space-between" }}>
+                                    {`${plane.model} (${plane.nickname})`}
+                                    <Checkbox checked={
+                                        selectedAircraft.indexOf(`${plane.id}`) > -1} />
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
-                  <FormControl sx={{ minWidth: 240 }} size="small">
-                    <InputLabel id="preferred-aircraft-label">Preferred Aircraft</InputLabel>
-                    <Select
-                        labelId="aircraft-label"
-                        id="aircraft-select"
-                        label="aircraft"
-                        value={selectedAircraft}
-                        onChange={(e) => setSelectedAircraft(e.target.value)}
-                    >
-                        {planes.map((plane) => (
-                            <MenuItem key={plane.id} value={plane.id}>
-                                {`${plane.model} (${plane.nickname})`}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                    </FormControl>
-                    <InstructorAvailibility />
-                    
-                    <div className="confirm-button">
-                        <PrimaryButton text="Confirm Changes" onClick={updatePreferredItems}/>
                     </div>
+                    <div className="confirm-button">
+                        <PrimaryButton text="Confirm Changes" onClick={openPreferenceConfirmDialog}/>
+                        <ConfirmPopup
+                            open={openPreferenceConfirm}
+                            onClose={closePreferenceConfirmDialog}
+                            func={updatePreferredItems}
+                            text="Are you sure you want add these preferences?" />
+                    </div>
+                </div>
+                <div className='row-container'>
+                    <h1 className="h1">Set Availability</h1>
+                    <InstructorAvailibility />
                 </div>
             </div>
         </div>
