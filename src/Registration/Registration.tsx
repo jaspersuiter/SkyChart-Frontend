@@ -78,7 +78,6 @@ function Registration() {
         </div>
 
         <div className='FlexColumnItem'>
-          <h5 className='h5'>Enter Username</h5>
           <TextField id="username" 
             label="Username" 
             type="name" 
@@ -88,7 +87,6 @@ function Registration() {
         </div>
 
         <div className="FlexColumnItem">
-          <h5 className='h5'>Enter Email</h5>
           <TextField id="email" 
             label="Email" 
             type="email" 
@@ -98,7 +96,6 @@ function Registration() {
         </div>
 
         <div className="FlexColumnItem">
-          <h5 className='h5'>Enter Password</h5>
           <TextField id="password" 
             label="Password" 
             type="password"
@@ -109,7 +106,6 @@ function Registration() {
         </div>
 
         <div className="FlexColumnItem">
-          <h5 className='h5'>Confirm Password</h5>
           <TextField id="confirm_password" 
             label="Confirm Password" 
             type="password"
@@ -121,7 +117,6 @@ function Registration() {
         {validpassword ? null : <p className='error'>Passwords do not match</p>}
 
         <div className="FlexColumnItem">
-          <h5 className='h5'>Enter First Name</h5>
           <TextField id="first name" 
             label="First Name" 
             type="name" 
@@ -131,7 +126,6 @@ function Registration() {
         </div>
 
         <div className="FlexColumnItem">
-          <h5 className='h5'>Enter Last Name</h5>
           <TextField id="last name" 
             label="Last Name" 
             type="name" 
@@ -141,7 +135,6 @@ function Registration() {
         </div>
 
         <div className="FlexColumnItem">
-          <h5 className='h5'>Enter Phone Number</h5>
           <TextField id="phone" 
             label="Phone Number" 
             type="Phone Number" 
@@ -151,7 +144,6 @@ function Registration() {
         </div>
 
         <div className="FlexColumnItem">
-          <h5 className='h5'>Enter Address</h5>
           <TextField id="address" 
             label="Address" 
             type="Address" 
@@ -161,7 +153,6 @@ function Registration() {
         </div>
 
         <div className="FlexColumnItem">
-          <h5 className='h5'>Enter Emergency Contact Name</h5>
           <TextField id="ec_name" 
             label="Emergency Contact Name" 
             type="name" 
@@ -171,7 +162,6 @@ function Registration() {
         </div>
 
         <div className="FlexColumnItemPadded">
-          <h5 className='h5'>Enter Emergency Contact Phone Number</h5>
           <TextField id="ec_phone" 
             label="Emergency Contact Phone Number" 
             type="Phone Number" 
