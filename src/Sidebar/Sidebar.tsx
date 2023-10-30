@@ -5,12 +5,13 @@ import FlightIcon from '@mui/icons-material/Flight';
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import LogoutPopup from '../Logout/Logout';
 import { useNavigate } from 'react-router-dom';
 
 function StaticSidebar(props: any) {
     const [open, setOpen] = React.useState(false);
+    const [user, setUser] = useState<any | null>(null);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -22,6 +23,25 @@ function StaticSidebar(props: any) {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        async function fetchUserData() {
+            try {
+                const response = await fetch('http://localhost:5201/api/user/get-current', {
+                    credentials: 'include',
+                });
+                const data = await response.json();
+                setUser(data);
+                console.log(data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchUserData();
+    }, []);
+
+
+
     const sidebarItems = [
         { text: 'Home', icon: <HomeIcon/>, link: '/' },
         { text: 'Calendar', icon: <CalendarTodayIcon/>, link: '/calendar' },
@@ -29,12 +49,12 @@ function StaticSidebar(props: any) {
         { text: 'Instructors', icon: <PersonIcon/>, link: '/instructors' },
         { text: 'Settings', icon: <SettingsIcon/>, link: '/settings' },
         { text: 'Logout', icon: <LogoutIcon/>, link: '/logout' },
-        { text: 'Admin', icon: <SettingsIcon/>, link: '/admin'},
     ]
 
-    if (userRole === 'admin') {
+    if (user && user.type === 'Instructor') {
       sidebarItems.push({ text: 'Admin', icon: <SettingsIcon />, link: '/admin' });
-    }
+      console.log(sidebarItems);
+  }
 
     return (
       <Drawer
