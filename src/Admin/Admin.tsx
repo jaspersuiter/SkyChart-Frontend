@@ -97,33 +97,48 @@ function Admin() {
         <div className="mainpage">
             <StaticSidebar/>
             <div className="main-content">
-                <PrimaryButton text="Add New Aircraft" onClick={handleClickOpenAddAircraft}/>
+
+                <div className="title">
+                    <h1>Admin Page</h1>
+                </div>
+
+                <div className="subtitle">
+                    <h2>Creation Tools</h2>
+
+                    <div className="buttonrow">
+                        <PrimaryButton text="Add New Aircraft" onClick={handleClickOpenAddAircraft}/>
+                        <PrimaryButton text="Invite New User" onClick={handleClickOpenInviteUser} />
+                    </div>
+                </div>
+                
+
+                
+                <div className="subtitle">
+                    <h2>Current Users</h2>
+                    <DataGrid
+                        sx={{ width: '100%', m: 2 }}
+                        rows={rows}
+                        columns={columns}
+                        initialState={{
+                            pagination: {
+                                paginationModel: {
+                                    pageSize: 100,
+                                },
+                            },
+                        }}
+                        autoHeight
+                        disableRowSelectionOnClick
+                    />
+                </div>
 
                 <AddNewAircraft 
                     open={open}
                     onClose={handleCloseAddAircraft}
                 />
 
-                <PrimaryButton text="Invite New User" onClick={handleClickOpenInviteUser} />
-
                 <InviteNewUser
                     open={openInviteUser}
                     onClose={handleCloseInviteUser}
-                />
-
-                <DataGrid
-                    sx={{ width: '100%', m: 2 }}
-                    rows={rows}
-                    columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: {
-                                pageSize: 100,
-                            },
-                        },
-                    }}
-                    autoHeight
-                    disableRowSelectionOnClick
                 />
                 
             </div>
