@@ -7,21 +7,20 @@ import { Link } from 'react-router-dom';
 import SecondaryButton from '../Buttons/SecondaryButton';
 import React from 'react';
 import ModifyAircraft from './ModifyAircraft';
-
-interface Plane {
-  id: string;
-  model: string;
-  grounded: boolean;
-  nickname: string;
-}
+import AircraftPopup from './AircraftPopup';
+import { Instructor, Plane } from '../Calendar/Calendar';
+import AddSqawkPopup from './AddSquawkPopup';
+import NewReservation from '../Reservation/NewReservation';
 
 function Aircraft() {
 
   const [open, setOpen] = React.useState(false);
-  const [currentPlaneId, setCurrentPlaneId] = React.useState("");
+  const [openSquawk, setOpenSquawk] = React.useState(false);
+  const [openCreateReservation, setOpenCreateReservation] = React.useState(false);
+  const [currentPlane, setCurrentPlane] = React.useState<Plane>({} as Plane);
 
   const handleClickOpen = (plane: any) => {
-    setCurrentPlaneId(plane);
+    setCurrentPlane(plane);
     setOpen(true);
   };
 
@@ -29,7 +28,23 @@ function Aircraft() {
     setOpen(false);
   };
 
+  const handleClickOpenSquawk = () => {
+    setOpenSquawk(true);
+  };
+  const handleCloseSquawk = () => {
+    setOpenSquawk(false);
+  }
+
+  const handleClickOpenCreateReservation = () => {
+    setOpenCreateReservation(true);
+  };
+
+  const handleCloseCreateReservation = () => {
+    setOpenCreateReservation(false);
+  }
+
   const [planes, setPlanes] = useState<Plane[]>([]);
+  const [instructors, setInstructors] = useState<Instructor[]>([]);
 
   
   const fetchPlanes = async () => {
@@ -37,24 +52,31 @@ function Aircraft() {
         const planes = await fetch('http://localhost:5201/api/plane/get-all',
         {credentials: 'include'})
             .then((response) => response.json())
-            .then((data) => data);
+            .then((data) => data) as Array<Plane>;
 
-        const mappedPlanes = planes.map((plane: any) => ({
-            id: plane.planeId,
-            model: plane.model,
-            grounded: plane.grounded,
-            nickname: plane.nickName,
-        }));
-
-        setPlanes(mappedPlanes); 
+        setPlanes(planes); 
     } catch (error) {
         console.log(error);
     }
-}
+  }
 
-useEffect(() => {
+  const fetchInstructors = async () => {
+    try {
+        const instructors = await fetch('http://localhost:5201/api/instructor/get-all',
+        {credentials: 'include'})
+            .then((response) => response.json())
+            .then((data) => data) as Array<Instructor>;
+
+        setInstructors(instructors); 
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
+  useEffect(() => {
     fetchPlanes();
-}, []); 
+    fetchInstructors();
+  }, []); 
 
           const customStyles = {
             paper: {
@@ -83,9 +105,9 @@ useEffect(() => {
               {planes.map((plane, index) => (
               <Grid item xs={12} sm={6} md={4} key={index} >
                 <Paper elevation={3} style={{...customStyles.paper, flexDirection: 'column', flexWrap: 'nowrap'}}>
-                  <Button fullWidth onClick={()=>{handleClickOpen(plane.id)}}>  
+                  <Button fullWidth onClick={()=>{handleClickOpen(plane)}}>  
                     <Typography variant="h4" align="center">
-                      {plane.nickname}
+                      {plane.nickName}
                     </Typography>
                     <Typography align="center">
                       {`${plane.model}, ${plane.grounded ? 'Grounded' : 'In Service'}`}
@@ -95,7 +117,10 @@ useEffect(() => {
               </Grid>
             ))}
           </Grid>
-          <ModifyAircraft open={open} onClose={handleClose} planeId={currentPlaneId}/>
+          <AircraftPopup open={open} onClose={handleClose} plane={currentPlane} openSquawk={handleClickOpenSquawk} openCreateReservation={handleClickOpenCreateReservation} key={openSquawk.toString()}/>
+          <AddSqawkPopup open={openSquawk} onClose={handleCloseSquawk} plane={currentPlane}/>
+          <NewReservation open={openCreateReservation} onClose={handleCloseCreateReservation} Planes={planes} Instructors={instructors} SelectedPlane={currentPlane}/>
+          {/* <ModifyAircraft open={open} onClose={handleClose} planeId={currentPlaneId}/> */}
         </div>
       </div>       
     </div>      
