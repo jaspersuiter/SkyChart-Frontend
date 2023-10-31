@@ -55,6 +55,7 @@ function AircraftSection(props: AircraftSectionProps) {
     startTime: string;
     endTime: string
     flightType: string;
+    repeat: number;
     tachHours?: number;
     hobbsHours?: number;
   }>>([]);

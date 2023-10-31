@@ -9,6 +9,7 @@ export async function getReservationData(day: String, options?: { planeid?: stri
     startTime: string;
     endTime: string
     flightType: string;
+    repeat: number;
   }>
 > {
 

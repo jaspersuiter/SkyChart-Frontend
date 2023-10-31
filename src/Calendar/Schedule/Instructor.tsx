@@ -82,6 +82,7 @@ function InstructorSelection(props: InstructorSelectionProps) {
     startTime: string;
     endTime: string
     flightType: string;
+    repeat: number;
     tachHours?: number;
     hobbsHours?: number;
   }>>([]);

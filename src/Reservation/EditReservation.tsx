@@ -38,7 +38,7 @@ function EditReservation(props: EditReservationProp) {
   const [openCancelConfirm, setOpenCancelConfirm] = useState(false);
   const [openEditConfirm, setOpenEditConfirm] = useState(false);
   const [finishFlight, setFinishFlight] = useState(false);
-  const [recurrances, setRecurrances] = useState(0);
+  const [recurrances, setRecurrances] = useState(reservationData.repeat);
 
   const handleClose = () => {
     onClose();
@@ -96,7 +96,8 @@ function EditReservation(props: EditReservationProp) {
       instructorId: instructor,
       startTime: start_date,
       endTime: end_date,
-      flightType: flightType
+      flightType: flightType,
+      repeat: recurrances,
     }
 
     try {
