@@ -1,5 +1,5 @@
 import './NewReservation.css'
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import PrimaryButton from '../Buttons/PrimaryButton';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -51,7 +51,8 @@ function NewReservation(props: NewReservationProps) {
     const [endTime, setEndTime] = useState<Dayjs | null>(null);
     const [reservationType, setReservationType] = useState<ReservationType>(ReservationType.DualLesson);
     const [day, setDay] = useState<Dayjs | null>(null);
-    const [errormessage, setErrormessage] = useState('')
+    const [errormessage, setErrormessage] = useState('');
+    const [recurrances, setRecurrances] = useState(0);
     
     const createReservation = async () => {
 
@@ -61,6 +62,7 @@ function NewReservation(props: NewReservationProps) {
                 StartTime: startTime,
                 EndTime: endTime,
                 FlightType: reservationType,
+                Repeat: recurrances,
             }
 
             let responseData2 = null
@@ -178,6 +180,16 @@ function NewReservation(props: NewReservationProps) {
                             }}/>
 
                         </LocalizationProvider>
+                    </div>
+
+                    <div className='horizontal'>
+                        <TextField
+                            id="recur"
+                            label="Weeks to repeat"
+                            type="number"
+                            value={recurrances}
+                            onChange={(e) => setRecurrances(parseInt(e.target.value))}/>
+                        <p>Number of weeks to repeat reservation (leave as default 0 to not repeat)</p>
                     </div>
 
                     <div className='error-message'>
