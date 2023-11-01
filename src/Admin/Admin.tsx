@@ -3,8 +3,10 @@ import StaticSidebar from "../Sidebar/Sidebar";
 import AddNewAircraft from "./AddNewAircraft";
 import InviteNewUser from "./InviteNewUser";
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useState } from 'react';
 import './Admin.css'
+import { Box, TextField } from "@mui/material";
 
 
 interface User {
@@ -131,12 +133,12 @@ function Admin() {
                     open={openInviteUser}
                     onClose={handleCloseInviteUser}
                 />
-                <input
-                    type="text"
-                    placeholder="Search..."
+                <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                    <SearchIcon sx={{ mr: 1, my: 0.5 }} />
+                    <TextField id="input-with-sx" label="Search..." variant="standard" 
                     value={searchQuery}
-                    onChange={handleSearchChange}
-                />
+                    onChange={handleSearchChange}/>
+                </Box>
                 <DataGrid
                     sx={{ width: '100%', m: 2 }}
                     rows={filteredRows}
