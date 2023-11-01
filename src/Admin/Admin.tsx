@@ -6,13 +6,24 @@ import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import './Admin.css'
 
+
+interface User {
+    id: number;
+    lastName: string;
+    firstName: string;
+    phoneNum: string;
+    email: string;
+    accountType: string;
+  }
+
 function Admin() {
 
     const [open, setOpenAddAircraft] = React.useState(false);
     const [openInviteUser, setOpenInviteUser] = React.useState(false);
 
-    const [rows, setRows] = useState([]); // Declare rows as a state variable
-
+    const [rows, setRows] = useState<User[]>([]); // Declare rows as a state variable
+    const [searchQuery, setSearchQuery] = useState('');
+      
     const columns: GridColDef[] = [
       {
         field: 'fullName',
@@ -46,6 +57,10 @@ function Admin() {
     },
     ];
 
+    const handleSearchChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+        setSearchQuery(event.target.value);
+      };
+
     const handleClickOpenAddAircraft = () => {
         setOpenAddAircraft(true);
     };
@@ -62,6 +77,12 @@ function Admin() {
         setOpenInviteUser(false);
     };
 
+    const filteredRows = rows.filter((row) =>
+    Object.values(row).some((value) =>
+      String(value).toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+  
     const fetchUsers = async () => {
         try {
             console.log('fetching users');
@@ -110,10 +131,15 @@ function Admin() {
                     open={openInviteUser}
                     onClose={handleCloseInviteUser}
                 />
-
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                />
                 <DataGrid
                     sx={{ width: '100%', m: 2 }}
-                    rows={rows}
+                    rows={filteredRows}
                     columns={columns}
                     initialState={{
                         pagination: {
