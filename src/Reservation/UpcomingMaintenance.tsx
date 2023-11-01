@@ -24,13 +24,13 @@ function UpcomingMaintenance(props: UpcomingMaintenanceProps) {
 
     const fetchPlane = async () => {
         try {
-            const plane = await fetch('http://localhost:5201/api/plane/get',
+            const planeFetch = await fetch(`http://localhost:5201/api/plane/get?planeId=${props.planeId}`,
             {
-                credentials: 'include',
-                body: JSON.stringify(props.planeId)
+                credentials: 'include'
             })
+            .then((response) => response.json())
             .then((data) => data) as Plane;
-            setPlane(plane);
+            setPlane(planeFetch);
         } catch (error) {
             console.log(error);
         }
@@ -38,7 +38,7 @@ function UpcomingMaintenance(props: UpcomingMaintenanceProps) {
 
     useEffect(() => {
         fetchPlane(); // Call fetchInstructors when the component mounts
-    }, []);
+    }, [props.planeId]);
 
     return (
         <div>
@@ -56,8 +56,9 @@ function UpcomingMaintenance(props: UpcomingMaintenanceProps) {
                   },
                 },
               }}>
-                hey
-                {plane.nickName}
+            
+                <h2>{plane.tailNumber} - ({plane.nickName}) Maintenance Items</h2>
+                
             </Dialog>
         </div>
     );
