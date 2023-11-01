@@ -12,7 +12,8 @@ import { Instructor, Plane } from '../Calendar/Calendar';
 import InstructorDropDown from '../DropDowns/InstructorDropDown';
 import PlaneDropDown from '../DropDowns/PlaneDropDown';
 import ReservationTypeDropDown, { ReservationType } from '../DropDowns/ReservationTypeDropDown';
-
+import React from 'react';
+import UpcomingMaintenance from './UpcomingMaintenance';
 
 export interface NewReservationProps {
     open: boolean;
@@ -24,6 +25,15 @@ export interface NewReservationProps {
 
 function NewReservation(props: NewReservationProps) {
     const {open, onClose } = props;
+    const [maintenanceOpen, setMaintenanceOpen] = React.useState(false);
+
+    const handleClickOpenMaintenance = () => {
+        setMaintenanceOpen(true);
+    }
+
+    const handleCloseMaintenance = () => {
+        setMaintenanceOpen(false);
+    }
 
     const handleClose = (event?: any, reason?: any) => {
         if (reason !== 'backdropClick') {
@@ -34,7 +44,7 @@ function NewReservation(props: NewReservationProps) {
 
     const showUpcomingMaintenanceLink = () => {
         if (planeId != '') {
-            return(<p className='link-text'><u>See plane's upcoming maintenance</u></p>)
+            return(<p className='link-text' onClick={handleClickOpenMaintenance}><u>See plane's upcoming maintenance</u></p>)
         } else {
             return(<p><br></br></p>)
         }
@@ -209,6 +219,7 @@ function NewReservation(props: NewReservationProps) {
                 <div className='TitleBar'>
                     <PrimaryButton text="Create Reservation" onClick={createReservation} disabled={startTime === null || endTime === null || day === null}/>
                 </div>
+                <UpcomingMaintenance open={maintenanceOpen} onClose={handleCloseMaintenance} planeId={planeId} />
             </Dialog>
         </div>
     );
