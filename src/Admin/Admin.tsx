@@ -2,9 +2,8 @@ import PrimaryButton from "../Buttons/PrimaryButton";
 import StaticSidebar from "../Sidebar/Sidebar";
 import AddNewAircraft from "./AddNewAircraft";
 import InviteNewUser from "./InviteNewUser";
-import { DataGrid, GridCellEditStopParams, GridCellEditStopReasons, GridColDef, GridRenderCellParams, GridValueGetterParams, MuiEvent, useGridApiRef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
-import { GridRowId } from '@mui/x-data-grid';
 import './Admin.css'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 
@@ -12,60 +11,32 @@ function Admin() {
 
     const [open, setOpenAddAircraft] = React.useState(false);
     const [openInviteUser, setOpenInviteUser] = React.useState(false);
-    const [pendingChanges, setPendingChanges] = useState({
-        row: null,
-        newValue: null,
-        oldValue: null,
-      });
-      const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
-
-      const handleCellEdit = (params: GridRenderCellParams, event: MuiEvent) => {
-        const { id, field, value } = params;
-        const oldRow = params.row;
-        const newRow = { ...oldRow, [field]: value };
-        
-        // Check if the "accountType" field is being edited
-        if (field === 'accountType') {
-          // Store the pending changes
-          setPendingChanges({
-            row: newRow,
-            newValue: value,
-            oldValue: oldRow.accountType,
-          });
-      
-          // Open the confirmation dialog
-          setConfirmationDialogOpen(true);
-        } 
-      };
-
-
-
-    const handleConfirmSave = () => {
-        // Apply the change and close the confirmation dialog
-        const { row, newValue } = pendingChanges;
-        // Update the row with the new value
-        const updatedRows = [...rows];
-        const rowIndex = updatedRows.findIndex((r: { id: GridRowId }) => r.id === row?.id);
-        if (rowIndex !== -1) {
-            updatedRows[rowIndex].accountType = newValue;
-            setRows(updatedRows);
-        }
-        const apiRef = useGridApiRef();
-
-        console.log('confirmed');
-        setConfirmationDialogOpen(false);
-    };
-      
-      const handleConfirmCancel = () => {
-        // Discard the change and close the confirmation dialog
-        console.log('cancelled');
-        setConfirmationDialogOpen(false);
-      };
-      
-      
-      
-
     const [rows, setRows] = useState([]); // Declare rows as a state variable
+    const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+    
+    const updateUserType = () => {
+        //fetch('http://localhost:5201/api/user/update', {credentials: 'include', body: JSON.stringify({email: 'instructor@gmail.com'}), method: 'PUT'})
+        console.log('updating user type');
+    }
+
+    const processRowUpdate = async (newRow: any, oldRow: any) => {
+        if (newRow.accountType !== oldRow.accountType) {
+          setOpenConfirmationDialog(true);
+        }
+      };
+
+      const handleConfirmationDialogClose = (confirmed: any) => {
+        setOpenConfirmationDialog(false);
+    
+        if (confirmed) {
+            updateUserType();
+            console.log('Saving changes to the database');
+        } else {
+            console.log('Reverting changes');
+            setRows(rows);
+        }
+      };
+    
 
     const columns: GridColDef[] = [
       {
@@ -147,6 +118,23 @@ function Admin() {
         fetchUsers(); // Call fetchUsers when the component mounts
     }, []); // Empty dependency array means this effect runs once when the component mounts
 
+
+    const ConfirmationDialog = () => {
+        return (
+          <Dialog open={openConfirmationDialog} onClose={handleConfirmationDialogClose}>
+            <DialogTitle>Are you sure?</DialogTitle>
+            <DialogContent>
+              <p>Pressing 'Yes' will save the changes to the account type.</p>
+            </DialogContent>
+            <DialogActions>
+            <Button onClick={() => handleConfirmationDialogClose(true)}>Yes</Button>
+              <Button onClick={() => handleConfirmationDialogClose(false)}>Cancel</Button>
+            </DialogActions>
+          </Dialog>
+        );
+      };
+
+      
     return(
 
         <div className="mainpage">
@@ -165,26 +153,12 @@ function Admin() {
                     open={openInviteUser}
                     onClose={handleCloseInviteUser}
                 />
-                <Dialog open={isConfirmationDialogOpen} onClose={handleConfirmCancel}>
-                    <DialogTitle>Confirm Account Type Change</DialogTitle>
-                    <DialogContent>
-                        Are you sure you want to change the Account Type?
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleConfirmCancel} color="primary">
-                        Cancel
-                        </Button>
-                        <Button onClick={handleConfirmSave} color="primary">
-                        Save
-                        </Button>
-                    </DialogActions>
-                </Dialog>
 
+                <ConfirmationDialog />
                 <DataGrid
                     sx={{ width: '100%', m: 2 }}
                     rows={rows}
                     columns={columns}
-                    onCellEditStop={handleCellEdit}
                     initialState={{
                         pagination: {
                             paginationModel: {
@@ -192,6 +166,7 @@ function Admin() {
                             },
                         },
                     }}
+                    processRowUpdate={processRowUpdate}
                     autoHeight
                     disableRowSelectionOnClick
                 />
