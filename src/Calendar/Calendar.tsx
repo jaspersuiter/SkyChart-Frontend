@@ -11,6 +11,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import WeekPicker from './Schedule/WeekPicker';
 import React, { useEffect, useState } from 'react';
 import AircraftPopup from '../Aircraft/AircraftPopup';
+import AddSqawkPopup from '../Aircraft/AddSquawkPopup';
 
 export interface Plane {
     planeId: string;
@@ -78,6 +79,8 @@ function Calendar() {
     const [isDay, setIsDay] = React.useState(true);
     const [day, SetDay] = React.useState<Dayjs | null>(dayjs());
 
+    const [openSquawk, setOpenSquawk] = React.useState(false);
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -94,6 +97,13 @@ function Calendar() {
     const handleCloseAircraft = () => {
         setOpenAircraft(false);
     };
+
+    const handleClickOpenSquawk = () => {
+        setOpenSquawk(true);
+      };
+      const handleCloseSquawk = () => {
+        setOpenSquawk(false);
+      }
 
     const handleSwapDayWeek = () => {
         setIsDay(!isDay);
@@ -191,8 +201,9 @@ function Calendar() {
 
            
         </div>
-        <NewReservation open={open} onClose={handleClose} Instructors={instructors} Planes={planes}/>
-        <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane}/>
+        <NewReservation open={open} onClose={handleClose} Instructors={instructors} Planes={planes} SelectedPlane={plane}/>
+        <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane} openSquawk={handleClickOpenSquawk} openCreateReservation={handleClickOpen}/>
+        <AddSqawkPopup open={openSquawk} onClose={handleCloseSquawk} plane={plane}/>
     </div>
   )}
 

@@ -26,6 +26,8 @@ export interface ReservationData {
   startTime: string;
   endTime: string;
   flightType: string;
+  tachHours?: number;
+  hobbsHours?: number;
 }
 
 async function getUserData(planeid: String): Promise<

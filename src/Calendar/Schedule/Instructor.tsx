@@ -82,6 +82,8 @@ function InstructorSelection(props: InstructorSelectionProps) {
     startTime: string;
     endTime: string
     flightType: string;
+    tachHours?: number;
+    hobbsHours?: number;
   }>>([]);
 
   const [availabilityData, setavailabilityData] = useState< Array<{
