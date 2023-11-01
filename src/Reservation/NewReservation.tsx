@@ -32,7 +32,13 @@ function NewReservation(props: NewReservationProps) {
           } 
       };
 
-    
+    const showUpcomingMaintenanceLink = () => {
+        if (planeId != '') {
+            return(<p className='link-text'><u>See plane's upcoming maintenance</u></p>)
+        } else {
+            return(<p><br></br></p>)
+        }
+    }
 
     const resetAll = () => {
         setPlaneId("")
@@ -151,6 +157,10 @@ function NewReservation(props: NewReservationProps) {
 
                         <ReservationTypeDropDown ReservationType={reservationType} setReservationTypeParent={setReservationType}/>
                         
+                    </div>
+
+                    <div className='toggleableText'>
+                        {showUpcomingMaintenanceLink()}
                     </div>
 
                     {/* Date and Time Pickers to Select Reservation Time */}
