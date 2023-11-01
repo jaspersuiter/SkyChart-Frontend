@@ -2,14 +2,68 @@ import PrimaryButton from "../Buttons/PrimaryButton";
 import StaticSidebar from "../Sidebar/Sidebar";
 import AddNewAircraft from "./AddNewAircraft";
 import InviteNewUser from "./InviteNewUser";
-import { DataGrid, GridCellEditStopParams, GridCellEditStopReasons, GridColDef, GridValueGetterParams, MuiEvent } from '@mui/x-data-grid';
+import { DataGrid, GridCellEditStopParams, GridCellEditStopReasons, GridColDef, GridRenderCellParams, GridValueGetterParams, MuiEvent, useGridApiRef } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
+import { GridRowId } from '@mui/x-data-grid';
 import './Admin.css'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 
 function Admin() {
 
     const [open, setOpenAddAircraft] = React.useState(false);
     const [openInviteUser, setOpenInviteUser] = React.useState(false);
+    const [pendingChanges, setPendingChanges] = useState({
+        row: null,
+        newValue: null,
+        oldValue: null,
+      });
+      const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
+
+      const handleCellEdit = (params: GridRenderCellParams, event: MuiEvent) => {
+        const { id, field, value } = params;
+        const oldRow = params.row;
+        const newRow = { ...oldRow, [field]: value };
+        
+        // Check if the "accountType" field is being edited
+        if (field === 'accountType') {
+          // Store the pending changes
+          setPendingChanges({
+            row: newRow,
+            newValue: value,
+            oldValue: oldRow.accountType,
+          });
+      
+          // Open the confirmation dialog
+          setConfirmationDialogOpen(true);
+        } 
+      };
+
+
+
+    const handleConfirmSave = () => {
+        // Apply the change and close the confirmation dialog
+        const { row, newValue } = pendingChanges;
+        // Update the row with the new value
+        const updatedRows = [...rows];
+        const rowIndex = updatedRows.findIndex((r: { id: GridRowId }) => r.id === row?.id);
+        if (rowIndex !== -1) {
+            updatedRows[rowIndex].accountType = newValue;
+            setRows(updatedRows);
+        }
+        const apiRef = useGridApiRef();
+
+        console.log('confirmed');
+        setConfirmationDialogOpen(false);
+    };
+      
+      const handleConfirmCancel = () => {
+        // Discard the change and close the confirmation dialog
+        console.log('cancelled');
+        setConfirmationDialogOpen(false);
+      };
+      
+      
+      
 
     const [rows, setRows] = useState([]); // Declare rows as a state variable
 
@@ -111,11 +165,26 @@ function Admin() {
                     open={openInviteUser}
                     onClose={handleCloseInviteUser}
                 />
+                <Dialog open={isConfirmationDialogOpen} onClose={handleConfirmCancel}>
+                    <DialogTitle>Confirm Account Type Change</DialogTitle>
+                    <DialogContent>
+                        Are you sure you want to change the Account Type?
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleConfirmCancel} color="primary">
+                        Cancel
+                        </Button>
+                        <Button onClick={handleConfirmSave} color="primary">
+                        Save
+                        </Button>
+                    </DialogActions>
+                </Dialog>
 
                 <DataGrid
                     sx={{ width: '100%', m: 2 }}
                     rows={rows}
                     columns={columns}
+                    onCellEditStop={handleCellEdit}
                     initialState={{
                         pagination: {
                             paginationModel: {
