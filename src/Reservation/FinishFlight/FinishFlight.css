@@ -1,0 +1,58 @@
+.mainContent {
+    display: flex;
+    padding: 4% 2%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.top-title {
+    display: flex;
+    height: 134px;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    align-self: stretch;
+}
+
+.boxframe {
+    display: flex;
+    padding: 10px;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 10px;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.space-filler {
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.maindropdowncontent {
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1em auto;
+    width: 70%;
+}
+
+.spacer {
+    height: 100px;
+}
+
+.bottom {
+    position: relative;
+    bottom: 0;
+}
