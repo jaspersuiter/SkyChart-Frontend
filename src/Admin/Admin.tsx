@@ -154,14 +154,18 @@ function Admin() {
                 </div>
                 
 
-                                <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                    <SearchIcon sx={{ mr: 1, my: 0.5 }} />
-                    <TextField id="input-with-sx" label="Search..." variant="standard" 
-                    value={searchQuery}
-                    onChange={handleSearchChange}/>
-                </Box>
+                             
                 <div className="subtitle">
                     <h2>Current Users</h2>
+                    
+                    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                        <Box className='box' sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
+                            <SearchIcon sx={{ mr: 1, my: 0.5 }} />
+                            <TextField id="input-with-sx" label="Search..." variant="standard" 
+                                value={searchQuery}
+                                onChange={handleSearchChange}/>
+                        </Box>
+                    </div>
                     <DataGrid
                         sx={{ width: '100%', m: 2 }}
                         rows={filteredRows}
