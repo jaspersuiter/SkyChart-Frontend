@@ -9,7 +9,6 @@ import './Admin.css'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { Box, TextField } from "@mui/material";
 import { env } from "../env";
-import { resolve } from "path";
 
 interface User {
     id: number;
