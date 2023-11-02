@@ -74,8 +74,27 @@ async function getUserData(planeid: String): Promise<
   }
 }
 
+interface User {
+  student: boolean;
+  id: string;
+  username: string;
+}
 
 function Reservation(props: ReservationProps) {
+
+  const [currUser, setCurrUser] = useState<User>({student: false, id: '', username: ''})
+
+  const fetchCurrentUser = async () => {
+    try {
+        const request = await fetch('http://localhost:5201/api/user/get-current',
+        {credentials: 'include'})
+            .then((response) => response.json())
+            .then((data) => data) as User;
+          setCurrUser(request);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
   const [userData, SetUserData] = useState<any>({});
   const [openEditReservation, setOpenEditReservation] = useState(false);
@@ -84,10 +103,14 @@ function Reservation(props: ReservationProps) {
     setOpenEditReservation(false);
   }
   const openEditReservationDialog = () => {
-    setOpenEditReservation(true);
+    if (currUser.id === props.reservationData.instructorId ||
+        currUser.id === props.reservationData.pilotId) {
+        setOpenEditReservation(true);
+      }
   }
 
   useEffect(() => {
+    fetchCurrentUser();
     async function fetchReservationData() {
       const data = await getUserData(props.pilotid);
       SetUserData(data);

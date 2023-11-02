@@ -17,7 +17,7 @@ interface User {
     phoneNum: string;
     email: string;
     accountType: string;
-  }
+}
 
 
 function Admin() {
