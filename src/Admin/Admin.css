@@ -35,3 +35,8 @@
     flex-direction: row;
     gap: 2em;
 }
+
+.box{
+    float: left;
+    margin-left: 10px;
+}
