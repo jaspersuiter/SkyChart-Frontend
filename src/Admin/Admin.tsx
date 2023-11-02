@@ -3,17 +3,30 @@ import StaticSidebar from "../Sidebar/Sidebar";
 import AddNewAircraft from "./AddNewAircraft";
 import InviteNewUser from "./InviteNewUser";
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useState } from 'react';
 import './Admin.css'
+import { Box, TextField } from "@mui/material";
 import { env } from "../env";
+
+interface User {
+    id: number;
+    lastName: string;
+    firstName: string;
+    phoneNum: string;
+    email: string;
+    accountType: string;
+  }
+
 
 function Admin() {
 
     const [open, setOpenAddAircraft] = React.useState(false);
     const [openInviteUser, setOpenInviteUser] = React.useState(false);
 
-    const [rows, setRows] = useState([]); // Declare rows as a state variable
-
+    const [rows, setRows] = useState<User[]>([]); // Declare rows as a state variable
+    const [searchQuery, setSearchQuery] = useState('');
+      
     const columns: GridColDef[] = [
       {
         field: 'fullName',
@@ -47,6 +60,10 @@ function Admin() {
     },
     ];
 
+    const handleSearchChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+        setSearchQuery(event.target.value);
+      };
+
     const handleClickOpenAddAircraft = () => {
         setOpenAddAircraft(true);
     };
@@ -63,6 +80,12 @@ function Admin() {
         setOpenInviteUser(false);
     };
 
+    const filteredRows = rows.filter((row) =>
+    Object.values(row).some((value) =>
+      String(value).toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+  
     const fetchUsers = async () => {
         try {
             console.log('fetching users');
@@ -131,12 +154,21 @@ function Admin() {
                 </div>
                 
 
-                
+                             
                 <div className="subtitle">
                     <h2>Current Users</h2>
+                    
+                    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                        <Box className='box' sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
+                            <SearchIcon sx={{ mr: 1, my: 0.5 }} />
+                            <TextField id="input-with-sx" label="Search..." variant="standard" 
+                                value={searchQuery}
+                                onChange={handleSearchChange}/>
+                        </Box>
+                    </div>
                     <DataGrid
                         sx={{ width: '100%', m: 2 }}
-                        rows={rows}
+                        rows={filteredRows}
                         columns={columns}
                         initialState={{
                             pagination: {
