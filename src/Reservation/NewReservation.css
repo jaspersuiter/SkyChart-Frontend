@@ -27,6 +27,14 @@
     
 }
 
+.horizontal {
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+    justify-content: center;
+    gap: .5em;
+}
+
 .flexRow{
     display: flex;
     flex-direction: row;

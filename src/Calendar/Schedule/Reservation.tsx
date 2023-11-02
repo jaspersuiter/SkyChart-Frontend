@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { makeApiCall } from '../../APICall';
 import './Reservation.css';
 import EditReservation from '../../Reservation/EditReservation';
-import { title } from 'process';
 import { calculateDurationInMinutes, calculateLeftPosition, calculateLengthFromDuration, convertToMilitaryTime, formatTime } from './Util';
 import { Instructor, Plane } from '../Calendar';
 
@@ -28,6 +27,7 @@ export interface ReservationData {
   flightType: string;
   tachHours?: number;
   hobbsHours?: number;
+  repeat: number;
 }
 
 async function getUserData(planeid: String): Promise<

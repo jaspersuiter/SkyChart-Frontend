@@ -69,3 +69,11 @@
     gap: 10px;
     align-self: stretch;
 }
+
+.horizontal {
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+    justify-content: center;
+    gap: .5em;
+}
