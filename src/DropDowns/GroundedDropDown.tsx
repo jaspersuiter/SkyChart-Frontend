@@ -17,9 +17,9 @@ function GroundedDropDown(props: GroundedDropDownProps) {
 
     return (
         <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
-            <InputLabel id="demo-select-small-label">Squawk Type</InputLabel>
+            <InputLabel id="demo-select-small-label">Grounded</InputLabel>
             <Select
-                label="Squawk Type"
+                label="Grounded"
                 value={grounded} // Set the selected value here
                 onChange={handleSquawkType} // Handle change event
             >

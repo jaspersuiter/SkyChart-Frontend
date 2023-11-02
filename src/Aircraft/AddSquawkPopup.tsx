@@ -7,6 +7,8 @@ import SquawkTypeDropdown from "../DropDowns/SquawkTypeDropDown";
 import { useState } from "react";
 import { SquawkType } from "./AircraftPopup";
 import GroundedDropDown from "../DropDowns/GroundedDropDown";
+import { makeApiCall } from "../APICall";
+import dayjs, { Dayjs } from 'dayjs';
 
 export interface AddSqawkPopupProps {
     open: boolean;
@@ -20,8 +22,10 @@ function AddSqawkPopup (props: AddSqawkPopupProps) {
     const [grounded, setGrounded] = useState<boolean>(false);
     const [description, setDescription] = useState<String>("");
     const [correctiveAction, setCorrectiveAction] = useState<String>("");
-    const [hobbsHours, setHobbsHours] = useState<String>("");
-    const [tachHours, setTachHours] = useState<String>("");
+    const [hobbsHours, setHobbsHours] = useState<number>(0);
+    const [tachHours, setTachHours] = useState<number>(0);
+
+    const [errormessage, setErrormessage] = useState('')
 
     const handleClose = (event?: any, reason?: any) => {
         if (reason !== 'backdropClick') {
@@ -36,9 +40,41 @@ function AddSqawkPopup (props: AddSqawkPopupProps) {
         setGrounded(false);
         setDescription("");
         setCorrectiveAction("");
-        setHobbsHours("");
-        setTachHours("");
+        setHobbsHours(0);
+        setTachHours(0);
+        setErrormessage("");
     }
+
+    const createSquawk = async () => {
+
+        const data = {
+            mxId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            planeId: props.plane.planeId,
+            type: squawkType,
+            description: description,
+            dateOpened: dayjs().format("MM/DD/YYYY h:mm:ssA"),
+            tachHours: tachHours,
+            hobbsHours: hobbsHours,
+            grounding: grounded,
+            closed: false,
+            correctiveSteps: correctiveAction,
+        }
+
+        let responseData2 = null
+        try {
+            responseData2 = await makeApiCall("/api/squaks/create", data, "post")
+            
+            if (responseData2 === "Couldn't find UserId"){
+                setErrormessage(responseData2)
+                return
+            }
+            reset()
+        } catch (error) {
+            console.error(error)
+        }
+
+       handleClose()
+}
 
     return (
         <div className="reservation-popup">
@@ -89,11 +125,31 @@ function AddSqawkPopup (props: AddSqawkPopupProps) {
                         <TextField id="HobbsHours" 
                             label="Hobbs Hours" 
                             value={hobbsHours} 
-                            onChange={(event) => {setHobbsHours(event.target.value)}}/>
+                            type="number" inputProps={{ min: 0, max: 10000000 }}
+                            onChange={(event) => {
+                                var value = parseInt(event.target.value, 0);
+                      
+                                if (value > 10000000) value = 10000000;
+                                if (value < 0) value = 0;
+                      
+                                setHobbsHours(value);
+                              }}/>
                         <TextField id="TachHours"
                             label="Tach Hours" 
                             value={tachHours} 
-                            onChange={(event) => {setTachHours(event.target.value)}}/>
+                            type="number" inputProps={{ min: 0, max: 10000000 }}
+                            onChange={(event) => {
+                                var value = parseInt(event.target.value, 0);
+                      
+                                if (value > 10000000) value = 10000000;
+                                if (value < 0) value = 0;
+                      
+                                setTachHours(value);
+                              }}/>
+                    </div>
+
+                    <div className='error-message'>
+                        {errormessage}
                     </div>
                 </div>
                 
@@ -104,7 +160,7 @@ function AddSqawkPopup (props: AddSqawkPopupProps) {
 
                 {/* Confirm and Cancel Buttons */}
                 <div className='bottomBar'>
-                    <PrimaryButton text="Add Squawk" />
+                    <PrimaryButton text="Add Squawk" onClick={createSquawk}/>
                 </div>
             </Dialog>
         </div>

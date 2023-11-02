@@ -12,6 +12,7 @@ import WeekPicker from './Schedule/WeekPicker';
 import React, { useEffect, useState } from 'react';
 import AircraftPopup from '../Aircraft/AircraftPopup';
 import AddSqawkPopup from '../Aircraft/AddSquawkPopup';
+import DayPicker from './Schedule/DayPicker';
 
 export interface Plane {
     planeId: string;
@@ -120,6 +121,7 @@ function Calendar() {
     const updateScreenFunction = () => {
         setUpdateScreen(!updateScreen)
     }
+    
 
   return (
     <div className='fullpage'>
@@ -128,13 +130,8 @@ function Calendar() {
 
             <div className='top-content-frame'>
                 <div>
-                    {isDay ? <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateCalendar showDaysOutsideCurrentMonth 
-                        fixedWeekNumber={6} 
-                        sx={{fontSize: 20}} 
-                        value={day} 
-                        onChange={(newValue) => SetDay(newValue)} />
-                    </LocalizationProvider>
+                    {isDay ? 
+                    <DayPicker day={day} updateDay={(newValue) => SetDay(newValue)}/>
                     :
                     <WeekPicker day={day} updateDay={(newValue) => SetDay(newValue)}/>}
                 </div>
