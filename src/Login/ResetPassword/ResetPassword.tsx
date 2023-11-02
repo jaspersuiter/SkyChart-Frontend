@@ -16,12 +16,21 @@ export interface ResetPasswordProps {
 
 function ResetPassword(props: ResetPasswordProps) {
     const {open, onClose } = props;
+    const [email, setEmail] = useState('');
 
     const handleClose = () => {
         onClose();
     };
 
-    const [email, setEmail] = useState('');
+    const handleRequestReset = () => { 
+      fetch(`http://localhost:5201/api/user/password/send-reset?email=${email}`, {credentials: 'include', body: JSON.stringify({email: 'instructor@gmail.com'}), method: 'POST'})
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+    };
+
+    
 
     return (
         <div className="logout-popup">
@@ -53,7 +62,7 @@ function ResetPassword(props: ResetPasswordProps) {
                 />
 
                   <div className="reset-password-button">
-                      <PrimaryButton text="Request Password Reset"/>
+                      <PrimaryButton onClick={()=>handleRequestReset()} text="Request Password Reset"/>
                   </div>
                   <a onClick={()=>handleClose()}><u className="reset-password-link-text">Return to Log In</u></a>
                 </div>
