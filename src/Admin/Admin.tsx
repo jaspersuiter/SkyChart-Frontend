@@ -2,39 +2,41 @@ import PrimaryButton from "../Buttons/PrimaryButton";
 import StaticSidebar from "../Sidebar/Sidebar";
 import AddNewAircraft from "./AddNewAircraft";
 import InviteNewUser from "./InviteNewUser";
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowModel, GridValueGetterParams } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import './Admin.css'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { env } from "../env";
+import { resolve } from "path";
 
 function Admin() {
 
     const [open, setOpenAddAircraft] = React.useState(false);
     const [openInviteUser, setOpenInviteUser] = React.useState(false);
-    const [rows, setRows] = useState([]); // Declare rows as a state variable
+    const [rows, setRows] = useState([]); // Declare rows as a state variable of type User[]
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+    const [userId, setUserId] = useState('');
+
     
     const updateUserType = () => {
-        //fetch('http://localhost:5201/api/user/update', {credentials: 'include', body: JSON.stringify({email: 'instructor@gmail.com'}), method: 'PUT'})
-        console.log('updating user type');
+        fetch(`http://localhost:5201/api/user/update-account-type?userId=${userId}`, {credentials: 'include', method: 'PUT'})
     }
 
-    const processRowUpdate = async (newRow: any, oldRow: any) => {
+    const processRowUpdate = (newRow: any, oldRow: any) => {
+        setUserId(newRow.id);
         if (newRow.accountType !== oldRow.accountType) {
-          setOpenConfirmationDialog(true);
+            setOpenConfirmationDialog(true);
         }
-      };
+    };
+      
 
       const handleConfirmationDialogClose = (confirmed: any) => {
         setOpenConfirmationDialog(false);
     
         if (confirmed) {
             updateUserType();
-            console.log('Saving changes to the database');
         } else {
-            console.log('Reverting changes');
-            setRows(rows);
+            window.location.reload();
         }
       };
     
@@ -91,7 +93,6 @@ function Admin() {
 
     const fetchUsers = async () => {
         try {
-            console.log('fetching users');
             const users = await fetch('http://localhost:5201/api/user/get-all-users',
             {credentials: 'include'})
                 .then((response) => response.json())
@@ -100,7 +101,7 @@ function Admin() {
             const mappedRows = users.map((user: any, index: number) => {
                
                 return {
-                    id: index + 1,
+                    id: user.id,
                     lastName: user.lastName,
                     firstName: user.firstName,
                     phoneNum: user.phoneNumber,
@@ -128,7 +129,6 @@ function Admin() {
         .then((data) => data) as boolean;
         setAdmin(isAdmin);
         
-        console.log("isAdmin", isAdmin);
       }
       isAdmin();
     }, []);
@@ -177,6 +177,7 @@ function Admin() {
                 
                 <div className="subtitle">
                     <h2>Current Users</h2>
+                    <ConfirmationDialog />
                     <DataGrid
                         sx={{ width: '100%', m: 2 }}
                         rows={rows}
@@ -188,6 +189,7 @@ function Admin() {
                                 },
                             },
                         }}
+                        processRowUpdate={processRowUpdate}
                         autoHeight
                         disableRowSelectionOnClick
                     />
@@ -202,24 +204,7 @@ function Admin() {
                     open={openInviteUser}
                     onClose={handleCloseInviteUser}
                 />
-
-                <ConfirmationDialog />
-                <DataGrid
-                    sx={{ width: '100%', m: 2 }}
-                    rows={rows}
-                    columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: {
-                                pageSize: 100,
-                            },
-                        },
-                    }}
-                    processRowUpdate={processRowUpdate}
-                    autoHeight
-                    disableRowSelectionOnClick
-                />
-                
+            
             </div>): null}
         </div>
     );
