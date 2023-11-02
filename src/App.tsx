@@ -19,6 +19,8 @@ import Instructors from "./Instructors/Instructors";
 import Login from "./Login/Login";
 import Registration from "./Registration/Registration";
 import { AuthorizationContext } from "./AuthContext";
+import ResetPassword from "./Login/ResetPassword/ResetPassword";
+import NewPassword from "./Login/NewPassword/NewPassword";
 
 function App() {
   const context = useContext(AuthorizationContext);
@@ -31,6 +33,7 @@ function App() {
             <React.Fragment>
               <Route path="*" element={<Login />} />
               <Route path="/register" element={<Registration />} />
+              <Route path="/resetPassword" element={<NewPassword />} />
             </React.Fragment>
           ) : (
             <React.Fragment>
@@ -42,6 +45,7 @@ function App() {
               <Route path="/logout" element={<Logout />} />
               <Route path="/verify" element={<VerificationPage />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/resetPassword" element={<NewPassword />} />
             </React.Fragment>
           )}
         </Routes>

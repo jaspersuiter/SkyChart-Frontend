@@ -1,4 +1,4 @@
-import { Dialog } from '@mui/material';
+import { Dialog, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -14,6 +14,8 @@ import PlaneDropDown from '../DropDowns/PlaneDropDown';
 import ReservationTypeDropDown, { ReservationType } from '../DropDowns/ReservationTypeDropDown';
 import CancelButton from '../Buttons/CancelButton';
 import ConfirmPopup from '../ConfirmPopup/Confirm';
+import { Days } from '../../api-typescript/data-contracts';
+import FinishFlight from './FinishFlight/FinishFlight';
 
 
 export interface EditReservationProp {
@@ -35,6 +37,8 @@ function EditReservation(props: EditReservationProp) {
   const [day, setDay] = useState<Dayjs | null>(dayjs(reservationData.startTime, "MM/DD/YYYY h:mm:ssA"));
   const [openCancelConfirm, setOpenCancelConfirm] = useState(false);
   const [openEditConfirm, setOpenEditConfirm] = useState(false);
+  const [finishFlight, setFinishFlight] = useState(false);
+  const [recurrances, setRecurrances] = useState(reservationData.repeat);
 
   const handleClose = () => {
     onClose();
@@ -66,15 +70,34 @@ function EditReservation(props: EditReservationProp) {
     setOpenEditConfirm(true);
   }
 
+  const closeFinishFlight = () => {
+    setFinishFlight(false);
+  }
+  const openFinishFlight = () => {
+    setFinishFlight(true);
+  }
+
   const editReservation = async () => {
+    let day_str = day?.format("YYYY-MM-DD");
+    let start_str = startTime?.format("HH:mm:ss");
+    let end_str = endTime?.format("HH:mm:ss");
+
+    if (day_str == null) {
+      day_str = props.reservationData.startTime;
+    }
+
+    let start_date = dayjs(day_str + start_str, "YYYY-MM-DDHH:mm:ss");
+    let end_date = dayjs(day_str + end_str, "YYYY-MM-DDHH:mm:ss");
+
     const data = {
       reservationId: reservationData.reservationId,
       pilotId: reservationData.pilotId,
       planeId: plane,
       instructorId: instructor,
-      startTime: startTime,
-      endTime: endTime,
-      flightType: flightType
+      startTime: start_date,
+      endTime: end_date,
+      flightType: flightType,
+      repeat: recurrances,
     }
 
     try {
@@ -156,11 +179,30 @@ function EditReservation(props: EditReservationProp) {
           </div>
         </div>
 
-        <div className='spacertwo'>
-
+        <div className='horizontal'>
+          <TextField
+            id="recur"
+            label="Weeks to repeat"
+            type="number"
+            value={recurrances}
+            onChange={(e) => setRecurrances(parseInt(e.target.value))}/>
+          <p>Number of weeks to repeat reservation (leave as default 0 to not repeat)</p>
         </div>
 
+        <div className='spacertwo'></div>
+
         <div className='flexRow'>
+          <div className='button'>
+            <PrimaryButton text="Finish Flight" onClick={openFinishFlight} />
+            <FinishFlight
+              open={finishFlight}
+              onClose={closeFinishFlight}
+              reservationData={reservationData}
+              plane={props.Planes.find((value, index, obj) => value.planeId === plane) || props.Planes[0]}
+              updateScreen={props.updateScreen}
+            />
+          </div>
+
           <div className='button'>
             <PrimaryButton text="Save Changes" onClick={openEditConfirmDialog} />
             <ConfirmPopup

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { makeApiCall } from '../../APICall';
 import './Reservation.css';
 import EditReservation from '../../Reservation/EditReservation';
-import { title } from 'process';
 import { calculateDurationInMinutes, calculateLeftPosition, calculateLengthFromDuration, convertToMilitaryTime, formatTime } from './Util';
 import { Instructor, Plane } from '../Calendar';
 
@@ -26,6 +25,9 @@ export interface ReservationData {
   startTime: string;
   endTime: string;
   flightType: string;
+  tachHours?: number;
+  hobbsHours?: number;
+  repeat: number;
 }
 
 async function getUserData(planeid: String): Promise<
@@ -72,8 +74,27 @@ async function getUserData(planeid: String): Promise<
   }
 }
 
+interface User {
+  student: boolean;
+  id: string;
+  username: string;
+}
 
 function Reservation(props: ReservationProps) {
+
+  const [currUser, setCurrUser] = useState<User>({student: false, id: '', username: ''})
+
+  const fetchCurrentUser = async () => {
+    try {
+        const request = await fetch('http://localhost:5201/api/user/get-current',
+        {credentials: 'include'})
+            .then((response) => response.json())
+            .then((data) => data) as User;
+          setCurrUser(request);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
   const [userData, SetUserData] = useState<any>({});
   const [openEditReservation, setOpenEditReservation] = useState(false);
@@ -82,10 +103,14 @@ function Reservation(props: ReservationProps) {
     setOpenEditReservation(false);
   }
   const openEditReservationDialog = () => {
-    setOpenEditReservation(true);
+    if (currUser.id === props.reservationData.instructorId ||
+        currUser.id === props.reservationData.pilotId) {
+        setOpenEditReservation(true);
+      }
   }
 
   useEffect(() => {
+    fetchCurrentUser();
     async function fetchReservationData() {
       const data = await getUserData(props.pilotid);
       SetUserData(data);

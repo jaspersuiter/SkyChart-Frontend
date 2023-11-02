@@ -10,6 +10,9 @@ import NewReservation from '../Reservation/NewReservation';
 import dayjs, { Dayjs } from 'dayjs';
 import WeekPicker from './Schedule/WeekPicker';
 import React, { useEffect, useState } from 'react';
+import AircraftPopup from '../Aircraft/AircraftPopup';
+import AddSqawkPopup from '../Aircraft/AddSquawkPopup';
+import DayPicker from './Schedule/DayPicker';
 
 export interface Plane {
     planeId: string;
@@ -70,11 +73,14 @@ function Calendar() {
 
     const [planes, setPlanes] = useState<Plane[]>([]);
     const [instructors, setInstructors] = useState<Instructor[]>([]); // Declare rows as a state variable
-
+    const [plane, setPlane] = useState<Plane>({planeId: '', tailNumber: '', model: '', nickName: '', hourlyRate: 0, numEngines: 0, tachHours: 0, hobbsHours: 0, grounded: false});
     const [open, setOpen] = React.useState(false);
+    const [openAircraft, setOpenAircraft] = React.useState(false);
     const [updateScreen, setUpdateScreen] = React.useState(false);
     const [isDay, setIsDay] = React.useState(true);
     const [day, SetDay] = React.useState<Dayjs | null>(dayjs());
+
+    const [openSquawk, setOpenSquawk] = React.useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -83,6 +89,22 @@ function Calendar() {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleClickOpenAircraft = (plane: Plane) => {
+        setOpenAircraft(true);
+        setPlane(plane);
+    };
+
+    const handleCloseAircraft = () => {
+        setOpenAircraft(false);
+    };
+
+    const handleClickOpenSquawk = () => {
+        setOpenSquawk(true);
+      };
+      const handleCloseSquawk = () => {
+        setOpenSquawk(false);
+      }
 
     const handleSwapDayWeek = () => {
         setIsDay(!isDay);
@@ -99,6 +121,7 @@ function Calendar() {
     const updateScreenFunction = () => {
         setUpdateScreen(!updateScreen)
     }
+    
 
   return (
     <div className='fullpage'>
@@ -107,13 +130,8 @@ function Calendar() {
 
             <div className='top-content-frame'>
                 <div>
-                    {isDay ? <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateCalendar showDaysOutsideCurrentMonth 
-                        fixedWeekNumber={6} 
-                        sx={{fontSize: 20}} 
-                        value={day} 
-                        onChange={(newValue) => SetDay(newValue)} />
-                    </LocalizationProvider>
+                    {isDay ? 
+                    <DayPicker day={day} updateDay={(newValue) => SetDay(newValue)}/>
                     :
                     <WeekPicker day={day} updateDay={(newValue) => SetDay(newValue)}/>}
                 </div>
@@ -176,11 +194,13 @@ function Calendar() {
 
             </div>
 
-            { day && <Schedule isDay={isDay} day={day}  updateScreen={updateScreenFunction} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString()}/>}
+            { day && <Schedule isDay={isDay} day={day} openAirplane={handleClickOpenAircraft} updateScreen={updateScreenFunction} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString()}/>}
 
            
         </div>
-        <NewReservation open={open} onClose={handleClose} Instructors={instructors} Planes={planes}/>
+        <NewReservation open={open} onClose={handleClose} Instructors={instructors} Planes={planes} SelectedPlane={plane}/>
+        <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane} openSquawk={handleClickOpenSquawk} openCreateReservation={handleClickOpen}/>
+        <AddSqawkPopup open={openSquawk} onClose={handleCloseSquawk} plane={plane}/>
     </div>
   )}
 

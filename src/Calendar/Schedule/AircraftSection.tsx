@@ -11,13 +11,13 @@ import { Instructor, Plane } from '../Calendar';
 
 export interface AircraftSectionProps {
   isDay: Boolean;
-  AircraftName: String;
-  AircraftId: string;
+  Aircraft: Plane;
   Day: string
   isGrounded: Boolean;
   Instructors: Array<Instructor>;
   Planes: Array<Plane>;
   updateScreen: () => void;
+  openAirplane: (plane: Plane) => void;
 }
 
 function AircraftSection(props: AircraftSectionProps) {
@@ -55,11 +55,14 @@ function AircraftSection(props: AircraftSectionProps) {
     startTime: string;
     endTime: string
     flightType: string;
+    repeat: number;
+    tachHours?: number;
+    hobbsHours?: number;
   }>>([]);
 
   useEffect(() => {
     async function fetchReservationData() {
-      const data = await getReservationData( props.Day, {planeid: props.AircraftId});
+      const data = await getReservationData( props.Day, {planeid: props.Aircraft.planeId});
       setReservationData(data);
     }
 
@@ -104,7 +107,7 @@ function AircraftSection(props: AircraftSectionProps) {
         {reservations}
         {unavailable}
         <div className="mainBar">
-          <Identifier Name={props.AircraftName}/>
+          <Identifier Name={props.Aircraft.tailNumber + " - [" + props.Aircraft.nickName + "]"} Aircraft={props.Aircraft} openAirplane={props.openAirplane}/>
           <Hour isDay={props.isDay} ref={divRef}/>
           <Hour isDay={props.isDay}/>
           <Hour isDay={props.isDay}/>

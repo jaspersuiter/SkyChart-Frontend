@@ -1,5 +1,5 @@
 import './NewReservation.css'
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import PrimaryButton from '../Buttons/PrimaryButton';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -12,17 +12,28 @@ import { Instructor, Plane } from '../Calendar/Calendar';
 import InstructorDropDown from '../DropDowns/InstructorDropDown';
 import PlaneDropDown from '../DropDowns/PlaneDropDown';
 import ReservationTypeDropDown, { ReservationType } from '../DropDowns/ReservationTypeDropDown';
-
+import React from 'react';
+import UpcomingMaintenance from './UpcomingMaintenance';
 
 export interface NewReservationProps {
     open: boolean;
     Instructors: Array<Instructor>;
     Planes: Array<Plane>;
     onClose: () => void;
+    SelectedPlane?: Plane;
 }
 
 function NewReservation(props: NewReservationProps) {
     const {open, onClose } = props;
+    const [maintenanceOpen, setMaintenanceOpen] = React.useState(false);
+
+    const handleClickOpenMaintenance = () => {
+        setMaintenanceOpen(true);
+    }
+
+    const handleCloseMaintenance = () => {
+        setMaintenanceOpen(false);
+    }
 
     const handleClose = (event?: any, reason?: any) => {
         if (reason !== 'backdropClick') {
@@ -31,7 +42,13 @@ function NewReservation(props: NewReservationProps) {
           } 
       };
 
-    
+    const showUpcomingMaintenanceLink = () => {
+        if (planeId != '') {
+            return(<p className='link-text' onClick={handleClickOpenMaintenance}><u>See plane's upcoming maintenance</u></p>)
+        } else {
+            return(<p><br></br></p>)
+        }
+    }
 
     const resetAll = () => {
         setPlaneId("")
@@ -44,26 +61,24 @@ function NewReservation(props: NewReservationProps) {
         handleClose()
       }
 
-    const [planeId, setPlaneId] = useState('');
+    const [planeId, setPlaneId] = useState((props.SelectedPlane ? props.SelectedPlane.planeId : ''));
     const [instructorId, setInstructorId] = useState('');
     const [startTime, setStartTime] = useState<Dayjs | null>(null);
     const [endTime, setEndTime] = useState<Dayjs | null>(null);
     const [reservationType, setReservationType] = useState<ReservationType>(ReservationType.DualLesson);
     const [day, setDay] = useState<Dayjs | null>(null);
-    const [errormessage, setErrormessage] = useState('')
+    const [errormessage, setErrormessage] = useState('');
+    const [recurrances, setRecurrances] = useState(0);
     
     const createReservation = async () => {
 
-       
-        console.log(day)
-        console.log(startTime)
-        console.log(endTime)
             const data = {
                 PlaneId: planeId,
                 InstructorId: instructorId,
                 StartTime: startTime,
                 EndTime: endTime,
                 FlightType: reservationType,
+                Repeat: recurrances,
             }
 
             let responseData2 = null
@@ -152,6 +167,10 @@ function NewReservation(props: NewReservationProps) {
                         
                     </div>
 
+                    <div className='toggleableText'>
+                        {showUpcomingMaintenanceLink()}
+                    </div>
+
                     {/* Date and Time Pickers to Select Reservation Time */}
                     <div className='flexRow'>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -183,6 +202,16 @@ function NewReservation(props: NewReservationProps) {
                         </LocalizationProvider>
                     </div>
 
+                    <div className='horizontal'>
+                        <TextField
+                            id="recur"
+                            label="Weeks to repeat"
+                            type="number"
+                            value={recurrances}
+                            onChange={(e) => setRecurrances(parseInt(e.target.value))}/>
+                        <p>Number of weeks to repeat reservation (leave as default 0 to not repeat)</p>
+                    </div>
+
                     <div className='error-message'>
                         {errormessage}
                     </div>
@@ -198,6 +227,7 @@ function NewReservation(props: NewReservationProps) {
                 <div className='TitleBar'>
                     <PrimaryButton text="Create Reservation" onClick={createReservation} disabled={startTime === null || endTime === null || day === null}/>
                 </div>
+                <UpcomingMaintenance open={maintenanceOpen} onClose={handleCloseMaintenance} planeId={planeId} />
             </Dialog>
         </div>
     );
