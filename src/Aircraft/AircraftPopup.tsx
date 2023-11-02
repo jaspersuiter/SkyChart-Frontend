@@ -25,8 +25,6 @@ export enum SquawkType {
 
 function AircraftPopup (props: AircraftPopupProps) {
     const [rows, setRows] = useState([{id: 1, date_opened: '10/23/23', description: 'test', type: 'Planned'}]);
-    
-
 
     const handleClose = (event?: any, reason?: any) => {
         if (reason !== 'backdropClick') {
@@ -46,15 +44,16 @@ function AircraftPopup (props: AircraftPopupProps) {
           field: 'description',
           headerName: 'Description',
           type: 'string',
-          editable: false,
+          editable: true,
           width: 200,
         },
         {
           field: 'type',
           headerName: 'Type',
-          type: 'string',
-          editable: false,
+          type: 'singleSelect',
+          editable: true,
           width: 200,
+          valueOptions: ["Planned", "Unplanned", "100hr", "Annual"]
         },
       ];
 
