@@ -2,7 +2,7 @@ import { Dialog } from "@mui/material";
 import { Plane } from "../Calendar/Calendar";
 import CloseIcon from '@mui/icons-material/Close';
 import PrimaryButton from "../Buttons/PrimaryButton";
-import './AirscraftPopup.css'
+import './AircraftPopup.css'
 import { DataGrid } from "@mui/x-data-grid/DataGrid";
 import { GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";

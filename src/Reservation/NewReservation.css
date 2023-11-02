@@ -34,6 +34,12 @@
     width: 100%;
 }
 
+.toggleableText {
+    display: flex;
+    margin-top: -5em;
+    justify-content: center;
+}
+
 .dialogBox{
     display: flex;
     flex-direction: column;
@@ -47,4 +53,8 @@
     justify-content: center;
     color: #FF8080;
     font-size: 1.5em;
+}
+
+.link-text {
+    color: blue;
 }
