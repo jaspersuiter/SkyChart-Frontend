@@ -17,10 +17,10 @@ export interface AircraftPopupProps {
 }
 
 export enum SquawkType {
-    planned = "Planned",
-    unplanned = "Unplanned",
-    hundredhr = "100hr",
-    annual = "Annual",
+  planned = 1,
+  unplanned = 2,
+  hundredhr = 3,
+  annual = 4,
 }
 
 function AircraftPopup (props: AircraftPopupProps) {
