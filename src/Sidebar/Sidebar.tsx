@@ -37,8 +37,6 @@ function StaticSidebar(props: any) {
       ).then((response) => response.json())
       .then((data) => data) as boolean;
       setAdmin(isAdmin);
-      
-      console.log("isAdmin", isAdmin);
     }
     isAdmin();
   }, []);
