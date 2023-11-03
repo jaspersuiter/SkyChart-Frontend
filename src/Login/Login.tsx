@@ -1,7 +1,7 @@
 import './Login.css'
 
 import TextField from '@mui/material/TextField';
-import PrimaryButton from '../Buttons/PrimaryButton';
+import PrimaryButton from '../Utils/Buttons/PrimaryButton';
 import { useContext, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthorizationContext } from '../AuthContext';

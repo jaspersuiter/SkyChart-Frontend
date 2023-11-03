@@ -1,7 +1,7 @@
 import './NewPassword.css';
 
 import TextField from '@mui/material/TextField';
-import PrimaryButton from '../../Buttons/PrimaryButton';
+import PrimaryButton from '../../Utils/Buttons/PrimaryButton';
 import { useContext, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import React from 'react';

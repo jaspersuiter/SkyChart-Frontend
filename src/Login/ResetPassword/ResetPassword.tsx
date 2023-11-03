@@ -1,11 +1,11 @@
-import CancelButton from "../../Buttons/CancelButton";
+import CancelButton from "../../Utils/Buttons/CancelButton";
 import Dialog from "@mui/material/Dialog";
-import SecondaryButton from "../../Buttons/SecondaryButton";
+import SecondaryButton from "../../Utils/Buttons/SecondaryButton";
 import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthorizationContext } from "../../AuthContext";
 import { response } from "express";
-import PrimaryButton from "../../Buttons/PrimaryButton";
+import PrimaryButton from "../../Utils/Buttons/PrimaryButton";
 import "./ResetPassword.css";
 import { TextField } from "@mui/material";
 

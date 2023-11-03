@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthorizationContext } from "../AuthContext";
 import { Dialog, TextField } from "@mui/material";
-import PrimaryButton from "../Buttons/PrimaryButton";
+import PrimaryButton from "../Utils/Buttons/PrimaryButton";
 import { makeApiCall } from "../APICall";
 import { Plane } from "../../api-typescript/Plane";
 

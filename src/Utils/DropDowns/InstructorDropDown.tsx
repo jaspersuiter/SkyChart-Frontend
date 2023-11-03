@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { Instructor } from "../Calendar/Calendar";
+import { Instructor } from "../../Calendar/Calendar";
 import { useState } from "react";
 
 export interface InstructorSelectionProps {

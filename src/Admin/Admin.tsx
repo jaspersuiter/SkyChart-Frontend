@@ -1,5 +1,5 @@
-import PrimaryButton from "../Buttons/PrimaryButton";
-import StaticSidebar from "../Sidebar/Sidebar";
+import PrimaryButton from "../Utils/Buttons/PrimaryButton";
+import StaticSidebar from "../Utils/Sidebar/Sidebar";
 import AddNewAircraft from "./AddNewAircraft";
 import InviteNewUser from "./InviteNewUser";
 import { DataGrid, GridColDef, GridRowModel, GridValueGetterParams } from '@mui/x-data-grid';

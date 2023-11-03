@@ -1,7 +1,7 @@
 import './Registration.css'
 
 import TextField from '@mui/material/TextField';
-import PrimaryButton from '../Buttons/PrimaryButton';
+import PrimaryButton from '../Utils/Buttons/PrimaryButton';
 import React from 'react';
 import { makeApiCall } from '../APICall';
 import { useNavigate } from 'react-router-dom';

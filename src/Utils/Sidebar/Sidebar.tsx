@@ -6,10 +6,10 @@ import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import React, { useEffect } from 'react';
-import LogoutPopup from '../Logout/Logout';
+import LogoutPopup from '../../Logout/Logout';
 import { Navigate } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import { env } from "../env";
+import { env } from "../../env";
 
 function StaticSidebar(props: any) {
   

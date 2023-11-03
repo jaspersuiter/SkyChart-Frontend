@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { Plane } from "../Calendar/Calendar";
+import { Plane } from "../../Calendar/Calendar";
 import { useState } from "react";
 
 export interface PlanceSelectionProps {

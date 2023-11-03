@@ -1,10 +1,10 @@
 import './Aircraft.css';
 import '../App.css';
-import StaticSidebar from '../Sidebar/Sidebar';
+import StaticSidebar from '../Utils/Sidebar/Sidebar';
 import { Box, Button, ButtonGroup, Grid, Paper, Typography } from '@mui/material';
 import { SetStateAction, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import SecondaryButton from '../Buttons/SecondaryButton';
+import SecondaryButton from '../Utils/Buttons/SecondaryButton';
 import React from 'react';
 import ModifyAircraft from './ModifyAircraft';
 import AircraftPopup from './AircraftPopup';

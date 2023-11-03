@@ -13,7 +13,7 @@ import Calendar from "./Calendar/Calendar";
 import Settings from "./Settings/Settings";
 import Logout from "@mui/icons-material/Logout";
 import Aircraft from "./Aircraft/Aircraft";
-import VerificationPage from "./Verification/verification";
+import Verification from "./Registration/Verification/verification";
 import Admin from "./Admin/Admin";
 import Instructors from "./Instructors/Instructors";
 import Login from "./Login/Login";
@@ -43,7 +43,7 @@ function App() {
               <Route path="/settings" element={<Settings />} />
               <Route path="/" element={<Navigate to="/calendar" />} />
               <Route path="/logout" element={<Logout />} />
-              <Route path="/verify" element={<VerificationPage />} />
+              <Route path="/verify" element={<Verification />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/resetPassword" element={<NewPassword />} />
             </React.Fragment>

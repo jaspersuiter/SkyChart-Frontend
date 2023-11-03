@@ -2,9 +2,9 @@
 import { useNavigate } from 'react-router-dom';
 
 import TextField from '@mui/material/TextField';
-import PrimaryButton from '../Buttons/PrimaryButton';
+import PrimaryButton from '../Utils/Buttons/PrimaryButton';
 import { Dialog } from '@mui/material';
-import CancelButton from '../Buttons/CancelButton';
+import CancelButton from '../Utils/Buttons/CancelButton';
 import React from 'react';
 import { makeApiCall } from '../APICall';
 

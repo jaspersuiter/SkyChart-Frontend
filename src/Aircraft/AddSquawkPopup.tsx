@@ -1,12 +1,12 @@
 import { Dialog, TextField } from "@mui/material";
-import PrimaryButton from "../Buttons/PrimaryButton";
+import PrimaryButton from "../Utils/Buttons/PrimaryButton";
 import { Plane } from "../Calendar/Calendar";
 import CloseIcon from '@mui/icons-material/Close';
 import "./AddSquawkPopup.css"
-import SquawkTypeDropdown from "../DropDowns/SquawkTypeDropDown";
+import SquawkTypeDropdown from "../Utils/DropDowns/SquawkTypeDropDown";
 import { useState } from "react";
 import { SquawkType } from "./AircraftPopup";
-import GroundedDropDown from "../DropDowns/GroundedDropDown";
+import GroundedDropDown from "../Utils/DropDowns/GroundedDropDown";
 import { makeApiCall } from "../APICall";
 import dayjs, { Dayjs } from 'dayjs';
 

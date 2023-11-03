@@ -3,10 +3,10 @@ import { Dialog, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import { makeApiCall } from '../../APICall';
-import PrimaryButton from '../../Buttons/PrimaryButton';
+import PrimaryButton from '../../Utils/Buttons/PrimaryButton';
 import { ReservationData } from '../../Calendar/Schedule/Reservation';
 import { Plane } from '../../Calendar/Calendar';
-import CancelButton from '../../Buttons/CancelButton';
+import CancelButton from '../../Utils/Buttons/CancelButton';
 
 
 export interface FinishFlightProp {

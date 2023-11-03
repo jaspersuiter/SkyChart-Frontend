@@ -1,10 +1,10 @@
 import './Calendar.css';
-import PrimaryButton from '../Buttons/PrimaryButton';
+import PrimaryButton from '../Utils/Buttons/PrimaryButton';
 import { DateCalendar } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { FormControl, InputLabel, MenuItem, NativeSelect, Select } from '@mui/material';
-import StaticSidebar from '../Sidebar/Sidebar';
+import StaticSidebar from '../Utils/Sidebar/Sidebar';
 import Schedule from './Schedule/Schedule';
 import NewReservation from '../Reservation/NewReservation';
 import dayjs, { Dayjs } from 'dayjs';

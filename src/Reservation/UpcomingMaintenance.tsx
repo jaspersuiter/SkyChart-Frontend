@@ -1,6 +1,6 @@
-import CancelButton from '../Buttons/CancelButton';
+import CancelButton from '../Utils/Buttons/CancelButton';
 import Dialog from '@mui/material/Dialog';
-import SecondaryButton from '../Buttons/SecondaryButton';
+import SecondaryButton from '../Utils/Buttons/SecondaryButton';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { AuthorizationContext } from '../AuthContext';
