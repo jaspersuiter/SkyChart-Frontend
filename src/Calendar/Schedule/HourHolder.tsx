@@ -9,7 +9,7 @@ export interface HourIdentifierProps {
 function HourBar(props: HourIdentifierProps) {
     return (
       <div className="mainBar">
-        {!props.isDay && <div className='spacer'></div>}
+        {!props.isDay && <div className='Calendarspacer'></div>}
         <Identifier/>
         <Hour isDay={props.isDay} Time={"6am"}/>
         <Hour isDay={props.isDay} Time={"7am"}/>

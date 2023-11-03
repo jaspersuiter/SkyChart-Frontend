@@ -7,6 +7,7 @@ import { DataGrid } from "@mui/x-data-grid/DataGrid";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import { env } from "../env";
 
 export interface AircraftPopupProps {
     open: boolean;
@@ -14,6 +15,7 @@ export interface AircraftPopupProps {
     onClose: () => void;
     openSquawk: () => void;
     openCreateReservation: () => void;
+    openModify: () => void;
 }
 
 export enum SquawkType {
@@ -73,6 +75,24 @@ function AircraftPopup (props: AircraftPopupProps) {
         console.log(error);
     }
   }
+  
+  const apiUrl = env.SKYCHART_API_URL;
+  const [admin, setAdmin] = useState(false);
+    useEffect(() => {
+      async function isAdmin() {
+        const isAdmin = await fetch(
+          `${apiUrl}/api/user/get-current-is-admin`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        ).then((response) => response.json())
+        .then((data) => data) as boolean;
+        setAdmin(isAdmin);
+        
+      }
+      isAdmin();
+    }, []);
 
   const updateSquawk = async () => {
     console.log(currSquawk)
@@ -206,6 +226,7 @@ function AircraftPopup (props: AircraftPopupProps) {
             <div className='bottomBar'>
                 <PrimaryButton text="Create Reservation" onClick={props.openCreateReservation} />
                 <PrimaryButton text="Add Squawk" onClick= {props.openSquawk}/>
+                {admin && <PrimaryButton text="Edit Nickname" onClick= {props.openModify}/>}
             </div>
         </Dialog>
     </div>

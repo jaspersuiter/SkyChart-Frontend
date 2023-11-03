@@ -17,7 +17,20 @@ function Aircraft() {
   const [open, setOpen] = React.useState(false);
   const [openSquawk, setOpenSquawk] = React.useState(false);
   const [openCreateReservation, setOpenCreateReservation] = React.useState(false);
+  const [openModify, setOpenModify] = React.useState(false);
   const [currentPlane, setCurrentPlane] = React.useState<Plane>({} as Plane);
+  const [updateScreen, setUpdateScreen] = React.useState(false);
+
+  const handleUpdateScreen = () => {
+    setUpdateScreen(!updateScreen);
+  }
+
+  const [updateAircraftScreen, setUpdateAircraftScreen] = React.useState(false);
+
+    const handleUpdateAircraftScreen = () => {
+        setUpdateAircraftScreen(!updateAircraftScreen);
+    }
+
 
   const handleClickOpen = (plane: any) => {
     setCurrentPlane(plane);
@@ -41,6 +54,14 @@ function Aircraft() {
 
   const handleCloseCreateReservation = () => {
     setOpenCreateReservation(false);
+  }
+
+  const handleClickOpenModify = () => {
+    setOpenModify(true);
+  };
+
+  const handleCloseModify = () => {
+    setOpenModify(false);
   }
 
   const [planes, setPlanes] = useState<Plane[]>([]);
@@ -74,6 +95,13 @@ function Aircraft() {
   }
 
   useEffect(() => {
+    if (updateScreen) {
+      fetchPlanes();
+      setUpdateScreen(false);
+    }
+  }, [updateAircraftScreen]);
+
+  useEffect(() => {
     fetchPlanes();
     fetchInstructors();
   }, []); 
@@ -100,7 +128,7 @@ function Aircraft() {
         
           </div>
 
-          <div className="images">
+          <div className="images" key={ updateScreen.toString()}>
             <Grid container spacing={2}>
               {planes.map((plane, index) => (
               <Grid item xs={12} sm={6} md={4} key={index} >
@@ -117,10 +145,10 @@ function Aircraft() {
               </Grid>
             ))}
           </Grid>
-          <AircraftPopup open={open} onClose={handleClose} plane={currentPlane} openSquawk={handleClickOpenSquawk} openCreateReservation={handleClickOpenCreateReservation} key={openSquawk.toString()}/>
+          <AircraftPopup open={open} onClose={handleClose} plane={currentPlane} openSquawk={handleClickOpenSquawk} openCreateReservation={handleClickOpenCreateReservation} openModify={handleClickOpenModify}/>
           <AddSqawkPopup open={openSquawk} onClose={handleCloseSquawk} plane={currentPlane}/>
           <NewReservation open={openCreateReservation} onClose={handleCloseCreateReservation} Planes={planes} Instructors={instructors} SelectedPlane={currentPlane}/>
-          {/* <ModifyAircraft open={open} onClose={handleClose} planeId={currentPlaneId}/> */}
+          <ModifyAircraft open={openModify} onClose={handleCloseModify} planeId={currentPlane.planeId} updateScreen={handleUpdateScreen} setCurrentPlane={setCurrentPlane}/>
         </div>
       </div>       
     </div>      
