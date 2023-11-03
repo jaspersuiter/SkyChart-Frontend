@@ -1,0 +1,43 @@
+.other {
+    position: absolute; 
+    top: 0; 
+    z-index: 2;
+    display: flex;
+    height: 40px;
+    padding: 2px 0px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--Light-Gray, #FF8080);
+}
+
+.grounded {
+    position: absolute; 
+    top: 0; 
+    z-index: 4;
+    display: flex;
+    height: 40px;
+    padding: 2px 0px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--Dark-Gray, #FF8080);
+}
+
+.mainText{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    flex: 1 0 0;
+    overflow: hidden;
+    color: var(--Black, #191919);
+    text-align: center;
+    text-overflow: ellipsis;
+    font-family: 'Segoe UI';;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
