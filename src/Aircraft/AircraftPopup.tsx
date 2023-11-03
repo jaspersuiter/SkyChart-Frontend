@@ -1,4 +1,4 @@
-import { Dialog } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { Plane } from "../Calendar/Calendar";
 import CloseIcon from '@mui/icons-material/Close';
 import PrimaryButton from "../Buttons/PrimaryButton";
@@ -25,29 +25,54 @@ export enum SquawkType {
   annual = 4,
 }
 
+export interface Squawk {
+  mxId: string;
+  dateOpened: string;
+  desc: string;
+  type: SquawkType;
+}
+
 function AircraftPopup (props: AircraftPopupProps) {
   const [rows, setRows] = useState([]);
 
+<<<<<<< HEAD
+=======
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [currSquawk, setCurrSquawk] = useState<Squawk>();
+
+  const processRowUpdate = (newRow: any, oldRow: any) => {
+    setCurrSquawk(newRow);
+    if (newRow.description !== oldRow.description || newRow.type !== oldRow.type) {
+        setOpenConfirmationDialog(true);
+    }
+};
+
+  const handleConfirmationDialogClose = (confirmed: any) => {
+    setOpenConfirmationDialog(false);
+
+    if (confirmed) {
+      updateSquawk();
+    } else {
+      window.location.reload();
+    }
+  };
+>>>>>>> 9fcc7b6a781a2b932490ea77b9bd842cf8f19792
 
   const getSquawks = async () => {
     try {
-      const squawks = await fetch(`http://localhost:5201/api/squak/get-all?planeId=${props.plane.planeId}`,
+      const squawks = await fetch(`http://localhost:5201/api/squaks/get-all?planeId=${props.plane.planeId}`,
       {credentials: 'include'})
           .then((response) => response.json())
           .then((data) => data);
-
-      const mappedRows = squawks.map((user: any, index: number) => {
-         
+      const mappedRows = squawks.map((squawk: any, index: number) => {
           return {
-              id: index + 1,
-              lastName: user.lastName,
-              firstName: user.firstName,
-              phoneNum: user.phoneNumber,
-              email: user.email,
-              accountType: user.type,
+            id: index,
+            mxId: squawk.mxId,
+            date_opened: squawk.dateOpened,
+            description: squawk.description,
+            type: squawk.type
           }
       });
-
       setRows(mappedRows)
     } catch (error) {
         console.log(error);
@@ -71,6 +96,25 @@ function AircraftPopup (props: AircraftPopupProps) {
       }
       isAdmin();
     }, []);
+
+  const updateSquawk = async () => {
+    console.log(currSquawk)
+    try {
+      const update = await fetch(`http://localhost:5201/api/squaks/update`,
+      {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify(currSquawk),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+          .then((response) => response.json())
+          .then((data) => data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const handleClose = (event?: any, reason?: any) => {
     if (reason !== 'backdropClick') {
@@ -102,6 +146,28 @@ function AircraftPopup (props: AircraftPopupProps) {
       valueOptions: ["Planned", "Unplanned", "100hr", "Annual"]
     },
   ];
+
+  useEffect(() => {
+    if (props.plane.planeId != undefined) {
+      getSquawks();
+    }
+  }, [props.plane.planeId]);
+
+
+  const ConfirmationDialog = () => {
+    return (
+      <Dialog open={openConfirmationDialog} onClose={handleConfirmationDialogClose}>
+        <DialogTitle>Are you sure?</DialogTitle>
+        <DialogContent>
+          <p>Pressing 'Yes' will save the changes to the squawk.</p>
+        </DialogContent>
+        <DialogActions>
+        <Button onClick={() => handleConfirmationDialogClose(true)}>Yes</Button>
+          <Button onClick={() => handleConfirmationDialogClose(false)}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
+    );
+  };
 
   return (
     <div className="reservation-popup">
@@ -140,6 +206,7 @@ function AircraftPopup (props: AircraftPopupProps) {
               </div>
               <div className="squawks">
                 <h2 className='h2'>Squawks</h2>
+                <ConfirmationDialog />
                 <DataGrid
                     sx={{width: '100%', m: 2 }}
                     rows={rows}
@@ -153,6 +220,7 @@ function AircraftPopup (props: AircraftPopupProps) {
                     }}
                     autoHeight
                     disableRowSelectionOnClick
+                    processRowUpdate={processRowUpdate}
                 />
               </div>
             </div>
