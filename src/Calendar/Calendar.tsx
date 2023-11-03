@@ -13,6 +13,7 @@ import React, { useEffect, useState } from 'react';
 import AircraftPopup from '../Aircraft/AircraftPopup';
 import AddSqawkPopup from '../Aircraft/AddSquawkPopup';
 import DayPicker from './Schedule/DayPicker';
+import ModifyAircraft from '../Aircraft/ModifyAircraft';
 
 export interface Plane {
     planeId: string;
@@ -121,6 +122,16 @@ function Calendar() {
     const updateScreenFunction = () => {
         setUpdateScreen(!updateScreen)
     }
+
+    const [openModify, setOpenModify] = React.useState(false);
+
+    const handleClickOpenModify = () => {
+        setOpenModify(true);
+      };
+    
+      const handleCloseModify = () => {
+        setOpenModify(false);
+      }
     
 
   return (
@@ -199,8 +210,9 @@ function Calendar() {
            
         </div>
         <NewReservation open={open} onClose={handleClose} Instructors={instructors} Planes={planes} SelectedPlane={plane}/>
-        <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane} openSquawk={handleClickOpenSquawk} openCreateReservation={handleClickOpen}/>
+        <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane} openSquawk={handleClickOpenSquawk} openModify={handleClickOpenModify} openCreateReservation={handleClickOpen} />
         <AddSqawkPopup open={openSquawk} onClose={handleCloseSquawk} plane={plane}/>
+        <ModifyAircraft open={openModify} onClose={handleCloseModify} planeId={plane.planeId} updateScreen={updateScreenFunction} setCurrentPlane={setPlane}/>
     </div>
   )}
 
