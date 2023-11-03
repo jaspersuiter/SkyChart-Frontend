@@ -3,16 +3,38 @@ import { useNavigate } from "react-router-dom";
 import { AuthorizationContext } from "../AuthContext";
 import { Dialog, TextField } from "@mui/material";
 import PrimaryButton from "../Buttons/PrimaryButton";
+import { makeApiCall } from "../APICall";
+import { Plane } from "../../api-typescript/Plane";
 
 export interface ModifyAircraftProps {
     open: boolean;
     onClose: () => void;
     planeId: string;
+    updateScreen: () => void;
+    setCurrentPlane: (plane: any) => void;
 }
 
 interface Changes {
     planeId: string;
     nickname: string;   
+}
+
+async function getPlane(planeid: string): Promise<
+  Array<Plane>
+> {
+
+  const params = {
+    planeid: planeid
+    
+}
+
+  try {
+    const responseData2 = await makeApiCall("/api/plane/get", {}, "get", params);
+    return responseData2;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 }
 
 function ModifyAircraft(props: ModifyAircraftProps) {
@@ -41,7 +63,11 @@ function ModifyAircraft(props: ModifyAircraftProps) {
             console.error(error);
             alert('You are not allowed to modify airplane nicknames');
         });
+        props.updateScreen();
+        props.setCurrentPlane(await getPlane(props.planeId));
+        handleClose();
     }
+    
 
     return (
         <div className="modify-aircraft-popup">
