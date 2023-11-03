@@ -27,11 +27,25 @@
     
 }
 
+.horizontal {
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+    justify-content: center;
+    gap: .5em;
+}
+
 .flexRow{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
+}
+
+.toggleableText {
+    display: flex;
+    margin-top: -5em;
+    justify-content: center;
 }
 
 .dialogBox{
@@ -47,4 +61,8 @@
     justify-content: center;
     color: #FF8080;
     font-size: 1.5em;
+}
+
+.link-text {
+    color: blue;
 }

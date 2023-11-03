@@ -17,7 +17,7 @@ interface CustomPickerDayProps extends PickersDayProps<Dayjs> {
 const CustomPickersDay = styled(PickersDay, {
   shouldForwardProp: (prop) => prop !== 'isSelected' && prop !== 'isHovered',
 })<CustomPickerDayProps>(({ theme, isSelected, isHovered, day }) => ({
-  borderRadius: 0,
+  borderRadius: "50%",
   ...(isSelected && {
     backgroundColor: "#814DE8",
     color: theme.palette.primary.contrastText,
@@ -31,22 +31,14 @@ const CustomPickersDay = styled(PickersDay, {
       backgroundColor: "#9c78e3",
     },
   }),
-  ...(day.day() === 0 && {
-    borderTopLeftRadius: '50%',
-    borderBottomLeftRadius: '50%',
-  }),
-  ...(day.day() === 6 && {
-    borderTopRightRadius: '50%',
-    borderBottomRightRadius: '50%',
-  }),
 })) as React.ComponentType<CustomPickerDayProps>;
 
-const isInSameWeek = (dayA: Dayjs, dayB: Dayjs | null | undefined) => {
+const isInSameDay = (dayA: Dayjs, dayB: Dayjs | null | undefined) => {
   if (dayB == null) {
     return false;
   }
 
-  return dayA.isSame(dayB, 'week');
+  return dayA.isSame(dayB, 'day');
 };
 
 function Day(
@@ -64,18 +56,18 @@ function Day(
       sx={{ px: 2.5 }}
       disableMargin
       selected={false}
-      isSelected={isInSameWeek(day, selectedDay)}
-      isHovered={isInSameWeek(day, hoveredDay)}
+      isSelected={isInSameDay(day, selectedDay)}
+      isHovered={isInSameDay(day, hoveredDay)}
     />
   );
 }
 
-export interface WeekPickerProps {
+export interface DayPickerProps {
     day: Dayjs | null;
     updateDay: (param: any) => void;
   }
 
-export default function WeekPicker(props: WeekPickerProps) {
+export default function DayPicker(props: DayPickerProps) {
   const [hoveredDay, setHoveredDay] = React.useState<Dayjs | null>(null);
 
   return (

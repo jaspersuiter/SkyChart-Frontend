@@ -17,3 +17,10 @@
   padding: 90px 50px; /* Increase the top and bottom padding to make it taller */
   border-radius: 5px;
 }
+
+.error-message{
+  display: flex;
+  justify-content: center;
+  color: #FF8080;
+  font-size: 1.5em;
+}
