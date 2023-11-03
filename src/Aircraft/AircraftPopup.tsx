@@ -35,8 +35,6 @@ export interface Squawk {
 function AircraftPopup (props: AircraftPopupProps) {
   const [rows, setRows] = useState([]);
 
-<<<<<<< HEAD
-=======
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [currSquawk, setCurrSquawk] = useState<Squawk>();
 
@@ -56,7 +54,6 @@ function AircraftPopup (props: AircraftPopupProps) {
       window.location.reload();
     }
   };
->>>>>>> 9fcc7b6a781a2b932490ea77b9bd842cf8f19792
 
   const getSquawks = async () => {
     try {
