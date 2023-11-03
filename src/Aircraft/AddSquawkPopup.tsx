@@ -20,8 +20,8 @@ function AddSqawkPopup (props: AddSqawkPopupProps) {
 
     const [squawkType, setSquawkType] = useState<SquawkType>(SquawkType.planned);
     const [grounded, setGrounded] = useState<boolean>(false);
-    const [description, setDescription] = useState<String>("");
-    const [correctiveAction, setCorrectiveAction] = useState<String>("");
+    const [description, setDescription] = useState('b');
+    const [correctiveAction, setCorrectiveAction] = useState('');
     const [hobbsHours, setHobbsHours] = useState<number>(0);
     const [tachHours, setTachHours] = useState<number>(0);
 
