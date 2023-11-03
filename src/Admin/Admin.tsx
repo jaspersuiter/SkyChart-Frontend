@@ -28,7 +28,6 @@ function Admin() {
     const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
     const [userId, setUserId] = useState('');
 
-    
     const updateUserType = () => {
         fetch(`http://localhost:5201/api/user/update-account-type?userId=${userId}`, {credentials: 'include', method: 'PUT'})
     }
