@@ -93,8 +93,8 @@ function AircraftSection(props: AircraftSectionProps) {
   if (props.isGrounded) {
     // Create unavailable container with grounded times
     let GroundedProps = {
-      resStartTime: '9:00:00', // Grounded Start Time
-      resEndTime: '11:00:00', // Grounded End Time
+      resStartTime: '6:00:00', // Grounded Start Time
+      resEndTime: '23:00:00', // Grounded End Time
       isDay: props.isDay,
       width: divWidth
     }
