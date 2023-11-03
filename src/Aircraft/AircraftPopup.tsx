@@ -6,7 +6,6 @@ import './AircraftPopup.css'
 import { DataGrid } from "@mui/x-data-grid/DataGrid";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import dayjs from "dayjs";
 
 export interface AircraftPopupProps {
     open: boolean;
@@ -20,14 +19,16 @@ export enum SquawkType {
   planned = 1,
   unplanned = 2,
   hundredhr = 3,
-  annual = 4,
+  annual = 4
 }
+
+const Type1 = [{label: "Planned", value: 1}, {label: "Unplanned", value: 2}, {label: "100 Hour", value: 3}, {label: "Annual", value: 4}]
 
 export interface Squawk {
   mxId: string;
   dateOpened: string;
   desc: string;
-  type: SquawkType;
+  type: number;
 }
 
 function AircraftPopup (props: AircraftPopupProps) {
@@ -37,6 +38,7 @@ function AircraftPopup (props: AircraftPopupProps) {
   const [currSquawk, setCurrSquawk] = useState<Squawk>();
 
   const processRowUpdate = (newRow: any, oldRow: any) => {
+    newRow.type = Type1.find((object) => object.label == newRow.type)?.value;
     setCurrSquawk(newRow);
     if (newRow.description !== oldRow.description || newRow.type !== oldRow.type) {
         setOpenConfirmationDialog(true);
@@ -65,7 +67,7 @@ function AircraftPopup (props: AircraftPopupProps) {
             mxId: squawk.mxId,
             date_opened: squawk.dateOpened,
             description: squawk.description,
-            type: squawk.type
+            type: Type1.find((object) => object.value == squawk.type)
           }
       });
       setRows(mappedRows)
@@ -120,7 +122,7 @@ function AircraftPopup (props: AircraftPopupProps) {
       type: 'singleSelect',
       editable: true,
       width: 200,
-      valueOptions: ["Planned", "Unplanned", "100hr", "Annual"]
+      valueOptions: ["Planned", "Unplanned", "100 Hour", "Annual"]
     },
   ];
 
