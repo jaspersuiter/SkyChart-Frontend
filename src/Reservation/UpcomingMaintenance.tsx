@@ -1,26 +1,61 @@
-import CancelButton from '../Buttons/CancelButton';
-import Dialog from '@mui/material/Dialog';
-import SecondaryButton from '../Buttons/SecondaryButton';
-import { useNavigate } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
-import { AuthorizationContext } from '../AuthContext';
-import { response } from 'express';
-import { Plane } from '../Calendar/Calendar';
-import React from 'react';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { Plane } from "../Calendar/Calendar";
+import CloseIcon from '@mui/icons-material/Close';
+import PrimaryButton from "../Buttons/PrimaryButton";
+import './UpcomingMaintenance.css'
+import { DataGrid } from "@mui/x-data-grid/DataGrid";
+import { GridColDef } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import { env } from "../env";
 
 export interface UpcomingMaintenanceProps {
     open: boolean;
-    onClose: () => void;
     planeId: string;
+    onClose: () => void;
 }
 
-function UpcomingMaintenance(props: UpcomingMaintenanceProps) {
-    const {open, onClose} = props;
+export enum SquawkType {
+  planned = 1,
+  unplanned = 2,
+  hundredhr = 3,
+  annual = 4
+}
 
-    const handleClose = () => {
-        onClose();
-    };
-    const [plane, setPlane] = React.useState<Plane>({planeId: '', tailNumber: '', model: '', nickName: '', hourlyRate: 0, numEngines: 0, tachHours: 0, hobbsHours: 0, grounded: false});
+const Type1 = [{label: "Planned", value: 1}, {label: "Unplanned", value: 2}, {label: "100 Hour", value: 3}, {label: "Annual", value: 4}]
+
+export interface Squawk {
+  mxId: string;
+  dateOpened: string;
+  desc: string;
+  type: number;
+}
+
+function UpcomingMaintenance (props: UpcomingMaintenanceProps) {
+  const [rows, setRows] = useState([]);
+
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [currSquawk, setCurrSquawk] = useState<Squawk>();
+
+  const processRowUpdate = (newRow: any, oldRow: any) => {
+    newRow.type = Type1.find((object) => object.label == newRow.type)?.value;
+    setCurrSquawk(newRow);
+    if (newRow.description !== oldRow.description || newRow.type !== oldRow.type) {
+        setOpenConfirmationDialog(true);
+    }
+};
+
+  const handleConfirmationDialogClose = (confirmed: any) => {
+    setOpenConfirmationDialog(false);
+
+    if (confirmed) {
+      updateSquawk();
+    } else {
+      window.location.reload();
+    }
+  };
+
+    const [plane, setPlane] = useState<Plane>({planeId: '', tailNumber: '', model: '', nickName: '', hourlyRate: 0, numEngines: 0, tachHours: 0, hobbsHours: 0, grounded: false});
 
     const fetchPlane = async () => {
         try {
@@ -36,32 +71,176 @@ function UpcomingMaintenance(props: UpcomingMaintenanceProps) {
         }
     }
 
+  const getSquawks = async () => {
+    try {
+      const squawks = await fetch(`http://localhost:5201/api/squaks/get-all?planeId=${props.planeId}`,
+      {credentials: 'include'})
+          .then((response) => response.json())
+          .then((data) => data);
+      const mappedRows = squawks.map((squawk: any, index: number) => {
+          return {
+            id: index,
+            mxId: squawk.mxId,
+            date_opened: squawk.dateOpened,
+            description: squawk.description,
+            type: Type1.find((object) => object.value == squawk.type)
+          }
+      });
+      setRows(mappedRows)
+    } catch (error) {
+        console.log(error);
+    }
+  }
+  
+  const apiUrl = env.SKYCHART_API_URL;
+  const [admin, setAdmin] = useState(false);
     useEffect(() => {
-        fetchPlane(); // Call fetchInstructors when the component mounts
-    }, [props.planeId]);
+      async function isAdmin() {
+        const isAdmin = await fetch(
+          `${apiUrl}/api/user/get-current-is-admin`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        ).then((response) => response.json())
+        .then((data) => data) as boolean;
+        setAdmin(isAdmin);
+        
+      }
+      isAdmin();
+    }, []);
 
+  const updateSquawk = async () => {
+    console.log(currSquawk)
+    try {
+      const update = await fetch(`http://localhost:5201/api/squaks/update`,
+      {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify(currSquawk),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+          .then((response) => response.json())
+          .then((data) => data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleClose = (event?: any, reason?: any) => {
+    if (reason !== 'backdropClick') {
+        props.onClose();
+      } 
+  };
+
+  const columns: GridColDef[] = [
+    {
+      field: 'date_opened',
+      headerName: 'Date Opened',
+      type: 'string',
+      editable: false,
+      width: 200,
+    },
+    {
+      field: 'description',
+      headerName: 'Description',
+      type: 'string',
+      editable: true,
+      width: 200,
+    },
+    {
+      field: 'type',
+      headerName: 'Type',
+      type: 'singleSelect',
+      editable: true,
+      width: 200,
+      valueOptions: ["Planned", "Unplanned", "100 Hour", "Annual"]
+    },
+  ];
+
+  useEffect(() => {
+    if (props.planeId != undefined) {
+        fetchPlane();
+        getSquawks();
+    }
+  }, [props.planeId]);
+
+
+  const ConfirmationDialog = () => {
     return (
-        <div>
-            <Dialog onClose={handleClose} open={open}
-              sx={{
-                "& .MuiDialog-container": {
-                  "& .MuiPaper-root": {
-                    width: "30%",
-                    maxWidth: "57.5vw",
-                    height: "25%",
-                    maxHeight: "95vh",
-                    paddingBottom: "30px",
-                    paddingLeft: "30px",
-                    paddingRight: "30px"
-                  },
-                },
-              }}>
-            
-                <h2>{plane.tailNumber} - ({plane.nickName}) Maintenance Items</h2>
-                
-            </Dialog>
-        </div>
+      <Dialog open={openConfirmationDialog} onClose={handleConfirmationDialogClose}>
+        <DialogTitle>Are you sure?</DialogTitle>
+        <DialogContent>
+          <p>Pressing 'Yes' will save the changes to the squawk.</p>
+        </DialogContent>
+        <DialogActions>
+        <Button onClick={() => handleConfirmationDialogClose(true)}>Yes</Button>
+          <Button onClick={() => handleConfirmationDialogClose(false)}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
     );
+  };
+
+  return (
+    <div className="reservation-popup">
+      <Dialog onClose={handleClose} open={props.open}
+        sx={{
+            "& .MuiDialog-container": {
+              "& .MuiPaper-root": {
+                width: "100%",
+                maxWidth: "57.5vw",
+                height: "100%",
+                maxHeight: "80vh",
+                padding: "30px"
+              },
+            },
+          }}>
+
+            <div className='TitleBar'>
+                <div className='spaceFiller'/>
+                <h1 className='h1'>{plane.tailNumber} {plane.nickName && `(${plane.nickName})`} {plane.model}</h1>
+                <div className='spaceFiller'>
+                <CloseIcon onClick={handleClose}/>
+                </div>
+            </div>
+
+            <div className='DialogBoxAircraft'>
+              <div className="generalInfo">
+                <h2 className='h2'>General Information</h2>
+
+                <div className="generalInfoColumn">
+                  <p className='p'>Hourly Rate: {plane.hourlyRate}</p>
+                  <p className='p'>Hobbs Hours: {plane.hobbsHours}</p>
+                  <p className='p'>Tach Hours: {plane.tachHours}</p>
+                  <p className='p'>Number of Engines: {plane.numEngines}</p>
+                </div>
+
+              </div>
+              <div className="squawks">
+                <h2 className='h2'>Squawks</h2>
+                <ConfirmationDialog />
+                <DataGrid
+                    sx={{width: '100%', m: 2 }}
+                    rows={rows}
+                    columns={columns}
+                    initialState={{
+                        pagination: {
+                            paginationModel: {
+                                pageSize: 100,
+                            },
+                        },
+                    }}
+                    autoHeight
+                    disableRowSelectionOnClick
+                    processRowUpdate={processRowUpdate}
+                />
+              </div>
+            </div>
+        </Dialog>
+    </div>
+  );  
 }
 
 export default UpcomingMaintenance;
