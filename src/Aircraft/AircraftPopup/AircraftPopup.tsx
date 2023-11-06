@@ -180,7 +180,7 @@ function AircraftPopup (props: AircraftPopupProps) {
               },
             },
           }}>
-            <div className='TitleBar'>
+            <div className='title-bar'>
               <div className='space-filler'/>
               <p className='aircraft-popup-header'>{`${props.plane.nickName} [${props.plane.tailNumber}] - ${props.plane.model}`}</p>
               <div className='space-filler'>
