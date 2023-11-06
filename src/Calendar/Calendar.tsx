@@ -6,7 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { FormControl, InputLabel, MenuItem, NativeSelect, Select } from '@mui/material';
 import StaticSidebar from '../Utils/Sidebar/Sidebar';
 import Schedule from './Schedule/Schedule';
-import NewReservation from '../Reservation/NewReservation/NewReservation';
+import NewReservation from '../Reservation/CreateReservation/CreateReservation';
 import dayjs, { Dayjs } from 'dayjs';
 import WeekPicker from './Schedule/WeekPicker';
 import React, { useEffect, useState } from 'react';

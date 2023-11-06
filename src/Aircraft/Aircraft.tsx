@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import ModifyAircraft from './ModifyAircraft/ModifyAircraft';
 import AircraftPopup from './AircraftPopup/AircraftPopup';
 import AddSqauwkPopup from './AddSquawkPopup/AddSquawkPopup';
-import NewReservation from '../Reservation/NewReservation/NewReservation';
+import NewReservation from '../Reservation/CreateReservation/CreateReservation';
 import { Instructor, Plane } from '../Calendar/Calendar';
 
 function Aircraft() {

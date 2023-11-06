@@ -1,4 +1,4 @@
-import './NewReservation.css'
+import './CreateReservation.css'
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import PrimaryButton from '../../Utils/Buttons/PrimaryButton';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
@@ -147,9 +147,9 @@ function NewReservation(props: NewReservationProps) {
                 },
               }}>
 
-                <div className='TitleBar'>
+                <div className='create-reservation-title-bar'>
                     <div className='spaceFiller'/>
-                    <h1 className='h1'>Create a Reservation</h1>
+                    <h1 className='h1'>Create Reservation</h1>
                     <div className='spaceFiller'>
                     <CloseIcon onClick={resetAll}/>
                     </div>
@@ -157,14 +157,11 @@ function NewReservation(props: NewReservationProps) {
 
                 <div className='dialogBox'>
                     {/* Dropdown Menus for Selecting Aircraft & Instructor */}
-                    <div className='flexRow'>
+                    <div className='create-reservation-flexrow'>
 
                         <InstructorDropDown Instructors={props.Instructors} InstructorId={instructorId} setInstructorIdParent={setInstructorId}/>
-                        
                         <PlaneDropDown Planes={props.Planes} PlaneID={planeId} SetPlaneIdParent={setPlaneId}/>
-
                         <ReservationTypeDropDown ReservationType={reservationType} setReservationTypeParent={setReservationType}/>
-                        
                     </div>
 
                     <div className='toggleableText'>
@@ -172,7 +169,7 @@ function NewReservation(props: NewReservationProps) {
                     </div>
 
                     {/* Date and Time Pickers to Select Reservation Time */}
-                    <div className='flexRow'>
+                    <div className='create-reservation-flexrow'>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker label="Select Day" value={day} onChange={handleDay} sx={{
                                     svg: { color: '#4DE8B4' },
@@ -217,14 +214,8 @@ function NewReservation(props: NewReservationProps) {
                     </div>
 
                 </div>
-                
-                
-                
-                
-
-
                 {/* Confirm and Cancel Buttons */}
-                <div className='TitleBar'>
+                <div className='bottom-bar'>
                     <PrimaryButton text="Create Reservation" onClick={createReservation} disabled={startTime === null || endTime === null || day === null}/>
                 </div>
                 <UpcomingMaintenance open={maintenanceOpen} onClose={handleCloseMaintenance} planeId={planeId} />
