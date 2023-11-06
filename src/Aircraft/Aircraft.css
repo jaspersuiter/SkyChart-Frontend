@@ -1,5 +1,12 @@
 .page-content {
     margin-left: 14em;
+    text-align: center;
+}
+
+.aircraft-page-header {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 3em;
+    margin-bottom: -1em;
 }
 
 .filters {
