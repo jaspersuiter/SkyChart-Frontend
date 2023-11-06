@@ -1,11 +1,11 @@
-import CancelButton from '../Utils/Buttons/CancelButton';
+import CancelButton from '../../Utils/Buttons/CancelButton';
 import Dialog from '@mui/material/Dialog';
-import SecondaryButton from '../Utils/Buttons/SecondaryButton';
+import SecondaryButton from '../../Utils/Buttons/SecondaryButton';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { AuthorizationContext } from '../AuthContext';
+import { AuthorizationContext } from '../../AuthContext';
 import { response } from 'express';
-import { Plane } from '../Calendar/Calendar';
+import { Plane } from '../../Calendar/Calendar';
 import React from 'react';
 
 export interface UpcomingMaintenanceProps {

@@ -1,19 +1,19 @@
 import './NewReservation.css'
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
-import PrimaryButton from '../Utils/Buttons/PrimaryButton';
+import PrimaryButton from '../../Utils/Buttons/PrimaryButton';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
-import { makeApiCall } from '../APICall';
+import { makeApiCall } from '../../APICall';
 import { useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { Instructor, Plane } from '../Calendar/Calendar';
-import InstructorDropDown from '../Utils/DropDowns/InstructorDropDown';
-import PlaneDropDown from '../Utils/DropDowns/PlaneDropDown';
-import ReservationTypeDropDown, { ReservationType } from '../Utils/DropDowns/ReservationTypeDropDown';
+import { Instructor, Plane } from '../../Calendar/Calendar';
+import InstructorDropDown from '../../Utils/DropDowns/InstructorDropDown';
+import PlaneDropDown from '../../Utils/DropDowns/PlaneDropDown';
+import ReservationTypeDropDown, { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
 import React from 'react';
-import UpcomingMaintenance from './UpcomingMaintenance';
+import UpcomingMaintenance from '../UpcomingMaintenance/UpcomingMaintenance';
 
 export interface NewReservationProps {
     open: boolean;

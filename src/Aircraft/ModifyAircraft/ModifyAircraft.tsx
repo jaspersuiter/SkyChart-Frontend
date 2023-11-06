@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthorizationContext } from "../AuthContext";
+import { AuthorizationContext } from "../../AuthContext";
 import { Dialog, TextField } from "@mui/material";
-import PrimaryButton from "../Utils/Buttons/PrimaryButton";
-import { makeApiCall } from "../APICall";
-import { Plane } from "../../api-typescript/Plane";
+import PrimaryButton from "../../Utils/Buttons/PrimaryButton";
+import { makeApiCall } from "../../APICall";
+import { Plane } from "../../../api-typescript/Plane";
 
 export interface ModifyAircraftProps {
     open: boolean;

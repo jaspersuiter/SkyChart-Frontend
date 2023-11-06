@@ -1,7 +1,7 @@
 import React from 'react';
 import { Plane } from '../Calendar';
 import './Identifier.css';
-import AircraftPopup from '../../Aircraft/AircraftPopup';
+import AircraftPopup from '../../Aircraft/AircraftPopup/AircraftPopup';
 
 export interface HourIdentifierProps {
   Name?: String

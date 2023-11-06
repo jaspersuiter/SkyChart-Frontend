@@ -1,13 +1,13 @@
 import { Dialog, TextField } from "@mui/material";
-import PrimaryButton from "../Utils/Buttons/PrimaryButton";
-import { Plane } from "../Calendar/Calendar";
+import PrimaryButton from "../../Utils/Buttons/PrimaryButton";
+import { Plane } from "../../Calendar/Calendar";
 import CloseIcon from '@mui/icons-material/Close';
 import "./AddSquawkPopup.css"
-import SquawkTypeDropdown from "../Utils/DropDowns/SquawkTypeDropDown";
+import SquawkTypeDropdown from "../../Utils/DropDowns/SquawkTypeDropDown";
 import { useState } from "react";
-import { SquawkType } from "./AircraftPopup";
-import GroundedDropDown from "../Utils/DropDowns/GroundedDropDown";
-import { makeApiCall } from "../APICall";
+import { SquawkType } from "../AircraftPopup/AircraftPopup";
+import GroundedDropDown from "../../Utils/DropDowns/GroundedDropDown";
+import { makeApiCall } from "../../APICall";
 import dayjs, { Dayjs } from 'dayjs';
 
 export interface AddSqawkPopupProps {
@@ -16,11 +16,11 @@ export interface AddSqawkPopupProps {
     onClose: () => void;
 }
 
-function AddSqawkPopup (props: AddSqawkPopupProps) {
+function AddSqauwkPopup (props: AddSqawkPopupProps) {
 
     const [squawkType, setSquawkType] = useState<SquawkType>(SquawkType.planned);
     const [grounded, setGrounded] = useState<boolean>(false);
-    const [description, setDescription] = useState('b');
+    const [description, setDescription] = useState('');
     const [correctiveAction, setCorrectiveAction] = useState('');
     const [hobbsHours, setHobbsHours] = useState<number>(0);
     const [tachHours, setTachHours] = useState<number>(0);
@@ -167,4 +167,4 @@ function AddSqawkPopup (props: AddSqawkPopupProps) {
     )
 }
 
-export default AddSqawkPopup
+export default AddSqauwkPopup

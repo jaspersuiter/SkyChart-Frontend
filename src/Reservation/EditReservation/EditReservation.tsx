@@ -3,19 +3,19 @@ import CloseIcon from '@mui/icons-material/Close';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
-import { makeApiCall } from '../APICall';
+import { makeApiCall } from '../../APICall';
 import './EditReservation.css'
-import PrimaryButton from '../Utils/Buttons/PrimaryButton';
+import PrimaryButton from '../../Utils/Buttons/PrimaryButton';
 import { useState } from 'react';
-import { ReservationData } from '../Calendar/Schedule/Reservation';
-import { Instructor, Plane } from '../Calendar/Calendar';
-import InstructorDropDown from '../Utils/DropDowns/InstructorDropDown';
-import PlaneDropDown from '../Utils/DropDowns/PlaneDropDown';
-import ReservationTypeDropDown, { ReservationType } from '../Utils/DropDowns/ReservationTypeDropDown';
-import CancelButton from '../Utils/Buttons/CancelButton';
-import ConfirmPopup from '../Utils/ConfirmPopup/Confirm';
-import { Days } from '../../api-typescript/data-contracts';
-import FinishFlight from './FinishFlight/FinishFlight';
+import { ReservationData } from '../../Calendar/Schedule/Reservation';
+import { Instructor, Plane } from '../../Calendar/Calendar';
+import InstructorDropDown from '../../Utils/DropDowns/InstructorDropDown';
+import PlaneDropDown from '../../Utils/DropDowns/PlaneDropDown';
+import ReservationTypeDropDown, { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
+import CancelButton from '../../Utils/Buttons/CancelButton';
+import ConfirmPopup from '../../Utils/ConfirmPopup/Confirm';
+import { Days } from '../../../api-typescript/data-contracts';
+import FinishFlight from '../FinishFlight/FinishFlight';
 
 
 export interface EditReservationProp {

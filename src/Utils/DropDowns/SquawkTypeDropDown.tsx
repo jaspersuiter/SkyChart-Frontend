@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SquawkType } from "../../Aircraft/AircraftPopup";
+import { SquawkType } from "../../Aircraft/AircraftPopup/AircraftPopup";
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
 export interface SquawkTypeSelectionProps {

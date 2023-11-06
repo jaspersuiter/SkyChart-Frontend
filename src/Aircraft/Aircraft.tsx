@@ -6,11 +6,11 @@ import { SetStateAction, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import SecondaryButton from '../Utils/Buttons/SecondaryButton';
 import React from 'react';
-import ModifyAircraft from './ModifyAircraft';
-import AircraftPopup from './AircraftPopup';
+import ModifyAircraft from './ModifyAircraft/ModifyAircraft';
+import AircraftPopup from './AircraftPopup/AircraftPopup';
 import { Instructor, Plane } from '../Calendar/Calendar';
-import AddSqawkPopup from './AddSquawkPopup';
-import NewReservation from '../Reservation/NewReservation';
+import AddSqauwkPopup from './AddSquawkPopup/AddSquawkPopup';
+import NewReservation from '../Reservation/NewReservation/NewReservation';
 
 function Aircraft() {
 
@@ -146,7 +146,7 @@ function Aircraft() {
             ))}
           </Grid>
           <AircraftPopup open={open} onClose={handleClose} plane={currentPlane} openSquawk={handleClickOpenSquawk} openCreateReservation={handleClickOpenCreateReservation} openModify={handleClickOpenModify}/>
-          <AddSqawkPopup open={openSquawk} onClose={handleCloseSquawk} plane={currentPlane}/>
+          <AddSqauwkPopup open={openSquawk} onClose={handleCloseSquawk} plane={currentPlane}/>
           <NewReservation open={openCreateReservation} onClose={handleCloseCreateReservation} Planes={planes} Instructors={instructors} SelectedPlane={currentPlane}/>
           <ModifyAircraft open={openModify} onClose={handleCloseModify} planeId={currentPlane.planeId} updateScreen={handleUpdateScreen} setCurrentPlane={setCurrentPlane}/>
         </div>

@@ -1,11 +1,11 @@
 import { Dialog } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { makeApiCall } from '../APICall';
+import { makeApiCall } from '../../APICall';
 import TextField from '@mui/material/TextField';
 import './AddNewAircraft.css'
-import PrimaryButton from '../Utils/Buttons/PrimaryButton';
+import PrimaryButton from '../../Utils/Buttons/PrimaryButton';
 import { useState } from 'react';
-import SecondaryButton from '../Utils/Buttons/SecondaryButton';
+import SecondaryButton from '../../Utils/Buttons/SecondaryButton';
 
 export interface AddNewAircraftProp {
     open: boolean;

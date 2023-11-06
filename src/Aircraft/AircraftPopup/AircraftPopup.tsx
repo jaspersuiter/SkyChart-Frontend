@@ -1,13 +1,13 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
-import { Plane } from "../Calendar/Calendar";
+import { Plane } from "../../Calendar/Calendar";
 import CloseIcon from '@mui/icons-material/Close';
-import PrimaryButton from "../Utils/Buttons/PrimaryButton";
+import PrimaryButton from "../../Utils/Buttons/PrimaryButton";
 import './AircraftPopup.css'
 import { DataGrid } from "@mui/x-data-grid/DataGrid";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import { env } from "../env";
+import { env } from "../../env";
 
 export interface AircraftPopupProps {
     open: boolean;
