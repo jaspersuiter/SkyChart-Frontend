@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Drawer } from "@mui/material";
 import { Plane } from "../../Calendar/Calendar";
 import CloseIcon from '@mui/icons-material/Close';
 import PrimaryButton from "../../Utils/Buttons/PrimaryButton";
@@ -6,7 +6,6 @@ import './AircraftPopup.css'
 import { DataGrid } from "@mui/x-data-grid/DataGrid";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import dayjs from "dayjs";
 import { env } from "../../env";
 
 export interface AircraftPopupProps {
@@ -175,40 +174,40 @@ function AircraftPopup (props: AircraftPopupProps) {
         sx={{
             "& .MuiDialog-container": {
               "& .MuiPaper-root": {
-                width: "100%",
-                maxWidth: "57.5vw",
-                height: "100%",
-                maxHeight: "80vh",
-                padding: "30px"
+                maxWidth: "65em",
+                maxHeight: "45em",
+                padding: "2em"
               },
             },
           }}>
-
             <div className='TitleBar'>
-                <div className='spaceFiller'/>
-                <h1 className='h1'>{props.plane.tailNumber} {props.plane.nickName && `(${props.plane.nickName})`} {props.plane.model}</h1>
-                <div className='spaceFiller'>
+              <div className='space-filler'/>
+              <p className='aircraft-popup-header'>{`${props.plane.nickName} [${props.plane.tailNumber}] - ${props.plane.model}`}</p>
+              <div className='space-filler'>
                 <CloseIcon onClick={handleClose}/>
-                </div>
+              </div>
             </div>
 
-            <div className='DialogBoxAircraft'>
-              <div className="generalInfo">
-                <h2 className='h2'>General Information</h2>
+            <div className="aircraft-popup-main-content">
 
-                <div className="generalInfoColumn">
-                  <p className='p'>Hourly Rate: {props.plane.hourlyRate}</p>
-                  <p className='p'>Hobbs Hours: {props.plane.hobbsHours}</p>
-                  <p className='p'>Tach Hours: {props.plane.tachHours}</p>
-                  <p className='p'>Number of Engines: {props.plane.numEngines}</p>
+              {/* Information Sidebar Frame */}
+              <div className="info-frame">
+                <p className="info-header">Information</p>
+
+                <div className="info-column">
+                  <p className='p'>Rate: <b>${props.plane.hourlyRate}/hr</b></p>
+                  <p className='p'>Hobbs Hours: <b>{props.plane.hobbsHours}</b></p>
+                  <p className='p'>Tach Hours: <b>{props.plane.tachHours}</b></p>
+                  <p className='p'>Engines: <b>{props.plane.numEngines}</b></p>
                 </div>
-
               </div>
-              <div className="squawks">
-                <h2 className='h2'>Squawks</h2>
+
+              {/* Squawks Frame */}
+              <div className="squawks-frame">
+                <p className="info-header">Squawks</p>
                 <ConfirmationDialog />
                 <DataGrid
-                    sx={{width: '100%', m: 2 }}
+                    sx={{width: "50em", m: 2 }}
                     rows={rows}
                     columns={columns}
                     initialState={{
@@ -224,12 +223,12 @@ function AircraftPopup (props: AircraftPopupProps) {
                 />
               </div>
             </div>
-
+                  
             {/* Confirm and Cancel Buttons */}
-            <div className='bottomBar'>
-                <PrimaryButton text="Create Reservation" onClick={props.openCreateReservation} />
-                <PrimaryButton text="Add Squawk" onClick= {props.openSquawk}/>
-                {admin && <PrimaryButton text="Edit Nickname" onClick= {props.openModify}/>}
+            <div className='bottom-bar'>
+              <PrimaryButton text="Create Reservation" onClick={props.openCreateReservation} />
+              <PrimaryButton text="Add Squawk" onClick= {props.openSquawk}/>
+              {admin && <PrimaryButton text="Edit Nickname" onClick= {props.openModify}/>}
             </div>
         </Dialog>
     </div>

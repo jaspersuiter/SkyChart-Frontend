@@ -1,30 +1,38 @@
 .reservation-popup {
-    font-family: Inter;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.TitleBar{
+.aircraft-popup-header {
     display: flex;
-    width: 100%;
-    justify-content: center;
-}
-
-.spaceFiller{
-    display: flex;
-    width: 100%;
-    justify-content: flex-end;
-}
-
-.h1 {
-    display: block;
+    align-items: center;
     font-size: 2em;
-    margin-block-start: 0.67em;
-    margin-block-end: 0.67em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
     white-space: nowrap;
-    padding: .5em;
-    
+    margin-bottom: -1em;
+}
+
+.aircraft-popup-main-content {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 5em;
+}
+
+.info-frame {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-right: 3em;
+    padding-left: 2em;
+}
+
+.info-header {
+    font-size: 1.5em;
+}
+
+.squawks-frame {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1em;
 }
 
 .h2 {
@@ -32,49 +40,24 @@
     font-size: 1.5em;
     white-space: nowrap;
     padding: .5em;
-    
 }
 
 .p {
     display: block;
-    font-size: 1em;
+    font-size: 1.25em;
     white-space: nowrap;
 }
 
-.DialogBoxAircraft{
-    display: flex;
-    flex-direction: row;
-    padding-bottom: 1em;
-    width: 100%;
-    height: 100%;
-}
-
-.bottomBar{
+.bottom-bar {
     display: flex;
     flex-direction: row;
     justify-content: center;
     width: 100%;
     gap: 1em;
 }
-.generalInfo{
-    display: flex;
-    flex-direction: column;
-}
 
-.squawks{
+.space-filler {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1em;
     width: 100%;
-    border-radius: 20px;
-    border: 4px solid var(--Trinary-Color, #4D81E8);
-}
-
-.generalInfoColumn{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1em;
-    width: 100%;
+    justify-content: flex-end;
 }

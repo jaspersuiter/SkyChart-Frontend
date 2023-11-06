@@ -138,7 +138,7 @@ function Aircraft() {
               <Paper elevation={2} style={{...gridStyle.paper, flexDirection: 'column', flexWrap: 'nowrap'}}>
                 <Button fullWidth onClick={()=>{handleClickPlane(plane)}}>
                   <Typography 
-                    variant="h4" 
+                    variant="h5" 
                     align="center" 
                     fontFamily={"Segoe UI"}>
                     {`${plane.nickName} [${plane.tailNumber}]`}
