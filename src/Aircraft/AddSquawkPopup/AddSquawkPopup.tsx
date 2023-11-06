@@ -17,7 +17,6 @@ export interface AddSqawkPopupProps {
 }
 
 function AddSqauwkPopup (props: AddSqawkPopupProps) {
-
     const [squawkType, setSquawkType] = useState<SquawkType>(SquawkType.planned);
     const [grounded, setGrounded] = useState<boolean>(false);
     const [description, setDescription] = useState('');
@@ -28,12 +27,11 @@ function AddSqauwkPopup (props: AddSqawkPopupProps) {
     const [errormessage, setErrormessage] = useState('')
 
     const handleClose = (event?: any, reason?: any) => {
-        if (reason !== 'backdropClick') {
-
+    if (reason !== 'backdropClick') {
             reset();
             props.onClose();
-          } 
-      };
+        } 
+    };
 
     const reset = () => {
         setSquawkType(SquawkType.planned);
@@ -82,29 +80,30 @@ function AddSqauwkPopup (props: AddSqawkPopupProps) {
             sx={{
                 "& .MuiDialog-container": {
                   "& .MuiPaper-root": {
-                    width: "100%",
-                    maxWidth: "57.5vw",
-                    height: "100%",
-                    maxHeight: "80vh",
+                    maxWidth: "50em",
+                    maxHeight: "35em",
                     padding: "30px"
                   },
                 },
               }}>
 
-                <div className='TitleBar'>
+                <div className='add-squawk-title-bar'>
                     <div className='spaceFiller'/>
-                    <h1 className='h1'>Add {props.plane.tailNumber} {props.plane.nickName && `(${props.plane.nickName})`} Squawk</h1>
+                    <p className='add-squawk-header'>{`${props.plane.nickName} [${props.plane.tailNumber}] - Add Squawk`}</p>
                     <div className='spaceFiller'>
                     <CloseIcon onClick={handleClose}/>
                     </div>
                 </div>
 
                 <div className='DialogBoxSquawk'>
+                    {/* Squawk Type and Grounded Dropdowns*/}
                     <div className="dropDowns">
                         <SquawkTypeDropdown SquawkType={squawkType} setSquawkTypeParent={setSquawkType}/>
                         <GroundedDropDown grounded={grounded} setGroundedParent={setGrounded}/>
                     </div>
-                    <div className="dropDowns">
+
+                    {/* Text Fields for Description and Corrective Action */}
+                    <div className="text-fields">
                         <TextField id="Description" 
                             label="Description" 
                             value={description} 
@@ -121,6 +120,7 @@ function AddSqauwkPopup (props: AddSqawkPopupProps) {
                             onChange={(event) => {setCorrectiveAction(event.target.value)}}/>
                     </div>
                     
+                    {/* Tach and Hobbs Hours */}
                     <div className="dropDowns"> 
                         <TextField id="HobbsHours" 
                             label="Hobbs Hours" 
@@ -152,15 +152,10 @@ function AddSqauwkPopup (props: AddSqawkPopupProps) {
                         {errormessage}
                     </div>
                 </div>
-                
-                
-                
-                
-
 
                 {/* Confirm and Cancel Buttons */}
                 <div className='bottomBar'>
-                    <PrimaryButton text="Add Squawk" onClick={createSquawk}/>
+                    <PrimaryButton text="Confirm" onClick={createSquawk}/>
                 </div>
             </Dialog>
         </div>

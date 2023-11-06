@@ -24,7 +24,7 @@ export enum SquawkType {
   annual = 4
 }
 
-const Type1 = [{label: "Planned", value: 1}, {label: "Unplanned", value: 2}, {label: "100 Hour", value: 3}, {label: "Annual", value: 4}]
+const SquawkLabel = [{label: "Planned", value: 1}, {label: "Unplanned", value: 2}, {label: "100 Hour", value: 3}, {label: "Annual", value: 4}]
 
 export interface Squawk {
   mxId: string;
@@ -34,18 +34,41 @@ export interface Squawk {
 }
 
 function AircraftPopup (props: AircraftPopupProps) {
+  // Squawk Data Retrieval
   const [rows, setRows] = useState([]);
+  const getSquawks = async () => {
+    try {
+      const squawks = await fetch(`http://localhost:5201/api/squaks/get-all?planeId=${props.plane.planeId}`,
+      {credentials: 'include'})
+        .then((response) => response.json())
+        .then((data) => data);
+      const mappedRows = squawks.map((squawk: any, index: number) => {
+        const date = new Date(squawk.dateOpened)
+        return {
+          id: index,
+          mxId: squawk.mxId,
+          date_opened: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`,
+          description: squawk.description,
+          type: SquawkLabel.find((object) => object.value == squawk.type)
+        }
+      });
+      setRows(mappedRows)
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
 
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [currSquawk, setCurrSquawk] = useState<Squawk>();
 
   const processRowUpdate = (newRow: any, oldRow: any) => {
-    newRow.type = Type1.find((object) => object.label == newRow.type)?.value;
+    newRow.type = SquawkLabel.find((object) => object.label == newRow.type)?.value;
     setCurrSquawk(newRow);
     if (newRow.description !== oldRow.description || newRow.type !== oldRow.type) {
         setOpenConfirmationDialog(true);
     }
-};
+  };
 
   const handleConfirmationDialogClose = (confirmed: any) => {
     setOpenConfirmationDialog(false);
@@ -57,26 +80,7 @@ function AircraftPopup (props: AircraftPopupProps) {
     }
   };
 
-  const getSquawks = async () => {
-    try {
-      const squawks = await fetch(`http://localhost:5201/api/squaks/get-all?planeId=${props.plane.planeId}`,
-      {credentials: 'include'})
-          .then((response) => response.json())
-          .then((data) => data);
-      const mappedRows = squawks.map((squawk: any, index: number) => {
-          return {
-            id: index,
-            mxId: squawk.mxId,
-            date_opened: squawk.dateOpened,
-            description: squawk.description,
-            type: Type1.find((object) => object.value == squawk.type)
-          }
-      });
-      setRows(mappedRows)
-    } catch (error) {
-        console.log(error);
-    }
-  }
+  
   
   const apiUrl = env.SKYCHART_API_URL;
   const [admin, setAdmin] = useState(false);
@@ -127,21 +131,21 @@ function AircraftPopup (props: AircraftPopupProps) {
       headerName: 'Date Opened',
       type: 'string',
       editable: false,
-      width: 200,
+      width: 120,
     },
     {
       field: 'description',
       headerName: 'Description',
       type: 'string',
       editable: true,
-      width: 200,
+      width: 475,
     },
     {
       field: 'type',
       headerName: 'Type',
       type: 'singleSelect',
       editable: true,
-      width: 200,
+      width: 100,
       valueOptions: ["Planned", "Unplanned", "100 Hour", "Annual"]
     },
   ];
