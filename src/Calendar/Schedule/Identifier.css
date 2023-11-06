@@ -1,8 +1,8 @@
 .mainbody{
     display: flex;
-    width: 139px;
+    width: 149px;
     height: 44px;
-    padding: 0px 5px;
+    padding-left: 0.25em;
     align-items: center;
     gap: 10px;
     border-right: 1px solid var(--Dark-Gray, #949494);

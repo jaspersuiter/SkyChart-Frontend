@@ -179,7 +179,7 @@ function AircraftPopup (props: AircraftPopupProps) {
             "& .MuiDialog-container": {
               "& .MuiPaper-root": {
                 maxWidth: "65em",
-                maxHeight: "45em",
+                height: "40em",
                 padding: "2em"
               },
             },
@@ -217,7 +217,7 @@ function AircraftPopup (props: AircraftPopupProps) {
                     initialState={{
                         pagination: {
                             paginationModel: {
-                                pageSize: 100,
+                                pageSize: 5,
                             },
                         },
                     }}
