@@ -80,12 +80,15 @@ function Login() {
         handleLogin()
       }
     }}>
+      <div className="login-image">
+        <img src={"vector.jpg"}></img>
+      </div>
       <div className="login-form">
-        <div className='TitleBar'>
-          <h2 style={{fontSize: 35}}>SkyChart</h2>
+        <div className='login-title-bar'>
+          <p style={{fontSize: 36}}>SkyChart</p>
         </div>
         <div className='TextFieldBar'>
-          <h5 style={{fontSize: 18}}>Enter Email</h5>
+          <h5 style={{fontSize: 18}}>Email</h5>
         </div>
         <div className="FlexColumnItem">
           <TextField id="email" label="Email" type="email" required value={email} onKeyDown={(e:any)=>{
@@ -97,7 +100,7 @@ function Login() {
           <br/>
         </div>
         <div className='TextFieldBar'>
-            <h5 style={{fontSize: 18}}>Enter Password</h5>
+            <h5 style={{fontSize: 18}}>Password</h5>
         </div>
         <div className="FlexColumnItemPadded">
           <TextField id="password" label="Password" type="password" required value={password} onChange={handlePasswordChange} fullWidth />
@@ -106,7 +109,7 @@ function Login() {
           <PrimaryButton text="Log in" onClick={handleLogin} width="100%" />
         </div>
         <br/>
-        <div className="FlexColumnItem">
+        <div className="ResetPasswordText">
           <a onClick={handleClickOpen}><u>Reset your Password</u></a>
           <ResetPassword open={open} onClose={handleClose} />
         </div>
