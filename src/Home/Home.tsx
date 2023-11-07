@@ -11,7 +11,7 @@ function Home() {
         <div className="home-page">
             <StaticSidebar />
             <div className="home-page-content">
-                <p className="home-page-header">Welcome to Home Page!</p>
+                <p className="home-page-header">Welcome to the Home Page!</p>
             </div>
         </div>      
     )}

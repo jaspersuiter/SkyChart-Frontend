@@ -55,7 +55,7 @@ function Login() {
         if (data.verified === true) { 
           console.log('Success:', data);
           context.login();
-          navigate('/calendar');
+          navigate('/');
         }
         
       })
