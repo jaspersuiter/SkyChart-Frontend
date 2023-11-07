@@ -1,33 +1,33 @@
 .mainpage {
     display: flex;
-    padding: var(--none, 0px);
-    justify-content: center;
-    align-items: flex-start;
-    gap: var(--none, 0px);
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .main-content{
     flex: 1;
     padding: 1em;
     flex-direction: column;
-    align-items: flex-start;
-    overflow-x: hidden;   
+    justify-content: flex-end;
+    align-items: center;  
 }
-.title{
+.title {
     display: flex;
     padding: 1em;
     justify-content: center;
 }
 
-.subtitle{
+.admin-subcontent-wrapper {
     display: flex;
     padding: 0.25em;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     margin: 0.5em;
-    border-radius: 20px;
-    border: 4px solid var(--Trinary-Color, #4D81E8);
+}
+
+.admin-header {
+    font-size: 2em;
 }
 
 .buttonrow{

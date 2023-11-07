@@ -58,7 +58,7 @@ function Admin() {
             headerName: 'Name',
             description: 'This column has a value getter and is not sortable.',
             sortable: false,
-            width: 400,
+            width: 200,
             valueGetter: (params: GridValueGetterParams) =>
               `${params.row.firstName || ''} ${params.row.lastName || ''}`,
         },
@@ -66,20 +66,20 @@ function Admin() {
             field: 'email',
             headerName: 'Email',
             type: 'string',
-            width: 400,
+            width: 250,
             editable: false,
         },
         {
             field: 'phoneNum',
-            headerName: 'Phone Number',
+            headerName: 'Phone',
             type: 'string',
-            width: 400,
+            width: 150,
             editable: false,
         },
         {
             field: 'accountType',
-            headerName: 'Account Type',
-            width: 400,
+            headerName: 'Type',
+            width: 150,
             type: 'singleSelect',
             editable: true,
             valueOptions: ['Instructor', 'Pilot'],
@@ -185,22 +185,16 @@ function Admin() {
         <div className="mainpage">
             <StaticSidebar/>
             {admin ?(<div className="main-content">
-
-                <div className="title">
-                    <h1>Admin Page</h1>
-                </div>
                 
-                <div className="subtitle">
-                    <h2>Creation Tools</h2>
-
+                <div className="admin-subcontent-wrapper">
                     <div className="buttonrow">
                         <PrimaryButton text="Add New Aircraft" onClick={handleClickOpenAddAircraft}/>
                         <PrimaryButton text="Invite New User" onClick={handleClickOpenInviteUser} />
                     </div>
                 </div>         
                 
-                <div className="subtitle">
-                    <h2>Current Users</h2>
+                <div className="admin-subcontent-wrapper">
+                    <p className="admin-header">Current Users</p>
                     <ConfirmationDialog />
                     
                     <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
