@@ -44,7 +44,7 @@ function NewReservation(props: NewReservationProps) {
 
     const showUpcomingMaintenanceLink = () => {
         if (planeId != '') {
-            return(<p className='link-text' onClick={handleClickOpenMaintenance}><u>See plane's upcoming maintenance</u></p>)
+            return(<p className='link-text' onClick={handleClickOpenMaintenance}><u>See plane information</u></p>)
         } else {
             return(<p><br></br></p>)
         }

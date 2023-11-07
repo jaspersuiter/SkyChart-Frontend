@@ -4,6 +4,7 @@ import Hour from './HourIdentifier';
 import Identifier from './Identifier';
 import Reservation from './Reservation';
 import Unavailable from './Unavailable';
+import Grounded from './Grounded';
 import { makeApiCall } from '../../APICall';
 import { it } from 'node:test';
 import { getReservationData } from './Util';
@@ -13,12 +14,12 @@ export interface AircraftSectionProps {
   isDay: Boolean;
   Aircraft: Plane;
   Day: string
+  isGrounded: Boolean;
   Instructors: Array<Instructor>;
   Planes: Array<Plane>;
   updateScreen: () => void;
   openAirplane: (plane: Plane) => void;
 }
-
 
 function AircraftSection(props: AircraftSectionProps) {
 
@@ -87,9 +88,24 @@ function AircraftSection(props: AircraftSectionProps) {
     ));
   }
 
+  let grounded = null;
+
+  if (props.isGrounded) {
+    // Create unavailable container with grounded times
+    let GroundedProps = {
+      resStartTime: '6:00:00', // Grounded Start Time
+      resEndTime: '23:00:00', // Grounded End Time
+      isDay: props.isDay,
+      width: divWidth
+    }
+    
+    grounded = Grounded(GroundedProps);
+  }
+
     return (
       <div className='container'>
         {reservations}
+        {grounded}
         <div className="mainBar">
           <Identifier Name={props.Aircraft.tailNumber + " - [" + props.Aircraft.nickName + "]"} Aircraft={props.Aircraft} openAirplane={props.openAirplane}/>
           <Hour isDay={props.isDay} ref={divRef}/>
