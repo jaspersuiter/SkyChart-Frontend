@@ -1,18 +1,20 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
-import { Plane } from "../Calendar/Calendar";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Drawer } from "@mui/material";
+import { Plane } from "../../Calendar/Calendar";
 import CloseIcon from '@mui/icons-material/Close';
-import PrimaryButton from "../Buttons/PrimaryButton";
-import './UpcomingMaintenance.css'
+import PrimaryButton from "../../Utils/Buttons/PrimaryButton";
+import './AircraftPopup.css'
 import { DataGrid } from "@mui/x-data-grid/DataGrid";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-import dayjs from "dayjs";
-import { env } from "../env";
+import { env } from "../../env";
 
-export interface UpcomingMaintenanceProps {
+export interface AircraftPopupProps {
     open: boolean;
-    planeId: string;
+    plane: Plane;
     onClose: () => void;
+    openSquawk: () => void;
+    openCreateReservation: () => void;
+    openModify: () => void;
 }
 
 export enum SquawkType {
@@ -22,7 +24,7 @@ export enum SquawkType {
   annual = 4
 }
 
-const Type1 = [{label: "Planned", value: 1}, {label: "Unplanned", value: 2}, {label: "100 Hour", value: 3}, {label: "Annual", value: 4}]
+const SquawkLabel = [{label: "Planned", value: 1}, {label: "Unplanned", value: 2}, {label: "100 Hour", value: 3}, {label: "Annual", value: 4}]
 
 export interface Squawk {
   mxId: string;
@@ -31,19 +33,42 @@ export interface Squawk {
   type: number;
 }
 
-function UpcomingMaintenance (props: UpcomingMaintenanceProps) {
+function AircraftPopup (props: AircraftPopupProps) {
+  // Squawk Data Retrieval
   const [rows, setRows] = useState([]);
+  const getSquawks = async () => {
+    try {
+      const squawks = await fetch(`http://localhost:5201/api/squaks/get-all?planeId=${props.plane.planeId}`,
+      {credentials: 'include'})
+        .then((response) => response.json())
+        .then((data) => data);
+      const mappedRows = squawks.map((squawk: any, index: number) => {
+        const date = new Date(squawk.dateOpened)
+        return {
+          id: index,
+          mxId: squawk.mxId,
+          date_opened: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`,
+          description: squawk.description,
+          type: SquawkLabel.find((object) => object.value == squawk.type)
+        }
+      });
+      setRows(mappedRows)
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
 
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [currSquawk, setCurrSquawk] = useState<Squawk>();
 
   const processRowUpdate = (newRow: any, oldRow: any) => {
-    newRow.type = Type1.find((object) => object.label == newRow.type)?.value;
+    newRow.type = SquawkLabel.find((object) => object.label == newRow.type)?.value;
     setCurrSquawk(newRow);
     if (newRow.description !== oldRow.description || newRow.type !== oldRow.type) {
         setOpenConfirmationDialog(true);
     }
-};
+  };
 
   const handleConfirmationDialogClose = (confirmed: any) => {
     setOpenConfirmationDialog(false);
@@ -55,42 +80,7 @@ function UpcomingMaintenance (props: UpcomingMaintenanceProps) {
     }
   };
 
-    const [plane, setPlane] = useState<Plane>({planeId: '', tailNumber: '', model: '', nickName: '', hourlyRate: 0, numEngines: 0, tachHours: 0, hobbsHours: 0, grounded: false});
-
-    const fetchPlane = async () => {
-        try {
-            const planeFetch = await fetch(`http://localhost:5201/api/plane/get?planeId=${props.planeId}`,
-            {
-                credentials: 'include'
-            })
-            .then((response) => response.json())
-            .then((data) => data) as Plane;
-            setPlane(planeFetch);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-  const getSquawks = async () => {
-    try {
-      const squawks = await fetch(`http://localhost:5201/api/squaks/get-all?planeId=${props.planeId}`,
-      {credentials: 'include'})
-          .then((response) => response.json())
-          .then((data) => data);
-      const mappedRows = squawks.map((squawk: any, index: number) => {
-          return {
-            id: index,
-            mxId: squawk.mxId,
-            date_opened: squawk.dateOpened,
-            description: squawk.description,
-            type: Type1.find((object) => object.value == squawk.type)
-          }
-      });
-      setRows(mappedRows)
-    } catch (error) {
-        console.log(error);
-    }
-  }
+  
   
   const apiUrl = env.SKYCHART_API_URL;
   const [admin, setAdmin] = useState(false);
@@ -141,31 +131,30 @@ function UpcomingMaintenance (props: UpcomingMaintenanceProps) {
       headerName: 'Date Opened',
       type: 'string',
       editable: false,
-      width: 200,
+      width: 120,
     },
     {
       field: 'description',
       headerName: 'Description',
       type: 'string',
       editable: true,
-      width: 200,
+      width: 475,
     },
     {
       field: 'type',
       headerName: 'Type',
       type: 'singleSelect',
       editable: true,
-      width: 200,
+      width: 100,
       valueOptions: ["Planned", "Unplanned", "100 Hour", "Annual"]
     },
   ];
 
   useEffect(() => {
-    if (props.planeId != undefined) {
-        fetchPlane();
-        getSquawks();
+    if (props.plane.planeId != undefined) {
+      getSquawks();
     }
-  }, [props.planeId]);
+  }, [props.plane.planeId]);
 
 
   const ConfirmationDialog = () => {
@@ -189,46 +178,46 @@ function UpcomingMaintenance (props: UpcomingMaintenanceProps) {
         sx={{
             "& .MuiDialog-container": {
               "& .MuiPaper-root": {
-                width: "100%",
-                maxWidth: "57.5vw",
-                height: "100%",
-                maxHeight: "80vh",
-                padding: "30px"
+                maxWidth: "65em",
+                height: "40em",
+                padding: "2em"
               },
             },
           }}>
-
-            <div className='TitleBar'>
-                <div className='spaceFiller'/>
-                <h1 className='h1'>{plane.tailNumber} {plane.nickName && `(${plane.nickName})`} {plane.model}</h1>
-                <div className='spaceFiller'>
+            <div className='title-bar'>
+              <div className='space-filler'/>
+              <p className='aircraft-popup-header'>{`${props.plane.nickName} [${props.plane.tailNumber}] - ${props.plane.model}`}</p>
+              <div className='space-filler'>
                 <CloseIcon onClick={handleClose}/>
-                </div>
+              </div>
             </div>
 
-            <div className='DialogBoxAircraft'>
-              <div className="generalInfo">
-                <h2 className='h2'>General Information</h2>
+            <div className="aircraft-popup-main-content">
 
-                <div className="generalInfoColumn">
-                  <p className='p'>Hourly Rate: {plane.hourlyRate}</p>
-                  <p className='p'>Hobbs Hours: {plane.hobbsHours}</p>
-                  <p className='p'>Tach Hours: {plane.tachHours}</p>
-                  <p className='p'>Number of Engines: {plane.numEngines}</p>
+              {/* Information Sidebar Frame */}
+              <div className="info-frame">
+                <p className="info-header">Information</p>
+
+                <div className="info-column">
+                  <p className='p'>Rate: <b>${props.plane.hourlyRate}/hr</b></p>
+                  <p className='p'>Hobbs Hours: <b>{props.plane.hobbsHours}</b></p>
+                  <p className='p'>Tach Hours: <b>{props.plane.tachHours}</b></p>
+                  <p className='p'>Engines: <b>{props.plane.numEngines}</b></p>
                 </div>
-
               </div>
-              <div className="squawks">
-                <h2 className='h2'>Squawks</h2>
+
+              {/* Squawks Frame */}
+              <div className="squawks-frame">
+                <p className="info-header">Squawks</p>
                 <ConfirmationDialog />
                 <DataGrid
-                    sx={{width: '100%', m: 2 }}
+                    sx={{width: "50em", m: 2 }}
                     rows={rows}
                     columns={columns}
                     initialState={{
                         pagination: {
                             paginationModel: {
-                                pageSize: 100,
+                                pageSize: 5,
                             },
                         },
                     }}
@@ -238,9 +227,16 @@ function UpcomingMaintenance (props: UpcomingMaintenanceProps) {
                 />
               </div>
             </div>
+                  
+            {/* Confirm and Cancel Buttons */}
+            <div className='bottom-bar'>
+              <PrimaryButton text="Create Reservation" onClick={props.openCreateReservation} />
+              <PrimaryButton text="Add Squawk" onClick= {props.openSquawk}/>
+              {admin && <PrimaryButton text="Edit Nickname" onClick= {props.openModify}/>}
+            </div>
         </Dialog>
     </div>
   );  
 }
 
-export default UpcomingMaintenance;
+export default AircraftPopup;

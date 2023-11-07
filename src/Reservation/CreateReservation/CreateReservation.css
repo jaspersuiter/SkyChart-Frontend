@@ -2,10 +2,11 @@
     font-family: Inter;
 }
 
-.TitleBar{
+.create-reservation-title-bar {
     display: flex;
     width: 100%;
     justify-content: center;
+    margin-bottom: -1em; 
 }
 
 .spaceFiller{
@@ -29,17 +30,15 @@
 
 .horizontal {
     display: flex;
-    flex-direction: row;
-    padding: 1em;
-    justify-content: center;
-    gap: .5em;
+    margin-top: 1em;
+    margin-bottom: -4em;
 }
 
-.flexRow{
+.create-reservation-flexrow {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
+    justify-content: center;
+    gap: 1.5em;
 }
 
 .toggleableText {
@@ -65,4 +64,10 @@
 
 .link-text {
     color: blue;
+}
+
+.create-reservation-bottom-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }

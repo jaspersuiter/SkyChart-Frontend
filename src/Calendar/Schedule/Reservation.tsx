@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { makeApiCall } from '../../APICall';
 import './Reservation.css';
-import EditReservation from '../../Reservation/EditReservation';
+import EditReservation from '../../Reservation/EditReservation/EditReservation';
 import { calculateDurationInMinutes, calculateLeftPosition, calculateLengthFromDuration, convertToMilitaryTime, formatTime } from './Util';
 import { Instructor, Plane } from '../Calendar';
 

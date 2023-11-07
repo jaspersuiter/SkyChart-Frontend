@@ -1,0 +1,70 @@
+.reservation-popup {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.title-bar {
+    display: flex;
+    width: 100%;
+    margin-top: -1em;
+    margin-bottom: 2em;
+}
+
+.aircraft-popup-header {
+    display: flex;
+    align-items: center;
+    font-size: 2em;
+    white-space: nowrap;
+    margin-bottom: -1em;
+}
+
+.aircraft-popup-main-content {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 5em;
+}
+
+.info-frame {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-right: 4em;
+    padding-left: 3em;
+}
+
+.info-header {
+    font-size: 1.75em;
+}
+
+.squawks-frame {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.h2 {
+    display: block;
+    font-size: 1.5em;
+    white-space: nowrap;
+    padding: .5em;
+}
+
+.p {
+    display: block;
+    font-size: 1.25em;
+    white-space: nowrap;
+}
+
+.bottom-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    gap: 1em;
+    margin-top: -5em;
+}
+
+.space-filler {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}

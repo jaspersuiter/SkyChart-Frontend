@@ -1,6 +1,6 @@
-import CancelButton from '../Buttons/CancelButton';
+import CancelButton from '../Utils/Buttons/CancelButton';
 import Dialog from '@mui/material/Dialog';
-import SecondaryButton from '../Buttons/SecondaryButton';
+import SecondaryButton from '../Utils/Buttons/SecondaryButton';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { AuthorizationContext } from '../AuthContext';
@@ -66,8 +66,7 @@ function LogoutPopup(props: LogoutProps) {
                   "& .MuiPaper-root": {
                     width: "30%",
                     maxWidth: "57.5vw",
-                    height: "25%",
-                    maxHeight: "95vh",
+                    maxHeight: "40em",
                     paddingBottom: "30px",
                     paddingLeft: "30px",
                     paddingRight: "30px"

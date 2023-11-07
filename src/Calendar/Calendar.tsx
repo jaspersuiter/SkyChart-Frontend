@@ -1,19 +1,19 @@
 import './Calendar.css';
-import PrimaryButton from '../Buttons/PrimaryButton';
+import PrimaryButton from '../Utils/Buttons/PrimaryButton';
 import { DateCalendar } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { FormControl, InputLabel, MenuItem, NativeSelect, Select } from '@mui/material';
-import StaticSidebar from '../Sidebar/Sidebar';
+import StaticSidebar from '../Utils/Sidebar/Sidebar';
 import Schedule from './Schedule/Schedule';
-import NewReservation from '../Reservation/NewReservation';
+import NewReservation from '../Reservation/CreateReservation/CreateReservation';
 import dayjs, { Dayjs } from 'dayjs';
 import WeekPicker from './Schedule/WeekPicker';
 import React, { useEffect, useState } from 'react';
-import AircraftPopup from '../Aircraft/AircraftPopup';
-import AddSqawkPopup from '../Aircraft/AddSquawkPopup';
+import AircraftPopup from '../Aircraft/AircraftPopup/AircraftPopup';
+import AddSqauwkPopup from '../Aircraft/AddSquawkPopup/AddSquawkPopup';
 import DayPicker from './Schedule/DayPicker';
-import ModifyAircraft from '../Aircraft/ModifyAircraft';
+import ModifyAircraft from '../Aircraft/ModifyAircraft/ModifyAircraft';
 
 export interface Plane {
     planeId: string;
@@ -211,7 +211,7 @@ function Calendar() {
         </div>
         <NewReservation open={open} onClose={handleClose} Instructors={instructors} Planes={planes} SelectedPlane={plane}/>
         <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane} openSquawk={handleClickOpenSquawk} openModify={handleClickOpenModify} openCreateReservation={handleClickOpen} />
-        <AddSqawkPopup open={openSquawk} onClose={handleCloseSquawk} plane={plane}/>
+        <AddSqauwkPopup open={openSquawk} onClose={handleCloseSquawk} plane={plane}/>
         <ModifyAircraft open={openModify} onClose={handleCloseModify} planeId={plane.planeId} updateScreen={updateScreenFunction} setCurrentPlane={setPlane}/>
     </div>
   )}

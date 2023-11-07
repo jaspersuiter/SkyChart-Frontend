@@ -1,18 +1,18 @@
 .mainbody{
     display: flex;
-    width: 139px;
+    width: 149px;
     height: 44px;
-    padding: 0px 5px;
+    padding-left: 0.25em;
     align-items: center;
     gap: 10px;
-    border-right: 4px solid var(--Dark-Gray, #949494);
+    border-right: 1px solid var(--Dark-Gray, #949494);
 }
 
 .Text{
     color: var(--Black, #191919);
     text-align: center;
     font-family: 'Segoe UI';
-    font-size: 15px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;

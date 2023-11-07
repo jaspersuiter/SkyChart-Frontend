@@ -1,4 +1,4 @@
-import StaticSidebar from '../Sidebar/Sidebar';
+import StaticSidebar from '../Utils/Sidebar/Sidebar';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import './Instructors.css';
 import { useEffect, useState } from 'react'; // Import useState

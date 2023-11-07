@@ -1,7 +1,7 @@
-import PrimaryButton from "../Buttons/PrimaryButton";
-import StaticSidebar from "../Sidebar/Sidebar";
-import AddNewAircraft from "./AddNewAircraft";
-import InviteNewUser from "./InviteNewUser";
+import PrimaryButton from "../Utils/Buttons/PrimaryButton";
+import StaticSidebar from "../Utils/Sidebar/Sidebar";
+import AddNewAircraft from "./AddNewAircraft/AddNewAircraft";
+import InviteNewUser from "./InviteNewUser/InviteNewUser";
 import { DataGrid, GridColDef, GridRowModel, GridValueGetterParams } from '@mui/x-data-grid';
 import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useState } from 'react';
@@ -40,7 +40,7 @@ function Admin() {
     };
       
 
-      const handleConfirmationDialogClose = (confirmed: any) => {
+    const handleConfirmationDialogClose = (confirmed: any) => {
         setOpenConfirmationDialog(false);
     
         if (confirmed) {
@@ -48,47 +48,47 @@ function Admin() {
         } else {
             window.location.reload();
         }
-      };
+    };
     
     const [searchQuery, setSearchQuery] = useState('');
       
     const columns: GridColDef[] = [
-      {
-        field: 'fullName',
-        headerName: 'Name',
-        description: 'This column has a value getter and is not sortable.',
-        sortable: false,
-        width: 400,
-        valueGetter: (params: GridValueGetterParams) =>
-          `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    },
-    {
-        field: 'email',
-        headerName: 'Email',
-        type: 'string',
-        width: 400,
-        editable: false,
-      },
-    {
-      field: 'phoneNum',
-      headerName: 'Phone Number',
-      type: 'string',
-      width: 400,
-      editable: false,
-    },
-    {
-      field: 'accountType',
-        headerName: 'Account Type',
-        width: 400,
-        type: 'singleSelect',
-        editable: true,
-        valueOptions: ['Instructor', 'Pilot'],
-    },
+        {
+            field: 'fullName',
+            headerName: 'Name',
+            description: 'This column has a value getter and is not sortable.',
+            sortable: false,
+            width: 400,
+            valueGetter: (params: GridValueGetterParams) =>
+              `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+        },
+        {
+            field: 'email',
+            headerName: 'Email',
+            type: 'string',
+            width: 400,
+            editable: false,
+        },
+        {
+            field: 'phoneNum',
+            headerName: 'Phone Number',
+            type: 'string',
+            width: 400,
+            editable: false,
+        },
+        {
+            field: 'accountType',
+            headerName: 'Account Type',
+            width: 400,
+            type: 'singleSelect',
+            editable: true,
+            valueOptions: ['Instructor', 'Pilot'],
+        },
     ];
 
     const handleSearchChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
         setSearchQuery(event.target.value);
-      };
+    };
 
     const handleClickOpenAddAircraft = () => {
         setOpenAddAircraft(true);
@@ -107,20 +107,39 @@ function Admin() {
     };
 
     const filteredRows = rows.filter((row) =>
-    Object.values(row).some((value) =>
-      String(value).toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  );
-  
+        Object.values(row).some((value) =>
+            String(value).toLowerCase().includes(searchQuery.toLowerCase())
+        )
+    );
+
+    const isAdmin = async () => {
+        try {
+          
+            const isAdmin = await fetch(`${apiUrl}/api/user/get-current-is-admin`,
+                {
+                    method: "GET",
+                    credentials: "include",
+                })
+                .then((response) => response.json())
+                .then((data) => data) as boolean;
+            
+            setAdmin(isAdmin);
+      
+        } catch (error) {
+          console.log(error);
+        }
+    }
+
     const fetchUsers = async () => {
         try {
             const users = await fetch('http://localhost:5201/api/user/get-all-users',
-            {credentials: 'include'})
+            {
+                credentials: 'include'
+            })
                 .then((response) => response.json())
                 .then((data) => data);
 
             const mappedRows = users.map((user: any, index: number) => {
-               
                 return {
                     id: user.id,
                     lastName: user.lastName,
@@ -136,43 +155,29 @@ function Admin() {
             console.log(error);
         }
     }
+
     const apiUrl = env.SKYCHART_API_URL;
     const [admin, setAdmin] = React.useState(false);
+    
     useEffect(() => {
-      async function isAdmin() {
-        const isAdmin = await fetch(
-          `${apiUrl}/api/user/get-current-is-admin`,
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        ).then((response) => response.json())
-        .then((data) => data) as boolean;
-        setAdmin(isAdmin);
-        
-      }
-      isAdmin();
+        isAdmin();
+        fetchUsers(); 
     }, []);
-
-    useEffect(() => {
-        fetchUsers(); // Call fetchUsers when the component mounts
-    }, []); // Empty dependency array means this effect runs once when the component mounts
-
 
     const ConfirmationDialog = () => {
         return (
-          <Dialog open={openConfirmationDialog} onClose={handleConfirmationDialogClose}>
-            <DialogTitle>Are you sure?</DialogTitle>
-            <DialogContent>
-              <p>Pressing 'Yes' will save the changes to the account type.</p>
-            </DialogContent>
-            <DialogActions>
-            <Button onClick={() => handleConfirmationDialogClose(true)}>Yes</Button>
-              <Button onClick={() => handleConfirmationDialogClose(false)}>Cancel</Button>
-            </DialogActions>
-          </Dialog>
+            <Dialog open={openConfirmationDialog} onClose={handleConfirmationDialogClose}>
+                <DialogTitle>Are you sure?</DialogTitle>
+                <DialogContent>
+                    <p>Pressing 'Yes' will save the changes to the account type.</p>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={() => handleConfirmationDialogClose(true)}>Yes</Button>
+                    <Button onClick={() => handleConfirmationDialogClose(false)}>Cancel</Button>
+                </DialogActions>
+            </Dialog>
         );
-      };
+    };
 
       
     return(
@@ -192,10 +197,8 @@ function Admin() {
                         <PrimaryButton text="Add New Aircraft" onClick={handleClickOpenAddAircraft}/>
                         <PrimaryButton text="Invite New User" onClick={handleClickOpenInviteUser} />
                     </div>
-                </div>
+                </div>         
                 
-
-                             
                 <div className="subtitle">
                     <h2>Current Users</h2>
                     <ConfirmationDialog />
@@ -208,6 +211,7 @@ function Admin() {
                                 onChange={handleSearchChange}/>
                         </Box>
                     </div>
+
                     <DataGrid
                         sx={{ width: '100%', m: 2 }}
                         rows={filteredRows}

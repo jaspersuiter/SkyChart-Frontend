@@ -1,17 +1,17 @@
 import './Settings.css'
 import { Checkbox, Chip, FormControl, InputLabel, ListItemText, MenuItem, Select, SelectChangeEvent, Stack } from '@mui/material';
-import PrimaryButton from '../Buttons/PrimaryButton';
-import CancelButton from '../Buttons/CancelButton';
+import PrimaryButton from '../Utils/Buttons/PrimaryButton';
+import CancelButton from '../Utils/Buttons/CancelButton';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import StaticSidebar from '../Sidebar/Sidebar';
-import SecondaryButton from '../Buttons/SecondaryButton';
+import StaticSidebar from '../Utils/Sidebar/Sidebar';
+import SecondaryButton from '../Utils/Buttons/SecondaryButton';
 import InstructorAvailibility from './InstructorAvailability/InstructorAvailability';
 import { useEffect, useState } from 'react';
 import { makeApiCall } from '../APICall';
 import CloseIcon from '@mui/icons-material/Close';
-import ConfirmPopup from '../ConfirmPopup/Confirm';
+import ConfirmPopup from '../Utils/ConfirmPopup/Confirm';
 
 
 interface Plane {

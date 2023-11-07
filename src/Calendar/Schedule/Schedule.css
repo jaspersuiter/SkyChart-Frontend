@@ -4,8 +4,8 @@
     flex: 1 0 0;
     align-self: stretch;
     flex-direction: column;
-    border-radius: 20px;
-    border: 4px solid var(--Trinary-Color, #4D81E8);
+    border-radius: 10px;
+    border: 2px solid var(--Trinary-Color, #4D81E8);
 }
 
 .breakLine{

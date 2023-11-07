@@ -1,6 +1,6 @@
-import CancelButton from '../../Buttons/CancelButton';
+import CancelButton from '../../Utils/Buttons/CancelButton';
 import Dialog from '@mui/material/Dialog';
-import SecondaryButton from '../../Buttons/SecondaryButton';
+import SecondaryButton from '../../Utils/Buttons/SecondaryButton';
 import { useNavigate } from 'react-router-dom';
 import InstructorAvailibility from './InstructorAvailability';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
@@ -11,7 +11,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { makeApiCall } from '../../APICall';
 import { useState } from 'react';
-import PrimaryButton from '../../Buttons/PrimaryButton';
+import PrimaryButton from '../../Utils/Buttons/PrimaryButton';
 import { time } from 'console';
 import './InstructorAvailabilityPopup.css'
 import CloseIcon from '@mui/icons-material/Close';

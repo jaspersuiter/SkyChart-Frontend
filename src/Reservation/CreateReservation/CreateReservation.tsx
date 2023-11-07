@@ -1,19 +1,19 @@
-import './NewReservation.css'
+import './CreateReservation.css'
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
-import PrimaryButton from '../Buttons/PrimaryButton';
+import PrimaryButton from '../../Utils/Buttons/PrimaryButton';
 import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
-import { makeApiCall } from '../APICall';
+import { makeApiCall } from '../../APICall';
 import { useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { Instructor, Plane } from '../Calendar/Calendar';
-import InstructorDropDown from '../DropDowns/InstructorDropDown';
-import PlaneDropDown from '../DropDowns/PlaneDropDown';
-import ReservationTypeDropDown, { ReservationType } from '../DropDowns/ReservationTypeDropDown';
+import { Instructor, Plane } from '../../Calendar/Calendar';
+import InstructorDropDown from '../../Utils/DropDowns/InstructorDropDown';
+import PlaneDropDown from '../../Utils/DropDowns/PlaneDropDown';
+import ReservationTypeDropDown, { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
 import React from 'react';
-import UpcomingMaintenance from './UpcomingMaintenance';
+import UpcomingMaintenance from '../UpcomingMaintenance/UpcomingMaintenance';
 
 export interface NewReservationProps {
     open: boolean;
@@ -141,15 +141,15 @@ function NewReservation(props: NewReservationProps) {
                     width: "100%",
                     maxWidth: "57.5vw",
                     height: "100%",
-                    maxHeight: "80vh",
+                    maxHeight: "90vh",
                     padding: "30px"
                   },
                 },
               }}>
 
-                <div className='TitleBar'>
+                <div className='create-reservation-title-bar'>
                     <div className='spaceFiller'/>
-                    <h1 className='h1'>Create a Reservation</h1>
+                    <h1 className='h1'>Create Reservation</h1>
                     <div className='spaceFiller'>
                     <CloseIcon onClick={resetAll}/>
                     </div>
@@ -157,14 +157,11 @@ function NewReservation(props: NewReservationProps) {
 
                 <div className='dialogBox'>
                     {/* Dropdown Menus for Selecting Aircraft & Instructor */}
-                    <div className='flexRow'>
+                    <div className='create-reservation-flexrow'>
 
                         <InstructorDropDown Instructors={props.Instructors} InstructorId={instructorId} setInstructorIdParent={setInstructorId}/>
-                        
                         <PlaneDropDown Planes={props.Planes} PlaneID={planeId} SetPlaneIdParent={setPlaneId}/>
-
                         <ReservationTypeDropDown ReservationType={reservationType} setReservationTypeParent={setReservationType}/>
-                        
                     </div>
 
                     <div className='toggleableText'>
@@ -172,7 +169,7 @@ function NewReservation(props: NewReservationProps) {
                     </div>
 
                     {/* Date and Time Pickers to Select Reservation Time */}
-                    <div className='flexRow'>
+                    <div className='create-reservation-flexrow'>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker label="Select Day" value={day} onChange={handleDay} sx={{
                                     svg: { color: '#4DE8B4' },
@@ -217,9 +214,8 @@ function NewReservation(props: NewReservationProps) {
                     </div>
 
                 </div>
-
                 {/* Confirm and Cancel Buttons */}
-                <div className='TitleBar'>
+                <div className='create-reservation-bottom-bar'>
                     <PrimaryButton text="Create Reservation" onClick={createReservation} disabled={startTime === null || endTime === null || day === null}/>
                 </div>
                 <UpcomingMaintenance open={maintenanceOpen} onClose={handleCloseMaintenance} planeId={planeId} />

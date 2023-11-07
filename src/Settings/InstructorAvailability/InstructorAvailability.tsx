@@ -4,7 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { FormControl, InputLabel, MenuItem, NativeSelect, Select } from '@mui/material';
 import React from 'react';
-import PrimaryButton from '../../Buttons/PrimaryButton';
+import PrimaryButton from '../../Utils/Buttons/PrimaryButton';
 import InstructorAvailibilityPopup from './InstructorAvailabilityPopup';
 
 function InstructorAvailibility() {
