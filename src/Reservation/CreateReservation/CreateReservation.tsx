@@ -141,7 +141,7 @@ function NewReservation(props: NewReservationProps) {
                     width: "100%",
                     maxWidth: "57.5vw",
                     height: "100%",
-                    maxHeight: "80vh",
+                    maxHeight: "90vh",
                     padding: "30px"
                   },
                 },
@@ -215,7 +215,7 @@ function NewReservation(props: NewReservationProps) {
 
                 </div>
                 {/* Confirm and Cancel Buttons */}
-                <div className='bottom-bar'>
+                <div className='create-reservation-bottom-bar'>
                     <PrimaryButton text="Create Reservation" onClick={createReservation} disabled={startTime === null || endTime === null || day === null}/>
                 </div>
                 <UpcomingMaintenance open={maintenanceOpen} onClose={handleCloseMaintenance} planeId={planeId} />

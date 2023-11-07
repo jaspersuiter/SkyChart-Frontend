@@ -66,3 +66,8 @@
     color: blue;
 }
 
+.create-reservation-bottom-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

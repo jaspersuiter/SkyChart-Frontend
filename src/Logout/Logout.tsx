@@ -66,8 +66,7 @@ function LogoutPopup(props: LogoutProps) {
                   "& .MuiPaper-root": {
                     width: "30%",
                     maxWidth: "57.5vw",
-                    height: "25%",
-                    maxHeight: "95vh",
+                    maxHeight: "40em",
                     paddingBottom: "30px",
                     paddingLeft: "30px",
                     paddingRight: "30px"
