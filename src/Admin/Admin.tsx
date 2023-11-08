@@ -58,11 +58,13 @@ function Admin() {
     []
   );
   const updateUser = (doUpdateUserType: boolean) => {
-    if (doUpdateUserType)
+    if (doUpdateUserType) {
       fetch(
         `http://localhost:5201/api/user/update-account-type?userId=${user.id}`,
         { credentials: "include", method: "PUT" }
       );
+      setDoUpdateUserType(false);
+    }
   };
 
   const handleConfirmationDialogClose = (confirmed: any) => {
@@ -70,6 +72,7 @@ function Admin() {
 
     if (confirmed) {
       updateUser(doUpdateUserType);
+      fetchUsers();
     }
   };
 
@@ -194,7 +197,9 @@ function Admin() {
         open={openConfirmationDialog}
         onClose={handleConfirmationDialogClose}
       >
-        <DialogTitle>{user.firstName}</DialogTitle>
+        <DialogTitle>{`Edit ${user.firstName || ""} ${
+          user.lastName || ""
+        }`}</DialogTitle>
         <DialogContent>
           <p>Pressing 'Yes' will save the changes to the account type.</p>
         </DialogContent>
