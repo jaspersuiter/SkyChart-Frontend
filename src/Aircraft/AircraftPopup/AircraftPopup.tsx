@@ -38,7 +38,7 @@ function AircraftPopup (props: AircraftPopupProps) {
   const [rows, setRows] = useState([]);
   const getSquawks = async () => {
     try {
-      const squawks = await fetch(`http://localhost:5201/api/squaks/get-all?planeId=${props.plane.planeId}`,
+      const squawks = await fetch(`http://localhost:5201/api/squawks/get-from-plane?planeId=${props.plane.planeId}`,
       {credentials: 'include'})
         .then((response) => response.json())
         .then((data) => data);
@@ -103,7 +103,7 @@ function AircraftPopup (props: AircraftPopupProps) {
   const updateSquawk = async () => {
     console.log(currSquawk)
     try {
-      const update = await fetch(`http://localhost:5201/api/squaks/update`,
+      const update = await fetch(`http://localhost:5201/api/squawks/update`,
       {
         method: 'POST',
         credentials: 'include',

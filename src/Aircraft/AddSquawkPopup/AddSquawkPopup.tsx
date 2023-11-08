@@ -60,7 +60,7 @@ function AddSqauwkPopup (props: AddSqawkPopupProps) {
 
         let responseData2 = null
         try {
-            responseData2 = await makeApiCall("/api/squaks/create", data, "post")
+            responseData2 = await makeApiCall("/api/squawks/create", data, "post")
             
             if (responseData2 === "Couldn't find UserId"){
                 setErrormessage(responseData2)

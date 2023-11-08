@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Plane } from "../Home";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import SquawkInfo from "./SquawkInfo";
 
 export interface AllSquawkProps {
     planes: Array<Plane>
 }
 
 function AllSquawks(props: AllSquawkProps) {
-    console.log(props.planes);
     // Define Columns of Squawk Grid
     const columns: GridColDef[] = [
         {
@@ -73,22 +73,37 @@ function AllSquawks(props: AllSquawkProps) {
     useEffect(() => {
         getSquawks();
     }, [props.planes]);
+    
+    const [openPopup, setOpenPopup] = useState(false);
+    const [currSquawk, setCurrSquawk] = useState("");
+    const handleRowClick = (clicked: any) => {
+        setCurrSquawk(clicked.row.mxId);
+        setOpenPopup(true);
+    }
+
+    const handleClosePopup = () => {
+        setOpenPopup(false)
+    }
 
     return(
-        <DataGrid
-            sx={{width: "90em", m: 2 }}
-            rows={rows}
-            columns={columns}
-            initialState={{
-                pagination: {
-                    paginationModel: {
-                        pageSize: 5,
+        <div>
+            <DataGrid
+                sx={{width: "90em", m: 2 }}
+                rows={rows}
+                columns={columns}
+                initialState={{
+                    pagination: {
+                        paginationModel: {
+                            pageSize: 5,
+                        },
                     },
-                },
-            }}
-            autoHeight
-            disableRowSelectionOnClick
-        />
+                }}
+                autoHeight
+                disableRowSelectionOnClick
+                onRowClick={handleRowClick}
+            />
+            <SquawkInfo open={openPopup} onClose={handleClosePopup} squawkId={currSquawk} />
+        </div>
     )
 }
 
