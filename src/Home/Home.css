@@ -1,0 +1,16 @@
+.home-page {
+    font-family: 'Segoe UI';
+    display: flex;
+    flex-direction: column;
+    margin-left: 11.25em;
+}
+
+.home-page-header {
+    font-size: 2em;
+}
+
+.home-page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
