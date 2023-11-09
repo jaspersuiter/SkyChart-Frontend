@@ -17,10 +17,18 @@ import React, { useEffect, useState } from "react";
 import "./Admin.css";
 import {
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
+  ListItemText,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
 } from "@mui/material";
 import { Box, TextField } from "@mui/material";
 import { env } from "../env";
@@ -41,6 +49,21 @@ function Admin() {
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
   const [user, setUser] = useState<User>({} as User);
   const [doUpdateUserType, setDoUpdateUserType] = useState(false);
+  const [newEmail, setNewEmail] = useState("");
+  const [newPhoneNum, setNewPhoneNum] = useState("");
+  const [airplaneModels, setAirplaneModels] = useState<string[]>([]);
+  const [approvedModel, setApprovedModel] = useState<string[]>([]);
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
   const [cellModesModel, setCellModesModel] =
     React.useState<GridCellModesModel>({});
 
@@ -74,6 +97,18 @@ function Admin() {
       updateUser(doUpdateUserType);
       fetchUsers();
     }
+  };
+
+  const handleChangeSelector = (
+    event: SelectChangeEvent<typeof approvedModel>
+  ) => {
+    const {
+      target: { value },
+    } = event;
+    setApprovedModel(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
   };
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -183,35 +218,123 @@ function Admin() {
     }
   };
 
+  const fetchAirplaneModels = async () => {
+    try {
+      const planes = await fetch("http://localhost:5201/api/plane/get-all", {
+        credentials: "include",
+      })
+        .then((response) => response.json())
+        .then((data) => data);
+
+      const planesModels = planes.map((plane: any) => {
+        return {
+          model: plane.model,
+        };
+      });
+
+      const mappedPlanes = planesModels
+        .filter((plane: any, index: number) => {
+          return (
+            planesModels.findIndex(
+              (plane2: any) => plane2.model === plane.model
+            ) === index
+          );
+        })
+        .map((plane: any) => plane.model);
+
+      console.log(mappedPlanes);
+      setAirplaneModels(mappedPlanes);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const apiUrl = env.SKYCHART_API_URL;
   const [admin, setAdmin] = React.useState(false);
 
   useEffect(() => {
     isAdmin();
     fetchUsers();
+    fetchAirplaneModels();
   }, []);
 
   const EditUserDialog = () => {
     return (
-      <Dialog
-        open={openConfirmationDialog}
-        onClose={handleConfirmationDialogClose}
-      >
-        <DialogTitle>{`Edit ${user.firstName || ""} ${
-          user.lastName || ""
-        }`}</DialogTitle>
-        <DialogContent>
-          <p>Pressing 'Yes' will save the changes to the account type.</p>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => handleConfirmationDialogClose(true)}>
-            Yes
-          </Button>
-          <Button onClick={() => handleConfirmationDialogClose(false)}>
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <div className="edit-user-dialog">
+        <Dialog
+          open={openConfirmationDialog}
+          onClose={handleConfirmationDialogClose}
+          sx={{
+            "& .MuiDialog-container": {
+              "& .MuiPaper-root": {
+                width: "50%",
+                maxWidth: "57.5vw",
+                height: "50%",
+                maxHeight: "90vh",
+                padding: "30px",
+              },
+            },
+          }}
+        >
+          <DialogTitle>{`Edit ${user.firstName || ""} ${
+            user.lastName || ""
+          }`}</DialogTitle>
+          <DialogContent>
+            <TextField
+              id="email"
+              label="Email"
+              type="string"
+              value={user.email}
+              onChange={(e) => setNewEmail(e.target.value)}
+            />
+            <TextField
+              id="phoneNum"
+              label="Phone Number"
+              type="string"
+              value={user.phoneNum}
+              onChange={(e) => setNewPhoneNum(e.target.value)}
+            />
+            <div>
+              <FormControl sx={{ m: 1, width: 300 }}>
+                <InputLabel id="plane-model-label">
+                  Approved Plane Models
+                </InputLabel>
+                <Select
+                  labelId="plane-model-label"
+                  id="plane-model-checkbox"
+                  multiple
+                  value={approvedModel}
+                  onChange={handleChangeSelector}
+                  input={<OutlinedInput label="Approved Plane Models" />}
+                  renderValue={(selected) => selected.join(", ")}
+                  MenuProps={MenuProps}
+                >
+                  {airplaneModels.map((model) => (
+                    <MenuItem key={model} value={model}>
+                      <Checkbox checked={approvedModel.indexOf(model) > -1} />
+                      <ListItemText primary={model} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </div>
+            {user.accountType === "Pilot" ? (
+              <PrimaryButton
+                text="Make user an Instructor?"
+                onClick={() => setDoUpdateUserType(true)}
+              />
+            ) : null}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => handleConfirmationDialogClose(true)}>
+              Confirm
+            </Button>
+            <Button onClick={() => handleConfirmationDialogClose(false)}>
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     );
   };
 
