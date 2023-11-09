@@ -4,12 +4,9 @@ import AddNewAircraft from "./AddNewAircraft/AddNewAircraft";
 import InviteNewUser from "./InviteNewUser/InviteNewUser";
 import {
   DataGrid,
-  GridCellModes,
   GridCellModesModel,
   GridCellParams,
   GridColDef,
-  GridRowId,
-  GridRowModel,
   GridValueGetterParams,
 } from "@mui/x-data-grid";
 import SearchIcon from "@mui/icons-material/Search";
@@ -32,6 +29,7 @@ import {
 } from "@mui/material";
 import { Box, TextField } from "@mui/material";
 import { env } from "../env";
+import SecondaryButton from "../Utils/Buttons/SecondaryButton";
 
 interface User {
   id: number;
@@ -46,11 +44,11 @@ function Admin() {
   const [open, setOpenAddAircraft] = React.useState(false);
   const [openInviteUser, setOpenInviteUser] = React.useState(false);
   const [rows, setRows] = useState<User[]>([]); // Declare rows as a state variable of type User[]
-  const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
+  const [openEditUserDialog, setOpenEditUserDialog] = useState(false);
   const [user, setUser] = useState<User>({} as User);
   const [doUpdateUserType, setDoUpdateUserType] = useState(false);
-  const [newEmail, setNewEmail] = useState("");
-  const [newPhoneNum, setNewPhoneNum] = useState("");
+  const [newEmail, setNewEmail] = React.useState("");
+  const [newPhoneNum, setNewPhoneNum] = React.useState("");
   const [airplaneModels, setAirplaneModels] = useState<string[]>([]);
   const [approvedModel, setApprovedModel] = useState<string[]>([]);
   const ITEM_HEIGHT = 48;
@@ -69,7 +67,8 @@ function Admin() {
 
   const handleCellClick = React.useCallback(
     (params: GridCellParams, event: React.MouseEvent) => {
-      setOpenConfirmationDialog(true);
+      setOpenEditUserDialog(true);
+      console.log("cell clicked", params, event);
     },
     []
   );
@@ -88,12 +87,25 @@ function Admin() {
       );
       setDoUpdateUserType(false);
     }
+
+    fetch("http://localhost:5201/api/user/update", {
+      method: "PUT",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: user.id,
+        email: newEmail || null,
+        phoneNumber: newPhoneNum || null,
+      }),
+    });
+
+    console.log(user.id, newEmail, newPhoneNum);
   };
 
-  const handleConfirmationDialogClose = (confirmed: any) => {
-    setOpenConfirmationDialog(false);
+  const handleEditUserDialogClose = (confirmed: boolean) => {
+    setOpenEditUserDialog(false);
 
-    if (confirmed) {
+    if (confirmed === true) {
       updateUser(doUpdateUserType);
       fetchUsers();
     }
@@ -185,6 +197,7 @@ function Admin() {
         .then((data) => data)) as boolean;
 
       setAdmin(isAdmin);
+      console.log("admin", isAdmin);
     } catch (error) {
       console.log(error);
     }
@@ -213,6 +226,7 @@ function Admin() {
       });
 
       setRows(mappedRows);
+      console.log("users", users);
     } catch (error) {
       console.log(error);
     }
@@ -242,8 +256,8 @@ function Admin() {
         })
         .map((plane: any) => plane.model);
 
-      console.log(mappedPlanes);
       setAirplaneModels(mappedPlanes);
+      console.log("planes", mappedPlanes);
     } catch (error) {
       console.log(error);
     }
@@ -259,15 +273,21 @@ function Admin() {
   }, []);
 
   const EditUserDialog = () => {
+    useEffect(() => {
+      // Set initial values when the dialog is opened
+      setNewEmail(user.email || "");
+      setNewPhoneNum(user.phoneNum || "");
+    }, [user.email, user.phoneNum]);
+
     return (
       <div className="edit-user-dialog">
         <Dialog
-          open={openConfirmationDialog}
-          onClose={handleConfirmationDialogClose}
+          open={openEditUserDialog}
+          onClose={handleEditUserDialogClose}
           sx={{
             "& .MuiDialog-container": {
               "& .MuiPaper-root": {
-                width: "50%",
+                width: "fit-content",
                 maxWidth: "57.5vw",
                 height: "50%",
                 maxHeight: "90vh",
@@ -279,19 +299,24 @@ function Admin() {
           <DialogTitle>{`Edit ${user.firstName || ""} ${
             user.lastName || ""
           }`}</DialogTitle>
-          <DialogContent>
+
+          <DialogContent className="edit-user-content">
             <TextField
               id="email"
+              name="email"
               label="Email"
               type="string"
-              value={user.email}
+              value={newEmail}
               onChange={(e) => setNewEmail(e.target.value)}
+              fullWidth
             />
             <TextField
               id="phoneNum"
+              name="phoneNum"
               label="Phone Number"
               type="string"
-              value={user.phoneNum}
+              value={newPhoneNum}
+              fullWidth
               onChange={(e) => setNewPhoneNum(e.target.value)}
             />
             <div>
@@ -303,6 +328,7 @@ function Admin() {
                   labelId="plane-model-label"
                   id="plane-model-checkbox"
                   multiple
+                  fullWidth
                   value={approvedModel}
                   onChange={handleChangeSelector}
                   input={<OutlinedInput label="Approved Plane Models" />}
@@ -319,17 +345,24 @@ function Admin() {
               </FormControl>
             </div>
             {user.accountType === "pilot" ? (
-              <PrimaryButton
-                text="Make user an Instructor?"
-                onClick={() => setDoUpdateUserType(true)}
-              />
+              doUpdateUserType ? (
+                <SecondaryButton
+                  text="Revert user to a Pilot?"
+                  onClick={() => setDoUpdateUserType(false)}
+                />
+              ) : (
+                <PrimaryButton
+                  text="Make user an Instructor?"
+                  onClick={() => setDoUpdateUserType(true)}
+                />
+              )
             ) : null}
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => handleConfirmationDialogClose(true)}>
+            <Button onClick={() => handleEditUserDialogClose(true)}>
               Confirm
             </Button>
-            <Button onClick={() => handleConfirmationDialogClose(false)}>
+            <Button onClick={() => handleEditUserDialogClose(false)}>
               Cancel
             </Button>
           </DialogActions>
