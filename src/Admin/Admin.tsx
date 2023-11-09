@@ -143,7 +143,7 @@ function Admin() {
       width: 150,
       type: "singleSelect",
       editable: false,
-      valueOptions: ["Instructor", "Pilot"],
+      valueOptions: ["instructor", "pilot"],
     },
   ];
 
@@ -318,7 +318,7 @@ function Admin() {
                 </Select>
               </FormControl>
             </div>
-            {user.accountType === "Pilot" ? (
+            {user.accountType === "pilot" ? (
               <PrimaryButton
                 text="Make user an Instructor?"
                 onClick={() => setDoUpdateUserType(true)}
