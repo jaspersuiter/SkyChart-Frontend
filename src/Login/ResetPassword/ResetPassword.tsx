@@ -8,6 +8,7 @@ import { response } from "express";
 import PrimaryButton from "../../Utils/Buttons/PrimaryButton";
 import "./ResetPassword.css";
 import { TextField } from "@mui/material";
+import { env } from "../../env";
 
 export interface ResetPasswordProps {
   open: boolean;
@@ -23,9 +24,9 @@ function ResetPassword(props: ResetPasswordProps) {
   };
 
   const handleRequestReset = () => {
-    fetch(`http://localhost:5201/api/user/password/send-reset?email=${email}`, {
+    fetch(`${env.SKYCHART_API_URL}/api/password/send-reset?email=${email}`, {
       credentials: "include",
-      method: "GET",
+      method: "POST",
     })
       .then((response) => response.json())
       .then((data) => {
