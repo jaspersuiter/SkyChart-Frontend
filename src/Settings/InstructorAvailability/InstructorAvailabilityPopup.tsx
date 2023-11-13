@@ -37,8 +37,8 @@ function InstructorAvailibilityPopup(props: InstructorAvailibilityProps) {
     }
 
     enum AvailabilityType {
-        Available = "Available",
-        PreferredTime = "PreferredTime"
+        PreferredTime = "PreferredTime",
+        Available = "Available"
     }
 
     const resetAll = () => {
@@ -62,8 +62,10 @@ function InstructorAvailibilityPopup(props: InstructorAvailibilityProps) {
                 day: day,
                 StartTime: startTime,
                 EndTime: endTime,
-                FlightType: availabilityType,
+                type: availabilityType,
             }
+
+            console.log(data)
 
             let responseData2 = null
             try {
