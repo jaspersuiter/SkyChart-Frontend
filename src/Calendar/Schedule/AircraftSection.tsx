@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import './HourHolder.css';
 import Hour from './HourIdentifier';
 import Identifier from './Identifier';
-import Reservation from './Reservation';
+import Reservation, { ReservationData } from './Reservation';
 import Unavailable from './Unavailable';
 import Grounded from './Grounded';
 import { makeApiCall } from '../../APICall';
@@ -19,6 +19,7 @@ export interface AircraftSectionProps {
   Planes: Array<Plane>;
   updateScreen: () => void;
   openAirplane: (plane: Plane) => void;
+  openReservation: (reservation: ReservationData) => void;
 }
 
 function AircraftSection(props: AircraftSectionProps) {
@@ -84,7 +85,8 @@ function AircraftSection(props: AircraftSectionProps) {
         width={divWidth}
         Instructors={props.Instructors}
         Planes={props.Planes} 
-        updateScreen={props.updateScreen}/>
+        updateScreen={props.updateScreen}
+        openReservation={props.openReservation}/>
     ));
   }
 
