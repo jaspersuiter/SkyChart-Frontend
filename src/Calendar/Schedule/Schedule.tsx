@@ -3,12 +3,14 @@ import DayCalendar from "./DayCalendar";
 import HourBar from "./HourHolder";
 import './Schedule.css';
 import { Plane } from "../Calendar";
+import { ReservationData } from "./Reservation";
 
 export interface ScheduleProps {
   isDay: Boolean;
   day: Dayjs;
   updateScreen: () => void;
   openAirplane: (plane: Plane) => void;
+  openReservation: (reservation: ReservationData) => void;
 }
 
 function Schedule(props: ScheduleProps) {
@@ -28,7 +30,7 @@ function Schedule(props: ScheduleProps) {
 
   const dayCalendars = week.map((item, index) => (
     <div className= 'frame' key={index}>
-      <DayCalendar isDay={props.isDay} day={item} updateScreen={props.updateScreen} openAirplane={props.openAirplane}/>
+      <DayCalendar isDay={props.isDay} day={item} updateScreen={props.updateScreen} openAirplane={props.openAirplane} openReservation={props.openReservation}/>
       {(!props.isDay && index != 6) && <div className="breakLine"></div>}
     </div>
   ));
