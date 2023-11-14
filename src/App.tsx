@@ -41,7 +41,7 @@ function App() {
             <React.Fragment>
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/home" element={<Home />} />
-              <Route path="/aircraft" element={<AircraftHome />} />
+              <Route path="/aircraft/*" element={<AircraftHome />} />
               <Route path="/instructors" element={<Instructors />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/" element={<Navigate to="/home" />} />

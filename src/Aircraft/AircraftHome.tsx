@@ -12,74 +12,45 @@ import { Instructor, Plane } from '../Calendar/Calendar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Aircraft from "./Aircraft";
+import AllSquawks from '../Home/AllSquawks/AllSquawks';
 
 
 function AircraftHome() {
-  // Aircraft Popup
-  const [openAircraftPage, setOpenAircraftPage] = useState(false);
-
-  const handleCloseAircraftPage = () => {
-    setOpenAircraftPage(false);
+  const [value, setValue] = useState(0);
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
   };
 
-  // Update Screens
-  const [updateScreen, setUpdateScreen] = useState(false);
-  const [updateAircraftScreen, setUpdateAircraftScreen] = useState(false);
-  const handleUpdateScreen = () => {
-    setUpdateScreen(!updateScreen);
+  // Plane Data Retrieval and Storage
+  const [planes, setPlanes] = useState<Plane[]>([]);
+  const fetchPlanes = async () => {
+    try {
+      const planes = await fetch('http://localhost:5201/api/plane/get-all',
+      {credentials: 'include'})
+        .then((response) => response.json())
+        .then((data) => data) as Array<Plane>;
+
+      setPlanes(planes); 
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
-    if (updateScreen) {
-      setUpdateScreen(false);
-    }
-  }, [updateAircraftScreen]);
-
-  const gridStyle = {
-    paper: {
-      backgroundColor: '#DDDDDD',
-      borderRadius: '12px',
-      padding: '16px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: 'fit-content',
-    }
-  };
-
-  const buttonStyle = {
-    paper: {
-      variant: "h4"
-    }
-  }
-
-  const [value, setValue] = useState(0);
-
-  const navigate = useNavigate();
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-    if (newValue === 0) {
-      navigate('/Aircraft');
-    } else if (newValue === 1) {
-      navigate('/AircraftMaintenance');
-    }
-  };
+    // Run fetchPlanes when the component is initially loaded
+    fetchPlanes();
+  }, []);
         
   return (
     <div className="aircraft-page">
       <StaticSidebar />
       <div className="page-content">
         <Tabs value={value} onChange={handleChange}  centered>
-            <Tab label="View Planes"  />
-            <Divider orientation="vertical" flexItem />
-            <Tab label="View Plane Maintenance" />
+            <Tab label="View Planes" sx={{fontSize: '1.2rem'}} />
+            <Tab label="View Plane Maintenance" sx={{fontSize: '1.2rem'}} />
         </Tabs>
-        <Routes>
-          <Route path="/aircrafthome/aircrafts" element={<Aircraft />} />
-          <Route path="/AircraftMaintenance" />
-        </Routes>
+        {value === 0 && <Aircraft />}
+        {value === 1 && <AllSquawks planes={planes} />}
       </div>       
     </div>      
   )}
