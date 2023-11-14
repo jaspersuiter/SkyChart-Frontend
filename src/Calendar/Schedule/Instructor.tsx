@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 import './HourHolder.css';
 import Hour from './HourIdentifier';
 import Identifier from './Identifier';
-import Reservation from './Reservation';
+import Reservation, { ReservationData } from './Reservation';
 import { convertToMilitaryTimeNoDate, getReservationData } from './Util';
 import Unavailable from './Unavailable';
 import { makeApiCall } from '../../APICall';
@@ -17,6 +17,7 @@ export interface InstructorSelectionProps {
   Instructors: Array<Instructor>;
   Planes: Array<Plane>;
   updateScreen: () => void;
+  openReservation: (reservation: ReservationData) => void;
 }
 
 async function getAvailabilityData(userid: string): Promise<
@@ -125,7 +126,8 @@ function InstructorSelection(props: InstructorSelectionProps) {
         width={divWidth}
         Instructors={props.Instructors}
         Planes={props.Planes} 
-        updateScreen={props.updateScreen}/>
+        updateScreen={props.updateScreen}
+        openReservation={props.openReservation}/>
     ));
   }
 
