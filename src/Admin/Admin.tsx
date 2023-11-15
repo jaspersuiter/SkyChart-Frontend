@@ -12,24 +12,10 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useEffect, useState } from "react";
 import "./Admin.css";
-import {
-  Button,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControl,
-  InputLabel,
-  ListItemText,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  SelectChangeEvent,
-} from "@mui/material";
+import { SelectChangeEvent } from "@mui/material";
 import { Box, TextField } from "@mui/material";
 import { env } from "../env";
-import SecondaryButton from "../Utils/Buttons/SecondaryButton";
+import EditUserDialog from "./EditUserDialog/EditUserDialog";
 
 interface User {
   id: number;
@@ -46,21 +32,7 @@ function Admin() {
   const [rows, setRows] = useState<User[]>([]); // Declare rows as a state variable of type User[]
   const [openEditUserDialog, setOpenEditUserDialog] = useState(false);
   const [user, setUser] = useState<User>({} as User);
-  const [doUpdateUserType, setDoUpdateUserType] = useState(false);
-  const [newEmail, setNewEmail] = React.useState("");
-  const [newPhoneNum, setNewPhoneNum] = React.useState("");
   const [airplaneModels, setAirplaneModels] = useState<string[]>([]);
-  const [approvedModel, setApprovedModel] = useState<string[]>([]);
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
 
   const [cellModesModel, setCellModesModel] =
     React.useState<GridCellModesModel>({});
@@ -79,49 +51,6 @@ function Admin() {
     },
     []
   );
-  const updateUser = (doUpdateUserType: boolean) => {
-    if (doUpdateUserType) {
-      fetch(
-        `http://localhost:5201/api/user/update-account-type?userId=${user.id}`,
-        { credentials: "include", method: "PUT" }
-      );
-      setDoUpdateUserType(false);
-    }
-
-    fetch("http://localhost:5201/api/user/update", {
-      method: "PUT",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id: user.id,
-        email: newEmail || null,
-        phoneNumber: newPhoneNum || null,
-      }),
-    });
-
-    console.log(user.id, newEmail, newPhoneNum);
-  };
-
-  const handleEditUserDialogClose = (confirmed: boolean) => {
-    setOpenEditUserDialog(false);
-
-    if (confirmed === true) {
-      updateUser(doUpdateUserType);
-      fetchUsers();
-    }
-  };
-
-  const handleChangeSelector = (
-    event: SelectChangeEvent<typeof approvedModel>
-  ) => {
-    const {
-      target: { value },
-    } = event;
-    setApprovedModel(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
-  };
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -279,7 +208,12 @@ function Admin() {
         <div className="main-content">
           <div className="admin-subcontent-wrapper">
             <p className="admin-header">Current Users</p>
-            {/* <EditUserDialog /> */}
+            <EditUserDialog
+              user={user}
+              openEditUserDialog={openEditUserDialog}
+              airplaneModels={airplaneModels}
+              setOpenEditUserDialog={setOpenEditUserDialog}
+            />
 
             <div style={{ display: "flex", justifyContent: "flex-start" }}>
               <Box
