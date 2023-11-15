@@ -9,12 +9,13 @@
 .weather>h1 {
     margin: .1em  auto;
     font-size: 1.5em;
-    justify-self: center;
+    text-align: center;
 }
 
 .weather-row {
     display: flex;
     flex-direction: row;
+    margin: .1em 0;
 }
 
 .weather-header {
@@ -26,6 +27,10 @@
     font-size: 1em;
     margin: 0 0 0 auto;
     justify-self: right;
+}
+
+.weather-btn {
+    margin: .3em auto;
 }
 
 .vfr {
