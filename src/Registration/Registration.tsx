@@ -21,6 +21,11 @@ function Registration() {
   const [errormessage, setErrormessage] = React.useState("");
 
   const validpassword = password === confirm_password;
+  const isValidPhoneNumber = (phoneNumber: string) => {
+    const phoneRegex = /^\d{9}$/;
+
+    return phoneRegex.test(phoneNumber);
+  };
   const isDisabled = !(
     email &&
     password &&
