@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }: AuthProviderPropsType) => {
   useEffect(() => {
     async function autoLogin() {
       const response = await fetch(
-        `${apiUrl}/api/user/authentication/auth-verification`,
+        `${apiUrl}/api/authentication/auth-verification`,
         {
           method: "GET",
           credentials: "include",

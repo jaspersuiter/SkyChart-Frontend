@@ -15,6 +15,7 @@ export interface ReservationProps {
   Planes: Array<Plane>;
   width: number| undefined
   updateScreen: () => void;
+  openReservation: (reservation: ReservationData) => void;
 }
 
 export interface ReservationData {
@@ -83,6 +84,7 @@ interface User {
 function Reservation(props: ReservationProps) {
 
   const [currUser, setCurrUser] = useState<User>({student: false, id: '', username: ''})
+  const [isadmin, setIsAdmin] = useState<boolean>(false);
 
   const fetchCurrentUser = async () => {
     try {
@@ -91,21 +93,23 @@ function Reservation(props: ReservationProps) {
             .then((response) => response.json())
             .then((data) => data) as User;
           setCurrUser(request);
+        
+        const request2 = await fetch('http://localhost:5201/api/user/get-current-is-admin',
+        {credentials: 'include'})
+            .then((response) => response.json())
+            .then((data) => data) as boolean;
+          setIsAdmin(request2);
     } catch (error) {
         console.log(error);
     }
 }
 
   const [userData, SetUserData] = useState<any>({});
-  const [openEditReservation, setOpenEditReservation] = useState(false);
 
-  const closeEditReservationDialog = () => {
-    setOpenEditReservation(false);
-  }
   const openEditReservationDialog = () => {
     if (currUser.id === props.reservationData.instructorId ||
-        currUser.id === props.reservationData.pilotId) {
-        setOpenEditReservation(true);
+        currUser.id === props.reservationData.pilotId || isadmin) {
+          props.openReservation(props.reservationData);
       }
   }
 
@@ -143,13 +147,6 @@ function Reservation(props: ReservationProps) {
     return (
       <div className='mainContainer' style={{ width: `${lengthInPixels}px`, left: `${leftPosition}px` }} onClick={openEditReservationDialog}>
         <p className='mainText'>{Title}</p>
-        <EditReservation
-          open={openEditReservation}
-          onClose={closeEditReservationDialog}
-          reservationData={props.reservationData}
-          Instructors={props.Instructors}
-          Planes={props.Planes} 
-          updateScreen={props.updateScreen}/>
       </div>
     );
 }

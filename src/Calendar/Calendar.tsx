@@ -14,6 +14,8 @@ import AircraftPopup from '../Aircraft/AircraftPopup/AircraftPopup';
 import AddSqauwkPopup from '../Aircraft/AddSquawkPopup/AddSquawkPopup';
 import DayPicker from './Schedule/DayPicker';
 import ModifyAircraft from '../Aircraft/ModifyAircraft/ModifyAircraft';
+import Reservation, { ReservationData } from './Schedule/Reservation';
+import EditReservation from '../Reservation/EditReservation/EditReservation';
 
 export interface Plane {
     planeId: string;
@@ -75,9 +77,11 @@ function Calendar() {
     const [planes, setPlanes] = useState<Plane[]>([]);
     const [instructors, setInstructors] = useState<Instructor[]>([]); // Declare rows as a state variable
     const [plane, setPlane] = useState<Plane>({planeId: '', tailNumber: '', model: '', nickName: '', hourlyRate: 0, numEngines: 0, tachHours: 0, hobbsHours: 0, grounded: false});
+    const [reservation, setReservation] = useState<ReservationData>({reservationId: '', planeId: '', pilotId: '', instructorId: '', startTime: '', endTime: '', flightType: '', tachHours: 0, hobbsHours: 0, repeat: 0});
     const [open, setOpen] = React.useState(false);
     const [openAircraft, setOpenAircraft] = React.useState(false);
     const [updateScreen, setUpdateScreen] = React.useState(false);
+    const [openEditReservation, setOpenEditReservation] = React.useState(false);
     const [isDay, setIsDay] = React.useState(true);
     const [day, SetDay] = React.useState<Dayjs | null>(dayjs());
 
@@ -99,6 +103,15 @@ function Calendar() {
     const handleCloseAircraft = () => {
         setOpenAircraft(false);
     };
+
+    const handleClickOpenEditReservation = (reservation: ReservationData) => {
+        setOpenEditReservation(true);
+        setReservation(reservation);
+    };
+
+    const handleCloseEditReservation = () => {
+        setOpenEditReservation(false);
+    }
 
     const handleClickOpenSquawk = () => {
         setOpenSquawk(true);
@@ -205,7 +218,7 @@ function Calendar() {
 
             </div>
 
-            { day && <Schedule isDay={isDay} day={day} openAirplane={handleClickOpenAircraft} updateScreen={updateScreenFunction} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString()}/>}
+            { day && <Schedule isDay={isDay} day={day} openAirplane={handleClickOpenAircraft} openReservation={handleClickOpenEditReservation} updateScreen={updateScreenFunction} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString()}/>}
 
            
         </div>
@@ -213,7 +226,8 @@ function Calendar() {
         <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane} openSquawk={handleClickOpenSquawk} openModify={handleClickOpenModify} openCreateReservation={handleClickOpen} />
         <AddSqauwkPopup open={openSquawk} onClose={handleCloseSquawk} plane={plane}/>
         <ModifyAircraft open={openModify} onClose={handleCloseModify} planeId={plane.planeId} updateScreen={updateScreenFunction} setCurrentPlane={setPlane}/>
-    </div>
+        <EditReservation open={openEditReservation} onClose={handleCloseEditReservation} reservationData={reservation} Instructors={instructors} Planes={planes} updateScreen={updateScreenFunction}/>
+      </div>
   )}
 
 export default Calendar;
