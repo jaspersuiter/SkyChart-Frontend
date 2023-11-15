@@ -1,0 +1,45 @@
+.weather {
+    padding: 1em;
+    margin: 1em;
+    width: 20em;
+    display: flex;
+    flex-direction: column;
+}
+
+.weather>h1 {
+    margin: .1em  auto;
+    font-size: 1.5em;
+    justify-self: center;
+}
+
+.weather-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.weather-header {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.weather-data {
+    font-size: 1em;
+    margin: 0 0 0 auto;
+    justify-self: right;
+}
+
+.vfr {
+    background-color: #0cc502;
+}
+
+.mvfr {
+    background-color: #226ed8;
+}
+
+.lifr {
+    background-color: #ff40ff;
+}
+
+.ifr {
+    background-color: #ff2600;
+}
