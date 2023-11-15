@@ -9,15 +9,13 @@ import {
   InputLabel,
   ListItemText,
   MenuItem,
-  MenuProps,
   OutlinedInput,
   Select,
   SelectChangeEvent,
-  TextField,
 } from "@mui/material";
 import SecondaryButton from "../../Utils/Buttons/SecondaryButton";
 import PrimaryButton from "../../Utils/Buttons/PrimaryButton";
-import { ReactNode, useEffect, useState } from "react";
+import { useState } from "react";
 interface User {
   id: number;
   lastName: string;
@@ -25,6 +23,12 @@ interface User {
   phoneNum: string;
   email: string;
   accountType: string;
+  username: string;
+  address: string;
+  emergencyContactName: string;
+  emergencyContactPhone: string;
+  preferredInstructor: string;
+  preferredPlane: string;
 }
 
 interface EditUserDialogProps {
@@ -41,8 +45,6 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
   airplaneModels,
 }) => {
   const [doUpdateUserType, setDoUpdateUserType] = useState(false);
-  const [newEmail, setNewEmail] = useState("");
-  const [newPhoneNum, setNewPhoneNum] = useState("");
 
   const [approvedModel, setApprovedModel] = useState<string[]>([]);
   const ITEM_HEIGHT = 48;
@@ -55,12 +57,6 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
       },
     },
   };
-
-  useEffect(() => {
-    // Set initial values when the dialog is opened
-    setNewEmail(user.email || "");
-    setNewPhoneNum(user.phoneNum || "");
-  }, [user.email, user.phoneNum]);
 
   const handleChangeSelector = (
     event: SelectChangeEvent<typeof approvedModel>
@@ -79,6 +75,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
       updateUser(doUpdateUserType);
     }
     setOpenEditUserDialog(false);
+    setDoUpdateUserType(false);
   };
 
   const updateUser = (doUpdateUserType: boolean) => {
@@ -88,19 +85,6 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
         { credentials: "include", method: "PUT" }
       );
     }
-
-    fetch("http://localhost:5201/api/user/update", {
-      method: "PUT",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id: user.id,
-        email: newEmail || null,
-        phoneNumber: newPhoneNum || null,
-      }),
-    });
-
-    console.log(user.id, newEmail, newPhoneNum);
   };
 
   return (
@@ -111,38 +95,50 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
         sx={{
           "& .MuiDialog-container": {
             "& .MuiPaper-root": {
-              width: "fit-content",
-              maxWidth: "57.5vw",
-              height: "50%",
+              maxWidth: "65em",
+              height: "40em",
               maxHeight: "90vh",
-              padding: "30px",
+              padding: "2em",
             },
           },
         }}
       >
-        <DialogTitle>{`Edit ${user.firstName || ""} ${
-          user.lastName || ""
-        }`}</DialogTitle>
+        <DialogTitle style={{ textAlign: "center" }}>
+          <b>{`Edit ${user.firstName || ""} ${user.lastName || ""}`}</b>
+        </DialogTitle>
 
         <DialogContent className="edit-user-content">
-          <TextField
-            id="email"
-            name="email"
-            label="Email"
-            type="string"
-            value={newEmail}
-            onChange={(e) => setNewEmail(e.target.value)}
-            fullWidth
-          />
-          <TextField
-            id="phoneNum"
-            name="phoneNum"
-            label="Phone Number"
-            type="string"
-            value={newPhoneNum}
-            fullWidth
-            onChange={(e) => setNewPhoneNum(e.target.value)}
-          />
+          <div className="info-section">
+            <p className="p">
+              Username: <b>{user.username}</b>
+            </p>
+            <p className="p">
+              Email: <b>{user.email}</b>
+            </p>
+            <p className="p">
+              Phone Number: <b>{user.phoneNum}</b>
+            </p>
+            <p className="p">
+              Address: <b>{user.address}</b>
+            </p>
+            <p className="p">
+              Emergency Contact Name: <b>{user.emergencyContactName}</b>
+            </p>
+            <p className="p">
+              Emergency Contact Phone Number:{" "}
+              <b>{user.emergencyContactPhone}</b>
+            </p>
+            {user.preferredInstructor ? (
+              <p className="p">
+                Preferred Instructor: <b>{user.preferredInstructor}</b>
+              </p>
+            ) : null}
+            {user.preferredPlane ? (
+              <p className="p">
+                Preferred Plane: <b>{user.preferredPlane}</b>
+              </p>
+            ) : null}
+          </div>
           <div>
             <FormControl sx={{ m: 1, width: 300 }}>
               <InputLabel id="plane-model-label">

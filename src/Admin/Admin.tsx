@@ -24,6 +24,12 @@ interface User {
   phoneNum: string;
   email: string;
   accountType: string;
+  username: string;
+  address: string;
+  emergencyContactName: string;
+  emergencyContactPhone: string;
+  preferredInstructor: string;
+  preferredPlane: string;
 }
 
 function Admin() {
@@ -40,7 +46,6 @@ function Admin() {
   const handleCellClick = React.useCallback(
     (params: GridCellParams, event: React.MouseEvent) => {
       setOpenEditUserDialog(true);
-      console.log("cell clicked", params, event);
     },
     []
   );
@@ -116,6 +121,12 @@ function Admin() {
     )
   );
 
+  const formattedPhoneNumber = (phoneNumber: string) => {
+    const formatted =
+      phoneNumber && phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+    return formatted || phoneNumber;
+  };
+
   const isAdmin = async () => {
     try {
       const isAdmin = (await fetch(`${apiUrl}/api/user/get-current-is-admin`, {
@@ -126,7 +137,6 @@ function Admin() {
         .then((data) => data)) as boolean;
 
       setAdmin(isAdmin);
-      console.log("admin", isAdmin);
     } catch (error) {
       console.log(error);
     }
@@ -143,19 +153,24 @@ function Admin() {
         .then((response) => response.json())
         .then((data) => data);
 
-      const mappedRows = users.map((user: any, index: number) => {
+      const mappedRows = users.map((user: any) => {
         return {
           id: user.id,
           lastName: user.lastName,
           firstName: user.firstName,
-          phoneNum: user.phoneNumber,
+          phoneNum: formattedPhoneNumber(user.phoneNumber),
           email: user.email,
           accountType: user.type,
+          username: user.username,
+          address: user.address,
+          emergencyContactName: user.emergencyContactName,
+          emergencyContactPhone: user.emergencyContactPhoneNumber,
+          preferredInstructor: user.preferredInstructor,
+          preferredPlane: user.preferredPlane,
         };
       });
 
       setRows(mappedRows);
-      console.log("users", users);
     } catch (error) {
       console.log(error);
     }
@@ -186,7 +201,6 @@ function Admin() {
         .map((plane: any) => plane.model);
 
       setAirplaneModels(mappedPlanes);
-      console.log("planes", mappedPlanes);
     } catch (error) {
       console.log(error);
     }
