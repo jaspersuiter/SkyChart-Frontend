@@ -22,7 +22,7 @@ function Registration() {
 
   const validpassword = password === confirm_password;
   const isValidPhoneNumber = (phoneNumber: string) => {
-    const phoneRegex = /^\d{9}$/;
+    const phoneRegex = /^\d{10}$/;
 
     return phoneRegex.test(phoneNumber);
   };
@@ -50,6 +50,13 @@ function Registration() {
   };
 
   const registerUser = async () => {
+    if (!isValidPhoneNumber(phone) || !isValidPhoneNumber(ec_phone)) {
+      setErrormessage(
+        "Invalid phone number format. Please enter a valid 10-digit number."
+      );
+      return;
+    }
+
     const data = {
       username: userName,
       email: email,
