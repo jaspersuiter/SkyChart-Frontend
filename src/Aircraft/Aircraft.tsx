@@ -124,9 +124,7 @@ function Aircraft() {
   }
         
   return (
-    <div className="aircraft-page">
-      <StaticSidebar />
-      <div className="page-content">
+      <div>
         <div className="aircraft-page-header">
           {/*<p>Aircraft</p>*/}
         </div>
@@ -174,8 +172,7 @@ function Aircraft() {
             updateScreen={handleUpdateScreen} 
             setCurrentPlane={setCurrentPlane}/>
         </div>
-      </div>       
-    </div>      
+      </div>           
   )}
 
 export default Aircraft;
