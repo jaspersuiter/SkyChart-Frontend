@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import SecondaryButton from "../../Utils/Buttons/SecondaryButton";
 import PrimaryButton from "../../Utils/Buttons/PrimaryButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 interface User {
   id: number;
   lastName: string;
@@ -28,7 +28,8 @@ interface User {
   emergencyContactName: string;
   emergencyContactPhone: string;
   preferredInstructor: string;
-  preferredPlane: string;
+  preferredPlanes: string[];
+  proficientPlaneModels: string[];
 }
 
 interface EditUserDialogProps {
@@ -45,8 +46,17 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
   airplaneModels,
 }) => {
   const [doUpdateUserType, setDoUpdateUserType] = useState(false);
+  const [approvedModels, setApprovedModels] = useState<string[]>(
+    user.proficientPlaneModels
+  );
 
-  const [approvedModel, setApprovedModel] = useState<string[]>([]);
+  useEffect(() => {
+    // Set the initial state for approvedModels when the dialog is opened
+    if (user.proficientPlaneModels === undefined) setApprovedModels([]);
+
+    setApprovedModels(user.proficientPlaneModels);
+  }, [openEditUserDialog, user.proficientPlaneModels]);
+
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -59,15 +69,18 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
   };
 
   const handleChangeSelector = (
-    event: SelectChangeEvent<typeof approvedModel>
+    event: SelectChangeEvent<typeof approvedModels>
   ) => {
     const {
       target: { value },
     } = event;
-    setApprovedModel(
+    setApprovedModels(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
+
+    console.log("plane added", value);
+    console.log("Approved models list", approvedModels);
   };
 
   const handleEditUserDialogClose = (confirmed: boolean) => {
@@ -76,6 +89,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
     }
     setOpenEditUserDialog(false);
     setDoUpdateUserType(false);
+    setApprovedModels([]);
   };
 
   const updateUser = (doUpdateUserType: boolean) => {
@@ -83,6 +97,23 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
       fetch(
         `http://localhost:5201/api/user/update-account-type?userId=${user.id}`,
         { credentials: "include", method: "PUT" }
+      );
+    }
+
+    if (
+      JSON.stringify(approvedModels) !==
+      JSON.stringify(user.proficientPlaneModels)
+    ) {
+      fetch(
+        `http://localhost:5201/api/user/instructor-update-user?userId=${user.id}`,
+        {
+          credentials: "include",
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userProficientPlanes: approvedModels }),
+        }
       );
     }
   };
@@ -133,9 +164,9 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
                 Preferred Instructor: <b>{user.preferredInstructor}</b>
               </p>
             ) : null}
-            {user.preferredPlane ? (
+            {user.preferredPlanes ? (
               <p className="p">
-                Preferred Plane: <b>{user.preferredPlane}</b>
+                Preferred Plane: <b>{user.preferredPlanes}</b>
               </p>
             ) : null}
           </div>
@@ -149,7 +180,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
                 id="plane-model-checkbox"
                 multiple
                 fullWidth
-                value={approvedModel}
+                value={approvedModels || []}
                 onChange={handleChangeSelector}
                 input={<OutlinedInput label="Approved Plane Models" />}
                 renderValue={(selected) => selected.join(", ")}
@@ -157,7 +188,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
               >
                 {airplaneModels.map((model) => (
                   <MenuItem key={model} value={model}>
-                    <Checkbox checked={approvedModel.indexOf(model) > -1} />
+                    <Checkbox checked={approvedModels?.indexOf(model) > -1} />
                     <ListItemText primary={model} />
                   </MenuItem>
                 ))}

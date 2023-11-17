@@ -29,7 +29,8 @@ interface User {
   emergencyContactName: string;
   emergencyContactPhone: string;
   preferredInstructor: string;
-  preferredPlane: string;
+  preferredPlanes: string[];
+  proficientPlaneModels: string[];
 }
 
 function Admin() {
@@ -45,6 +46,7 @@ function Admin() {
 
   const handleCellClick = React.useCallback(
     (params: GridCellParams, event: React.MouseEvent) => {
+      setUser(params.row as User);
       setOpenEditUserDialog(true);
     },
     []
@@ -166,9 +168,11 @@ function Admin() {
           emergencyContactName: user.emergencyContactName,
           emergencyContactPhone: user.emergencyContactPhoneNumber,
           preferredInstructor: user.preferredInstructor,
-          preferredPlane: user.preferredPlane,
+          preferredPlanes: user.preferredPlanes,
+          proficientPlaneModels: user.proficientPlaneModels,
         };
       });
+      console.log(mappedRows);
 
       setRows(mappedRows);
     } catch (error) {
@@ -258,13 +262,13 @@ function Admin() {
               cellModesModel={cellModesModel}
               onCellModesModelChange={handleCellModesModelChange}
               onCellClick={handleCellClick}
-              onRowSelectionModelChange={(ids) => {
-                const selectedIDs = new Set(ids);
-                const selectedRowData = rows.filter((row) =>
-                  selectedIDs.has(row.id.toString())
-                );
-                setUser(selectedRowData[0]);
-              }}
+              // onRowSelectionModelChange={(ids) => {
+              //   const selectedIDs = new Set(ids);
+              //   const selectedRowData = rows.filter((row) =>
+              //     selectedIDs.has(row.id.toString())
+              //   );
+              //   setUser(selectedRowData[0]);
+              // }}
             />
           </div>
 
