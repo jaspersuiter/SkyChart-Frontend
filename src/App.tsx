@@ -22,6 +22,7 @@ import { AuthorizationContext } from "./AuthContext";
 import ResetPassword from "./Login/ResetPassword/ResetPassword";
 import NewPassword from "./Login/NewPassword/NewPassword";
 import Home from "./Home/Home";
+import AircraftHome from "./Aircraft/AircraftHome";
 
 function App() {
   const context = useContext(AuthorizationContext);
@@ -40,7 +41,7 @@ function App() {
             <React.Fragment>
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/home" element={<Home />} />
-              <Route path="/aircraft" element={<Aircraft />} />
+              <Route path="/aircraft/*" element={<AircraftHome />} />
               <Route path="/instructors" element={<Instructors />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/" element={<Navigate to="/home" />} />
