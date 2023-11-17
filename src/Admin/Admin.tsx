@@ -166,7 +166,9 @@ function Admin() {
           username: user.username,
           address: user.address,
           emergencyContactName: user.emergencyContactName,
-          emergencyContactPhone: user.emergencyContactPhoneNumber,
+          emergencyContactPhone: formattedPhoneNumber(
+            user.emergencyContactPhoneNumber
+          ),
           preferredInstructor: user.preferredInstructor,
           preferredPlanes: user.preferredPlanes,
           proficientPlaneModels: user.proficientPlaneModels,

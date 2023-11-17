@@ -74,10 +74,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
     const {
       target: { value },
     } = event;
-    setApprovedModels(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+    setApprovedModels(typeof value === "string" ? value.split(",") : value);
 
     console.log("plane added", value);
     console.log("Approved models list", approvedModels);
