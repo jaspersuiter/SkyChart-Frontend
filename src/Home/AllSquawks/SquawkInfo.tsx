@@ -48,7 +48,9 @@ function SquawkInfo(props: SquawkInfoProps) {
   };
 
   useEffect(() => {
-    getSquawk();
+    if (props.squawkId) {
+      getSquawk();
+    }
   }, [props.squawkId]);
 
   return (
