@@ -16,6 +16,7 @@ import DayPicker from './Schedule/DayPicker';
 import ModifyAircraft from '../Aircraft/ModifyAircraft/ModifyAircraft';
 import Reservation, { ReservationData } from './Schedule/Reservation';
 import EditReservation from '../Reservation/EditReservation/EditReservation';
+import MultiSelect from '../Utils/DropDowns/MultiselectDropDown';
 
 export interface Plane {
     planeId: string;
@@ -214,6 +215,8 @@ function Calendar() {
                             ))} */}
                     </Select>
                     </FormControl>
+
+                    <MultiSelect />
                     </div>
 
             </div>
