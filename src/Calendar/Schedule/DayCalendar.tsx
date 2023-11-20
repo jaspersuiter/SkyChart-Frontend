@@ -4,7 +4,7 @@ import InstructorSelection from './Instructor';
 import AircraftSection from './AircraftSection';
 import { makeApiCall } from '../../APICall';
 import { useEffect, useState } from 'react';
-import { Plane } from '../Calendar';
+import { Instructor, Plane } from '../Calendar';
 import { ReservationData } from './Reservation';
 
 export interface DayCalendarProps {
@@ -14,6 +14,7 @@ export interface DayCalendarProps {
   openAirplane: (plane: Plane) => void;
   openReservation: (reservation: ReservationData) => void;
   selectedPlanes: Array<Plane>;
+  selectedInstructors: Array<Instructor>;
 }
 
 async function getAircraftData(): Promise<
@@ -90,11 +91,11 @@ function DayCalendar(props: DayCalendarProps) {
 
   // Map the aircraft data to JSX elements
   const planes = props.selectedPlanes.map((item, index) => (
-    <AircraftSection isDay={props.isDay} Aircraft={item} Day={daystr} key={index} Instructors={InstructorData} Planes={props.selectedPlanes} updateScreen={props.updateScreen} openAirplane={props.openAirplane}  openReservation={props.openReservation} isGrounded={item.grounded}/>
+    <AircraftSection isDay={props.isDay} Aircraft={item} Day={daystr} key={index} Instructors={props.selectedInstructors} Planes={props.selectedPlanes} updateScreen={props.updateScreen} openAirplane={props.openAirplane}  openReservation={props.openReservation} isGrounded={item.grounded}/>
   ));
 
-  const instruictors = InstructorData.map((item, index) => (
-    <InstructorSelection isDay={props.isDay} InstructorName={item.name} key={index} Day={daystr} InstructorId={item.userId} DayName={dayNames[props.day.day()]} Instructors={InstructorData} Planes={props.selectedPlanes} updateScreen={props.updateScreen} openReservation={props.openReservation}/>
+  const instruictors = props.selectedInstructors.map((item, index) => (
+    <InstructorSelection isDay={props.isDay} InstructorName={item.name} key={index} Day={daystr} InstructorId={item.userId} DayName={dayNames[props.day.day()]} Instructors={props.selectedInstructors} Planes={props.selectedPlanes} updateScreen={props.updateScreen} openReservation={props.openReservation}/>
   ));
 
   return (

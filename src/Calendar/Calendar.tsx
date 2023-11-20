@@ -17,6 +17,7 @@ import ModifyAircraft from '../Aircraft/ModifyAircraft/ModifyAircraft';
 import Reservation, { ReservationData } from './Schedule/Reservation';
 import EditReservation from '../Reservation/EditReservation/EditReservation';
 import AircraftMultiSelect from '../Utils/DropDowns/AircraftMultiselectDropDown';
+import InstructorMultiselect from '../Utils/DropDowns/InstructorMultiselectDropDown';
 
 export interface Plane {
     planeId: string;
@@ -66,6 +67,7 @@ function Calendar() {
                 .then((data) => data) as Array<Instructor>;
 
             setInstructors(instructors);
+            setSelectedInstructors(instructors)
         } catch (error) {
             console.log(error);
         }
@@ -78,7 +80,8 @@ function Calendar() {
 
     const [planes, setPlanes] = useState<Plane[]>([]);
     const [selectedPlanes, setSelectedPlanes] = useState<Plane[]>([]); 
-    const [instructors, setInstructors] = useState<Instructor[]>([]); // Declare rows as a state variable
+    const [instructors, setInstructors] = useState<Instructor[]>([]);
+    const [selectedInstructors, setSelectedInstructors] = useState<Instructor[]>([]);
     const [plane, setPlane] = useState<Plane>({planeId: '', tailNumber: '', model: '', nickName: '', hourlyRate: 0, numEngines: 0, tachHours: 0, hobbsHours: 0, grounded: false});
     const [reservation, setReservation] = useState<ReservationData>({reservationId: '', planeId: '', pilotId: '', instructorId: '', startTime: '', endTime: '', flightType: '', tachHours: 0, hobbsHours: 0, repeat: 0});
     const [open, setOpen] = React.useState(false);
@@ -219,11 +222,13 @@ function Calendar() {
                     </FormControl>
 
                     <AircraftMultiSelect planes={planes} setSelectedPlanes={setSelectedPlanes}/>
+
+                    <InstructorMultiselect instructors={instructors} setSelectedInstructors={setSelectedInstructors}/>
                     </div>
 
             </div>
 
-            { day && <Schedule isDay={isDay} day={day} openAirplane={handleClickOpenAircraft} openReservation={handleClickOpenEditReservation} updateScreen={updateScreenFunction} selectedPlanes={selectedPlanes} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString()}/>}
+            { day && <Schedule isDay={isDay} day={day} openAirplane={handleClickOpenAircraft} openReservation={handleClickOpenEditReservation} updateScreen={updateScreenFunction} selectedPlanes={selectedPlanes} selectedInstructors={selectedInstructors} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString()}/>}
 
            
         </div>
