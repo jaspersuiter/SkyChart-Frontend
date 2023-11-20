@@ -18,6 +18,7 @@ import Reservation, { ReservationData } from './Schedule/Reservation';
 import EditReservation from '../Reservation/EditReservation/EditReservation';
 import AircraftMultiSelect from '../Utils/DropDowns/AircraftMultiselectDropDown';
 import InstructorMultiselect from '../Utils/DropDowns/InstructorMultiselectDropDown';
+import ReservationTypeMultiselect, { DropDownType } from '../Utils/DropDowns/ReservationTypeMultiselectDropDown';
 
 export interface Plane {
     planeId: string;
@@ -82,6 +83,7 @@ function Calendar() {
     const [selectedPlanes, setSelectedPlanes] = useState<Plane[]>([]); 
     const [instructors, setInstructors] = useState<Instructor[]>([]);
     const [selectedInstructors, setSelectedInstructors] = useState<Instructor[]>([]);
+    const [selectedTypes, setSelectedTypes] = useState<DropDownType[]>([]); 
     const [plane, setPlane] = useState<Plane>({planeId: '', tailNumber: '', model: '', nickName: '', hourlyRate: 0, numEngines: 0, tachHours: 0, hobbsHours: 0, grounded: false});
     const [reservation, setReservation] = useState<ReservationData>({reservationId: '', planeId: '', pilotId: '', instructorId: '', startTime: '', endTime: '', flightType: '', tachHours: 0, hobbsHours: 0, repeat: 0});
     const [open, setOpen] = React.useState(false);
@@ -180,50 +182,12 @@ function Calendar() {
                 </div>
 
                 <div className="sorting-frame">
-                    <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
-                    <InputLabel id="demo-select-small-label">Aircraft</InputLabel>
-                    <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        label="aircraft"
-                    >
-                        {/* {planes.map((plane) => (
-                            <MenuItem key={plane.id} value={plane.id}>
-                                {`${plane.model} (${plane.nickname})`}
-                            </MenuItem>
-                        ))} */}
-                    </Select>
-                    </FormControl>
-
-                    <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
-                    <InputLabel id="demo-select-small-label">Reservation Type</InputLabel>
-                    <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        label="aircraft"
-                    >
-                        <MenuItem>All</MenuItem>
-                    </Select>
-                    </FormControl>
-
-                    <FormControl sx={{ m: 2, minWidth: 240 }} size="small">
-                    <InputLabel id="demo-select-small-label">Instructors</InputLabel>
-                    <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        label="instructor"
-                    >
-                        {/* {instructors.map((instructor) => (
-                            <MenuItem key={instructor.id} value={instructor.id}>
-                                {instructor.firstName} {instructor.lastName}
-                            </MenuItem>
-                            ))} */}
-                    </Select>
-                    </FormControl>
 
                     <AircraftMultiSelect planes={planes} setSelectedPlanes={setSelectedPlanes}/>
 
                     <InstructorMultiselect instructors={instructors} setSelectedInstructors={setSelectedInstructors}/>
+
+                    <ReservationTypeMultiselect setSelectedTypes={setSelectedTypes}/>
                     </div>
 
             </div>
