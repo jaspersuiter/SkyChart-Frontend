@@ -16,7 +16,7 @@ import DayPicker from './Schedule/DayPicker';
 import ModifyAircraft from '../Aircraft/ModifyAircraft/ModifyAircraft';
 import Reservation, { ReservationData } from './Schedule/Reservation';
 import EditReservation from '../Reservation/EditReservation/EditReservation';
-import MultiSelect from '../Utils/DropDowns/MultiselectDropDown';
+import AircraftMultiSelect from '../Utils/DropDowns/AircraftMultiselectDropDown';
 
 export interface Plane {
     planeId: string;
@@ -47,7 +47,8 @@ function Calendar() {
                 .then((response) => response.json())
                 .then((data) => data) as Array<Plane>;
 
-            setPlanes(planes); 
+            setPlanes(planes);
+            setSelectedPlanes(planes); 
         } catch (error) {
             console.log(error);
         }
@@ -76,6 +77,7 @@ function Calendar() {
     }, []); // Empty dependency array means this effect runs once when the component mounts
 
     const [planes, setPlanes] = useState<Plane[]>([]);
+    const [selectedPlanes, setSelectedPlanes] = useState<Plane[]>([]); 
     const [instructors, setInstructors] = useState<Instructor[]>([]); // Declare rows as a state variable
     const [plane, setPlane] = useState<Plane>({planeId: '', tailNumber: '', model: '', nickName: '', hourlyRate: 0, numEngines: 0, tachHours: 0, hobbsHours: 0, grounded: false});
     const [reservation, setReservation] = useState<ReservationData>({reservationId: '', planeId: '', pilotId: '', instructorId: '', startTime: '', endTime: '', flightType: '', tachHours: 0, hobbsHours: 0, repeat: 0});
@@ -216,12 +218,12 @@ function Calendar() {
                     </Select>
                     </FormControl>
 
-                    <MultiSelect />
+                    <AircraftMultiSelect planes={planes} setSelectedPlanes={setSelectedPlanes}/>
                     </div>
 
             </div>
 
-            { day && <Schedule isDay={isDay} day={day} openAirplane={handleClickOpenAircraft} openReservation={handleClickOpenEditReservation} updateScreen={updateScreenFunction} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString()}/>}
+            { day && <Schedule isDay={isDay} day={day} openAirplane={handleClickOpenAircraft} openReservation={handleClickOpenEditReservation} updateScreen={updateScreenFunction} selectedPlanes={selectedPlanes} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString()}/>}
 
            
         </div>

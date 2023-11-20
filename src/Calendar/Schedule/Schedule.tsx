@@ -11,6 +11,7 @@ export interface ScheduleProps {
   updateScreen: () => void;
   openAirplane: (plane: Plane) => void;
   openReservation: (reservation: ReservationData) => void;
+  selectedPlanes: Array<Plane>;
 }
 
 function Schedule(props: ScheduleProps) {
@@ -30,7 +31,7 @@ function Schedule(props: ScheduleProps) {
 
   const dayCalendars = week.map((item, index) => (
     <div className= 'frame' key={index}>
-      <DayCalendar isDay={props.isDay} day={item} updateScreen={props.updateScreen} openAirplane={props.openAirplane} openReservation={props.openReservation}/>
+      <DayCalendar isDay={props.isDay} day={item} updateScreen={props.updateScreen} openAirplane={props.openAirplane} openReservation={props.openReservation} selectedPlanes={props.selectedPlanes}/>
       {(!props.isDay && index != 6) && <div className="breakLine"></div>}
     </div>
   ));
