@@ -84,7 +84,7 @@ function Calendar() {
     const [selectedPlanes, setSelectedPlanes] = useState<Plane[]>([]); 
     const [instructors, setInstructors] = useState<Instructor[]>([]);
     const [selectedInstructors, setSelectedInstructors] = useState<Instructor[]>([]);
-    const [selectedTypes, setSelectedTypes] = useState<ReservationType[]>([]); 
+    const [selectedTypes, setSelectedTypes] = useState<ReservationType[]>([ReservationType.AircraftCheckout, ReservationType.DualLesson, ReservationType.Checkride, ReservationType.GroundSchool, ReservationType.Simulator, ReservationType.StandardReserved, ReservationType.StudentSolo]); 
     const [plane, setPlane] = useState<Plane>({planeId: '', tailNumber: '', model: '', nickName: '', hourlyRate: 0, numEngines: 0, tachHours: 0, hobbsHours: 0, grounded: false});
     const [reservation, setReservation] = useState<ReservationData>({reservationId: '', planeId: '', pilotId: '', instructorId: '', startTime: '', endTime: '', flightType: ReservationType.DualLesson, tachHours: 0, hobbsHours: 0, repeat: 0});
     const [open, setOpen] = React.useState(false);
@@ -193,9 +193,9 @@ function Calendar() {
 
             </div>
 
-            { day && <Schedule isDay={isDay} day={day} openAirplane={handleClickOpenAircraft} openReservation={handleClickOpenEditReservation} updateScreen={updateScreenFunction} selectedPlanes={selectedPlanes} selectedInstructors={selectedInstructors} selectedTypes={selectedTypes} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString()}/>}
+            { day && <Schedule isDay={isDay} day={day} openAirplane={handleClickOpenAircraft} openReservation={handleClickOpenEditReservation} updateScreen={updateScreenFunction} selectedPlanes={selectedPlanes} selectedInstructors={selectedInstructors} selectedTypes={selectedTypes} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString() + selectedInstructors.toString() + selectedPlanes.toString() + selectedTypes.toString()}/>}
 
-           
+            
         </div>
         <NewReservation open={open} onClose={handleClose} Instructors={instructors} Planes={planes} SelectedPlane={plane}/>
         <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane} openSquawk={handleClickOpenSquawk} openModify={handleClickOpenModify} openCreateReservation={handleClickOpen} />
