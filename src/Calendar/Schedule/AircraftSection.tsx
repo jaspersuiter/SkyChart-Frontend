@@ -9,6 +9,7 @@ import { makeApiCall } from '../../APICall';
 import { it } from 'node:test';
 import { getReservationData } from './Util';
 import { Instructor, Plane } from '../Calendar';
+import { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
 
 export interface AircraftSectionProps {
   isDay: Boolean;
@@ -20,6 +21,7 @@ export interface AircraftSectionProps {
   updateScreen: () => void;
   openAirplane: (plane: Plane) => void;
   openReservation: (reservation: ReservationData) => void;
+  selectedTypes: Array<ReservationType>;
 }
 
 function AircraftSection(props: AircraftSectionProps) {
@@ -49,22 +51,11 @@ function AircraftSection(props: AircraftSectionProps) {
     };
   }, []);
 
-  const [reservationData, setReservationData] = useState<Array<{
-    reservationId: string;
-    pilotId: string;
-    planeId: string;
-    instructorId: string;
-    startTime: string;
-    endTime: string
-    flightType: string;
-    repeat: number;
-    tachHours?: number;
-    hobbsHours?: number;
-  }>>([]);
+  const [reservationData, setReservationData] = useState<Array<ReservationData>>([]);
 
   useEffect(() => {
     async function fetchReservationData() {
-      const data = await getReservationData( props.Day, {planeid: props.Aircraft.planeId});
+      const data = await getReservationData( props.Day, {planeid: props.Aircraft.planeId}) as Array<ReservationData>;
       setReservationData(data);
     }
 
@@ -86,7 +77,8 @@ function AircraftSection(props: AircraftSectionProps) {
         Instructors={props.Instructors}
         Planes={props.Planes} 
         updateScreen={props.updateScreen}
-        openReservation={props.openReservation}/>
+        openReservation={props.openReservation}
+        selectedTypes={props.selectedTypes}/>
     ));
   }
 

@@ -4,6 +4,8 @@ import './Reservation.css';
 import EditReservation from '../../Reservation/EditReservation/EditReservation';
 import { calculateDurationInMinutes, calculateLeftPosition, calculateLengthFromDuration, convertToMilitaryTime, formatTime } from './Util';
 import { Instructor, Plane } from '../Calendar';
+import { DropDownType } from '../../Utils/DropDowns/ReservationTypeMultiselectDropDown';
+import { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
 
 export interface ReservationProps {
   resStartTime: string;
@@ -16,6 +18,7 @@ export interface ReservationProps {
   width: number| undefined
   updateScreen: () => void;
   openReservation: (reservation: ReservationData) => void;
+  selectedTypes: Array<ReservationType>;
 }
 
 export interface ReservationData {
@@ -25,7 +28,7 @@ export interface ReservationData {
   instructorId: string;
   startTime: string;
   endTime: string;
-  flightType: string;
+  flightType: ReservationType;
   tachHours?: number;
   hobbsHours?: number;
   repeat: number;
@@ -142,10 +145,16 @@ function Reservation(props: ReservationProps) {
     const lengthInPixels = calculateLengthFromDuration(duration, pixelsPerHour);
     var leftPosition = calculateLeftPosition(startTime, pixelsPerHour);
     leftPosition = leftPosition + namesection
+    
+  var grayed = false;
+  if(!props.selectedTypes.includes(props.reservationData.flightType)){
+    grayed = true;
+  }
+  
 
 
     return (
-      <div className='mainContainer' style={{ width: `${lengthInPixels}px`, left: `${leftPosition}px` }} onClick={openEditReservationDialog}>
+      <div className={(grayed ? "mainContainerGrayed": "mainContainer")} style={{ width: `${lengthInPixels}px`, left: `${leftPosition}px` }} onClick={openEditReservationDialog}>
         <p className='mainText'>{Title}</p>
       </div>
     );

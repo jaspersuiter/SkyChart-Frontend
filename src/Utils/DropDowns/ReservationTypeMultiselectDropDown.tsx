@@ -41,8 +41,8 @@ export default function ReservationTypeMultiselect(props: ReservationTypeMultiSe
 
     const ids = event.target.value as string[];
     const SelectedType = ids.length > 0
-      ? types.filter(type => ids.includes(type.type))
-      : types;
+      ? types.filter(type => ids.includes(type.type)).map(type => type.type)
+      : types.map(type => type.type);
        
     props.setSelectedTypes(SelectedType);
   };
@@ -50,11 +50,11 @@ export default function ReservationTypeMultiselect(props: ReservationTypeMultiSe
   const handleDelete = (value: string) => {
     const ids = selectedIds.filter((item) => item !== value)
     setSelectedIds(ids);
-    const selectedTypes = ids.length > 0
-      ? types.filter(type => ids.includes(type.type))
-      : types;
-        
-    props.setSelectedTypes(selectedTypes);
+    const SelectedType = ids.length > 0
+      ? types.filter(type => ids.includes(type.type)).map(type => type.type)
+      : types.map(type => type.type);
+    
+    props.setSelectedTypes(SelectedType);
   };
 
   return (

@@ -7,6 +7,8 @@ import { convertToMilitaryTimeNoDate, getReservationData } from './Util';
 import Unavailable from './Unavailable';
 import { makeApiCall } from '../../APICall';
 import { Instructor, Plane } from '../Calendar';
+import { DropDownType } from '../../Utils/DropDowns/ReservationTypeMultiselectDropDown';
+import { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
 
 export interface InstructorSelectionProps {
   isDay: Boolean;
@@ -18,6 +20,7 @@ export interface InstructorSelectionProps {
   Planes: Array<Plane>;
   updateScreen: () => void;
   openReservation: (reservation: ReservationData) => void;
+  selectedTypes: Array<ReservationType>;
 }
 
 async function getAvailabilityData(userid: string): Promise<
@@ -75,18 +78,7 @@ function InstructorSelection(props: InstructorSelectionProps) {
     };
   }, []);
 
-  const [reservationData, setReservationData] = useState<Array<{
-    reservationId: string;
-    pilotId: string;
-    planeId: string;
-    instructorId: string;
-    startTime: string;
-    endTime: string
-    flightType: string;
-    repeat: number;
-    tachHours?: number;
-    hobbsHours?: number;
-  }>>([]);
+  const [reservationData, setReservationData] = useState<Array<ReservationData>>([]);
 
   const [availabilityData, setavailabilityData] = useState< Array<{
     availabilityId: string;
@@ -99,7 +91,7 @@ function InstructorSelection(props: InstructorSelectionProps) {
 
   useEffect(() => {
     async function fetchReservationData() {
-      const data = await getReservationData( props.Day, {userid: props.InstructorId});
+      const data = await getReservationData( props.Day, {userid: props.InstructorId}) as Array<ReservationData>;
       setReservationData(data);
     }
 
@@ -127,7 +119,8 @@ function InstructorSelection(props: InstructorSelectionProps) {
         Instructors={props.Instructors}
         Planes={props.Planes} 
         updateScreen={props.updateScreen}
-        openReservation={props.openReservation}/>
+        openReservation={props.openReservation}
+        selectedTypes={props.selectedTypes}/>
     ));
   }
 

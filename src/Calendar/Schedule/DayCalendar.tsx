@@ -6,6 +6,8 @@ import { makeApiCall } from '../../APICall';
 import { useEffect, useState } from 'react';
 import { Instructor, Plane } from '../Calendar';
 import { ReservationData } from './Reservation';
+import { DropDownType } from '../../Utils/DropDowns/ReservationTypeMultiselectDropDown';
+import { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
 
 export interface DayCalendarProps {
   isDay: Boolean;
@@ -15,6 +17,7 @@ export interface DayCalendarProps {
   openReservation: (reservation: ReservationData) => void;
   selectedPlanes: Array<Plane>;
   selectedInstructors: Array<Instructor>;
+  selectedTypes: Array<ReservationType>;
 }
 
 function DayCalendar(props: DayCalendarProps) {
@@ -32,11 +35,11 @@ function DayCalendar(props: DayCalendarProps) {
 
   // Map the aircraft data to JSX elements
   const planes = props.selectedPlanes.map((item, index) => (
-    <AircraftSection isDay={props.isDay} Aircraft={item} Day={daystr} key={index} Instructors={props.selectedInstructors} Planes={props.selectedPlanes} updateScreen={props.updateScreen} openAirplane={props.openAirplane}  openReservation={props.openReservation} isGrounded={item.grounded}/>
+    <AircraftSection isDay={props.isDay} Aircraft={item} Day={daystr} key={index} Instructors={props.selectedInstructors} Planes={props.selectedPlanes}  selectedTypes={props.selectedTypes} updateScreen={props.updateScreen} openAirplane={props.openAirplane}  openReservation={props.openReservation} isGrounded={item.grounded}/>
   ));
 
   const instruictors = props.selectedInstructors.map((item, index) => (
-    <InstructorSelection isDay={props.isDay} InstructorName={item.name} key={index} Day={daystr} InstructorId={item.userId} DayName={dayNames[props.day.day()]} Instructors={props.selectedInstructors} Planes={props.selectedPlanes} updateScreen={props.updateScreen} openReservation={props.openReservation}/>
+    <InstructorSelection isDay={props.isDay} InstructorName={item.name} key={index} Day={daystr} InstructorId={item.userId} DayName={dayNames[props.day.day()]} Instructors={props.selectedInstructors} Planes={props.selectedPlanes} selectedTypes={props.selectedTypes}updateScreen={props.updateScreen} openReservation={props.openReservation}/>
   ));
 
   return (
