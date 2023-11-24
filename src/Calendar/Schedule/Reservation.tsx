@@ -3,7 +3,7 @@ import { makeApiCall } from '../../APICall';
 import './Reservation.css';
 import EditReservation from '../../Reservation/EditReservation/EditReservation';
 import { calculateDurationInMinutes, calculateLeftPosition, calculateLengthFromDuration, convertToMilitaryTime, formatTime } from './Util';
-import { Instructor, Plane } from '../Calendar';
+import { Instructor, Plane, User } from '../Calendar';
 import { DropDownType } from '../../Utils/DropDowns/ReservationTypeMultiselectDropDown';
 import { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
 
@@ -12,6 +12,8 @@ export interface ReservationProps {
   resEndTime: string;
   pilotid: string;
   isDay: Boolean;
+  isLimited: Boolean;
+  currentUser: User;
   reservationData: ReservationData;
   Instructors: Array<Instructor>;
   Planes: Array<Plane>;
@@ -78,25 +80,13 @@ async function getUserData(planeid: String): Promise<
   }
 }
 
-interface User {
-  student: boolean;
-  id: string;
-  username: string;
-}
-
 function Reservation(props: ReservationProps) {
 
-  const [currUser, setCurrUser] = useState<User>({student: false, id: '', username: ''})
+  const [currUser, setCurrUser] = useState<User>(props.currentUser)
   const [isadmin, setIsAdmin] = useState<boolean>(false);
 
   const fetchCurrentUser = async () => {
     try {
-        const request = await fetch('http://localhost:5201/api/user/get-current',
-        {credentials: 'include'})
-            .then((response) => response.json())
-            .then((data) => data) as User;
-          setCurrUser(request);
-        
         const request2 = await fetch('http://localhost:5201/api/user/get-current-is-admin',
         {credentials: 'include'})
             .then((response) => response.json())
@@ -150,6 +140,14 @@ function Reservation(props: ReservationProps) {
   if(!props.selectedTypes.includes(props.reservationData.flightType)){
     grayed = true;
   }
+  if(props.isLimited && (props.reservationData.pilotId !== props.currentUser.id && props.reservationData.instructorId !== props.currentUser.id)){  
+    grayed = true;
+  }
+
+  console.log(props.reservationData.pilotId)
+  console.log(props.currentUser.id)
+  console.log(props.reservationData.instructorId)
+  console.log(props.currentUser.id)
   
 
 

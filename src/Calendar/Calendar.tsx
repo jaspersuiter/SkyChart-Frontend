@@ -41,6 +41,27 @@ export interface Instructor {
     instructorRatings: Array<string>;
 }
 
+export interface User {
+    student: boolean;
+    faaId: any
+    ratings: Array<string>;
+    id: string;
+    username: string;
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    address: string;
+    emergencyContactName: string;
+    type: string;
+    emergencyContactPhoneNumber: string;
+    preferredInstructorId: string;
+    preferredInstructor: string;
+    preferredPlanes: Array<string>;
+    proficientPlaneModels: any
+}
+
 function Calendar() {
 
     const fetchPlanes = async () => {
@@ -77,8 +98,26 @@ function Calendar() {
 
 
     useEffect(() => {
-        fetchInstructors(); // Call fetchInstructors when the component mounts
-    }, []); // Empty dependency array means this effect runs once when the component mounts
+        fetchInstructors(); 
+    }, []);
+
+    const fetchUser = async () => {
+        try {
+            const instructors = await fetch('http://localhost:5201/api/user/get-current',
+            {credentials: 'include'})
+                .then((response) => response.json())
+                .then((data) => data) as User;
+
+            setCurrentUser(instructors);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchUser(); 
+    }   , []);
+
 
     const [planes, setPlanes] = useState<Plane[]>([]);
     const [selectedPlanes, setSelectedPlanes] = useState<Plane[]>([]); 
@@ -92,6 +131,8 @@ function Calendar() {
     const [updateScreen, setUpdateScreen] = React.useState(false);
     const [openEditReservation, setOpenEditReservation] = React.useState(false);
     const [isDay, setIsDay] = React.useState(true);
+    const [currentUser, setCurrentUser] = React.useState<User>({} as User); 
+    const [isLimited, setIsLimited] = React.useState(false);
     const [day, SetDay] = React.useState<Dayjs | null>(dayjs());
 
     const [openSquawk, setOpenSquawk] = React.useState(false);
@@ -155,6 +196,10 @@ function Calendar() {
         setOpenModify(false);
       }
     
+    const handleLimitToMe = () => {
+        setIsLimited(!isLimited);
+    }
+    
 
   return (
     <div className='fullpage'>
@@ -178,7 +223,7 @@ function Calendar() {
 
                     <PrimaryButton text="New Reservation" onClick={handleClickOpen}/>
 
-                    <PrimaryButton text="Limit to Me"/>
+                    <PrimaryButton text={isLimited ? "Stop Limiting" : "Limit to Me"} onClick={handleLimitToMe}/>
 
                 </div>
 
@@ -193,7 +238,7 @@ function Calendar() {
 
             </div>
 
-            { day && <Schedule isDay={isDay} day={day} openAirplane={handleClickOpenAircraft} openReservation={handleClickOpenEditReservation} updateScreen={updateScreenFunction} selectedPlanes={selectedPlanes} selectedInstructors={selectedInstructors} selectedTypes={selectedTypes} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString() + selectedInstructors.toString() + selectedPlanes.toString() + selectedTypes.toString()}/>}
+            { day && <Schedule isDay={isDay} day={day} isLimited={isLimited} currentUser={currentUser} openAirplane={handleClickOpenAircraft} openReservation={handleClickOpenEditReservation} updateScreen={updateScreenFunction} selectedPlanes={selectedPlanes} selectedInstructors={selectedInstructors} selectedTypes={selectedTypes} key={day.toString() + isDay.toString() + open.toString() + updateScreen.toString() + selectedInstructors.toString() + selectedPlanes.toString() + selectedTypes.toString() + isLimited.toString()}/>}
 
             
         </div>

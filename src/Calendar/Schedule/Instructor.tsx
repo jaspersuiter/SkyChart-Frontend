@@ -6,7 +6,7 @@ import Reservation, { ReservationData } from './Reservation';
 import { convertToMilitaryTimeNoDate, getReservationData } from './Util';
 import Unavailable from './Unavailable';
 import { makeApiCall } from '../../APICall';
-import { Instructor, Plane } from '../Calendar';
+import { Instructor, Plane, User } from '../Calendar';
 import { DropDownType } from '../../Utils/DropDowns/ReservationTypeMultiselectDropDown';
 import { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
 
@@ -15,6 +15,8 @@ export interface InstructorSelectionProps {
   InstructorName: string;
   InstructorId: string;
   Day: string;
+  isLimited: Boolean;
+  currentUser: User;
   DayName: string;
   Instructors: Array<Instructor>;
   Planes: Array<Plane>;
@@ -110,6 +112,8 @@ function InstructorSelection(props: InstructorSelectionProps) {
     reservations = reservationData.map((item, index) => (
       <Reservation
         isDay={props.isDay}
+        isLimited={props.isLimited}
+        currentUser={props.currentUser}
         resStartTime={item.startTime}
         resEndTime={item.endTime}
         pilotid={item.pilotId}

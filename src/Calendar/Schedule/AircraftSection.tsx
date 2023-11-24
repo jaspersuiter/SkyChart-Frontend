@@ -8,13 +8,15 @@ import Grounded from './Grounded';
 import { makeApiCall } from '../../APICall';
 import { it } from 'node:test';
 import { getReservationData } from './Util';
-import { Instructor, Plane } from '../Calendar';
+import { Instructor, Plane, User } from '../Calendar';
 import { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
 
 export interface AircraftSectionProps {
   isDay: Boolean;
   Aircraft: Plane;
   Day: string
+  isLimited: Boolean;
+  currentUser: User;
   isGrounded: Boolean;
   Instructors: Array<Instructor>;
   Planes: Array<Plane>;
@@ -68,6 +70,8 @@ function AircraftSection(props: AircraftSectionProps) {
     reservations = reservationData.map((item, index) => (
       <Reservation
         isDay={props.isDay}
+        isLimited={props.isLimited}
+        currentUser={props.currentUser}
         resStartTime={item.startTime}
         resEndTime={item.endTime}
         pilotid={item.pilotId}
