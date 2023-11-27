@@ -32,14 +32,14 @@ interface User {
   proficientPlaneModels: string[];
 }
 
-interface EditUserDialogProps {
+interface ViewUserDialogProps {
   user: User;
   openEditUserDialog: boolean;
   setOpenEditUserDialog: React.Dispatch<React.SetStateAction<boolean>>;
   airplaneModels: string[];
 }
 
-const EditUserDialog: React.FC<EditUserDialogProps> = ({
+const ViewUserDialog: React.FC<ViewUserDialogProps> = ({
   user,
   openEditUserDialog,
   setOpenEditUserDialog,
@@ -116,7 +116,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
   };
 
   return (
-    <div className="edit-user-dialog">
+    <div className="view-user-dialog">
       <Dialog
         open={openEditUserDialog}
         onClose={handleEditUserDialogClose}
@@ -124,7 +124,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
           "& .MuiDialog-container": {
             "& .MuiPaper-root": {
               maxWidth: "65em",
-              height: "40em",
+              height: "30em",
               maxHeight: "90vh",
               padding: "2em",
             },
@@ -132,10 +132,10 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
         }}
       >
         <DialogTitle style={{ textAlign: "center" }}>
-          <b>{`Edit ${user.firstName || ""} ${user.lastName || ""}`}</b>
+          <b>{`${user.firstName || ""} ${user.lastName || ""}`}</b>
         </DialogTitle>
 
-        <DialogContent className="edit-user-content">
+        <DialogContent className="view-user-content">
           <div className="info-section">
             <p className="p">
               Username: <b>{user.username}</b>
@@ -167,51 +167,10 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
               </p>
             ) : null}
           </div>
-          <div>
-            <FormControl sx={{ m: 1, width: 300 }}>
-              <InputLabel id="plane-model-label">
-                Approved Plane Models
-              </InputLabel>
-              <Select
-                labelId="plane-model-label"
-                id="plane-model-checkbox"
-                multiple
-                fullWidth
-                value={approvedModels || []}
-                onChange={handleChangeSelector}
-                input={<OutlinedInput label="Approved Plane Models" />}
-                renderValue={(selected) => selected.join(", ")}
-                MenuProps={MenuProps}
-              >
-                {airplaneModels.map((model) => (
-                  <MenuItem key={model} value={model}>
-                    <Checkbox checked={approvedModels?.indexOf(model) > -1} />
-                    <ListItemText primary={model} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-          {user.type === "pilot" ? (
-            doUpdateUserType ? (
-              <SecondaryButton
-                text="Revert user to a Pilot?"
-                onClick={() => setDoUpdateUserType(false)}
-              />
-            ) : (
-              <PrimaryButton
-                text="Make user an Instructor?"
-                onClick={() => setDoUpdateUserType(true)}
-              />
-            )
-          ) : null}
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleEditUserDialogClose(true)}>
-            Confirm
-          </Button>
           <Button onClick={() => handleEditUserDialogClose(false)}>
-            Cancel
+            Close
           </Button>
         </DialogActions>
       </Dialog>
@@ -219,4 +178,4 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
   );
 };
 
-export default EditUserDialog;
+export default ViewUserDialog;
