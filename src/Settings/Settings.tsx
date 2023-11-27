@@ -198,10 +198,10 @@ function Settings() {
       <div className="settings-content">
         <div className="row-container">
           <h1 className="h1">Set Preferences</h1>
-          <p>
+          {/*<p>
             Proficient Plane Models:{" "}
             <b>{user?.proficientPlaneModels.join(", ")}</b>
-          </p>
+  </p>*/}
           <div className="flexRow">
             <FormControl sx={{ minWidth: 300 }} size="small">
               <InputLabel id="preferred-instructor-label">
