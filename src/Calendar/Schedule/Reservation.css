@@ -12,6 +12,20 @@
     background: var(--Primary-Color, #4DE8B4);
 }
 
+.mainContainerGrayed {
+    position: absolute; 
+    top: 0; 
+    z-index: 3;
+    display: flex;
+    height: 40px;
+    padding: 2px 0px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--Light-Gray, #D3D3D3);
+}
+
 .mainText{
     display: -webkit-box;
     -webkit-box-orient: vertical;

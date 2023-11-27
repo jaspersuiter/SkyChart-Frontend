@@ -4,8 +4,10 @@ import InstructorSelection from './Instructor';
 import AircraftSection from './AircraftSection';
 import { makeApiCall } from '../../APICall';
 import { useEffect, useState } from 'react';
-import { Plane } from '../Calendar';
+import { Instructor, Plane } from '../Calendar';
 import { ReservationData } from './Reservation';
+import { DropDownType } from '../../Utils/DropDowns/ReservationTypeMultiselectDropDown';
+import { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
 
 export interface DayCalendarProps {
   isDay: Boolean;
@@ -13,47 +15,9 @@ export interface DayCalendarProps {
   updateScreen: () => void;
   openAirplane: (plane: Plane) => void;
   openReservation: (reservation: ReservationData) => void;
-}
-
-async function getAircraftData(): Promise<
-  Array<{
-    planeId: string;
-    tailNumber: string;
-    model: string;
-    nickName: string;
-    hourlyRate: number;
-    numEngines: number;
-    tachHours: number;
-    hobbsHours: number;
-    Grounded: Boolean;
-  }>
-> {
-
-  try {
-    const responseData2 = await makeApiCall("/api/plane/get-all", {}, "get");
-    return responseData2;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-}
-
-async function getInstructorData(): Promise<
-  Array<{
-    userId: string;
-    name: string;
-    email: string;
-    phone: string;
-    instructorRatings: Array<{}>;
-  }>
-> {
-  try {
-    const responseData2 = await makeApiCall("/api/instructor/get-all", {}, "get");
-    return responseData2;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
+  selectedPlanes: Array<Plane>;
+  selectedInstructors: Array<Instructor>;
+  selectedTypes: Array<ReservationType>;
 }
 
 function DayCalendar(props: DayCalendarProps) {
@@ -67,33 +31,15 @@ function DayCalendar(props: DayCalendarProps) {
     'Saturday',
   ];
 
-  const [aircraftData, setAircraftData] = useState<Array<any>>([]);
-  const [InstructorData, setInstructorData] = useState<Array<any>>([]);
-
   let daystr = props.day.format('YYYY-MM-DD')
 
-  useEffect(() => {
-    async function fetchAircraftData() {
-      const data = await getAircraftData();
-      setAircraftData(data);
-    }
-
-    async function fetchInstructorData(){
-      const data = await getInstructorData();
-      setInstructorData(data);
-    }
-
-    fetchAircraftData();
-    fetchInstructorData();
-  }, []);
-
   // Map the aircraft data to JSX elements
-  const planes = aircraftData.map((item, index) => (
-    <AircraftSection isDay={props.isDay} Aircraft={item} Day={daystr} key={index} Instructors={InstructorData} Planes={aircraftData} updateScreen={props.updateScreen} openAirplane={props.openAirplane}  openReservation={props.openReservation} isGrounded={item.grounded}/>
+  const planes = props.selectedPlanes.map((item, index) => (
+    <AircraftSection isDay={props.isDay} Aircraft={item} Day={daystr} key={index} Instructors={props.selectedInstructors} Planes={props.selectedPlanes}  selectedTypes={props.selectedTypes} updateScreen={props.updateScreen} openAirplane={props.openAirplane}  openReservation={props.openReservation} isGrounded={item.grounded}/>
   ));
-
-  const instruictors = InstructorData.map((item, index) => (
-    <InstructorSelection isDay={props.isDay} InstructorName={item.name} key={index} Day={daystr} InstructorId={item.userId} DayName={dayNames[props.day.day()]} Instructors={InstructorData} Planes={aircraftData} updateScreen={props.updateScreen} openReservation={props.openReservation}/>
+  console.log(props.selectedInstructors)
+  const instruictors = props.selectedInstructors.map((item, index) => (
+    <InstructorSelection isDay={props.isDay} InstructorName={item.name} key={index} Day={daystr} InstructorId={item.userId} DayName={dayNames[props.day.day()]} Instructors={props.selectedInstructors} Planes={props.selectedPlanes} selectedTypes={props.selectedTypes}updateScreen={props.updateScreen} openReservation={props.openReservation}/>
   ));
 
   return (

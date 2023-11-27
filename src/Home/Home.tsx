@@ -70,10 +70,10 @@ function Home() {
       <div className="home-page-content">
         <p className="home-page-header">All Squawks</p>
         <AllSquawks planes={planes} />
-        <p>
+        {/* <p>
           Proficient Plane Models:{" "}
           <b>{user?.proficientPlaneModels.join(", ")}</b>
-        </p>
+        </p> */}
       </div>
     </div>
   );
