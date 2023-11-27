@@ -12,7 +12,7 @@ import { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
 export interface DayCalendarProps {
   isDay: Boolean;
   day: Dayjs;
-  isLimited: Boolean;
+  isLimited: boolean;
   currentUser: User;
   updateScreen: () => void;
   openAirplane: (plane: Plane) => void;

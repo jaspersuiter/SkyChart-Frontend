@@ -8,9 +8,9 @@ import { DropDownType } from "../../Utils/DropDowns/ReservationTypeMultiselectDr
 import { ReservationType } from "../../Utils/DropDowns/ReservationTypeDropDown";
 
 export interface ScheduleProps {
-  isDay: Boolean;
+  isDay: boolean;
   day: Dayjs;
-  isLimited: Boolean;
+  isLimited: boolean;
   currentUser: User;
   updateScreen: () => void;
   openAirplane: (plane: Plane) => void;

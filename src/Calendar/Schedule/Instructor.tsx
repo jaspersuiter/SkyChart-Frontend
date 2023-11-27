@@ -166,7 +166,7 @@ function InstructorSelection(props: InstructorSelectionProps) {
         {perferred}
         {unavailablecomp}
       <div className="mainBar">
-        <Identifier Name={props.InstructorName}/>
+        <Identifier Name={props.InstructorName} isHighlighted={false}/>
         <Hour isDay={props.isDay} ref={divRef}/>
         <Hour isDay={props.isDay}/>
         <Hour isDay={props.isDay}/>

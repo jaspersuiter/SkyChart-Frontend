@@ -13,6 +13,22 @@
     border-right: none;
   }
 
+  .DaySelectionHighlited{
+    flex: 1;
+    height: 24px;
+    padding: 10px 2px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-right: 1px solid var(--Dark-Gray, #949494);
+    border-left: 1px solid var(--Dark-Gray, #949494);
+    background-color: var(--Light-yellow, #fffd8d);
+}
+
+.DaySelectionHighlited:last-child {
+    border-right: none;
+  }
+
 .WeekSelection{
     flex: 1;
     height: 24px;
@@ -28,6 +44,21 @@
     border-right: none;
   }
 
+.WeekSelectionHighlited{
+    flex: 1;
+    height: 24px;
+    padding: 10px 2px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-right: 1px solid var(--Dark-Gray, #949494);
+    border-left: 1px solid var(--Dark-Gray, #949494);
+    background-color: var(--Light-yellow, #fffd8d);
+}
+
+.WeekSelectionHighlited:last-child {
+    border-right: none;
+  }
 .DayText{
     margin: 0;
     color: var(--Black, #191919);

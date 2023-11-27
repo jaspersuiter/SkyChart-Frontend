@@ -85,6 +85,7 @@ function Reservation(props: ReservationProps) {
   const [currUser, setCurrUser] = useState<User>(props.currentUser)
   const [isadmin, setIsAdmin] = useState<boolean>(false);
 
+
   const fetchCurrentUser = async () => {
     try {
         const request2 = await fetch('http://localhost:5201/api/user/get-current-is-admin',
