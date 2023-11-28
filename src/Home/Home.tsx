@@ -17,7 +17,7 @@ interface User {
   firstName: string;
   phoneNum: string;
   email: string;
-  accountType: string;
+  type: string;
   username: string;
   address: string;
   emergencyContactName: string;

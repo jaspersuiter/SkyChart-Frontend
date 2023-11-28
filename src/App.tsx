@@ -23,6 +23,7 @@ import ResetPassword from "./Login/ResetPassword/ResetPassword";
 import NewPassword from "./Login/NewPassword/NewPassword";
 import Home from "./Home/Home";
 import AircraftHome from "./Aircraft/AircraftHome";
+import UserView from "./UserView/UserView";
 
 function App() {
   const context = useContext(AuthorizationContext);
@@ -49,6 +50,7 @@ function App() {
               <Route path="/verify" element={<Verification />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/resetPassword" element={<NewPassword />} />
+              <Route path="/user-view" element={<UserView />} />
             </React.Fragment>
           )}
         </Routes>
