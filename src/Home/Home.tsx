@@ -3,7 +3,7 @@ import "./Home.css";
 import StaticSidebar from "../Utils/Sidebar/Sidebar";
 import { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import AllSquawks from "./AllSquawks/AllSquawks";
+import AllSquawks from "../Aircraft/AllSquawks/AllSquawks";
 import { get } from "http";
 
 export interface Plane {

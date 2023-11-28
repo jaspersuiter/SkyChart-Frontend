@@ -12,7 +12,7 @@ import { Instructor, Plane } from '../Calendar/Calendar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Aircraft from "./Aircraft";
-import AllSquawks from '../Home/AllSquawks/AllSquawks';
+import AllSquawks from './AllSquawks/AllSquawks';
 
 
 function AircraftHome() {
