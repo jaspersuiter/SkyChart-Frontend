@@ -124,7 +124,7 @@ const ViewUserDialog: React.FC<ViewUserDialogProps> = ({
           "& .MuiDialog-container": {
             "& .MuiPaper-root": {
               maxWidth: "65em",
-              height: "30em",
+              height: "32em",
               maxHeight: "90vh",
               padding: "2em",
             },
@@ -167,10 +167,36 @@ const ViewUserDialog: React.FC<ViewUserDialogProps> = ({
               </p>
             ) : null}
           </div>
+          <FormControl sx={{ m: 1, width: 300 }}>
+            <InputLabel id="plane-model-label">
+              Approved Plane Models
+            </InputLabel>
+            <Select
+              labelId="plane-model-label"
+              id="plane-model-checkbox"
+              multiple
+              fullWidth
+              value={approvedModels || []}
+              onChange={handleChangeSelector}
+              input={<OutlinedInput label="Approved Plane Models" />}
+              renderValue={(selected) => selected.join(", ")}
+              MenuProps={MenuProps}
+            >
+              {airplaneModels.map((model) => (
+                <MenuItem key={model} value={model}>
+                  <Checkbox checked={approvedModels?.indexOf(model) > -1} />
+                  <ListItemText primary={model} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </DialogContent>
         <DialogActions>
+          <Button onClick={() => handleEditUserDialogClose(true)}>
+            Confirm
+          </Button>
           <Button onClick={() => handleEditUserDialogClose(false)}>
-            Close
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
