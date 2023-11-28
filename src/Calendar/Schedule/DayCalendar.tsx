@@ -39,7 +39,7 @@ function DayCalendar(props: DayCalendarProps) {
   const planes = props.selectedPlanes.map((item, index) => (
     <AircraftSection isDay={props.isDay} isLimited={props.isLimited} currentUser={props.currentUser} Aircraft={item} Day={daystr} key={index} Instructors={props.selectedInstructors} Planes={props.selectedPlanes}  selectedTypes={props.selectedTypes} updateScreen={props.updateScreen} openAirplane={props.openAirplane}  openReservation={props.openReservation} isGrounded={item.grounded}/>
   ));
-  console.log(props.selectedInstructors)
+  
   const instruictors = props.selectedInstructors.map((item, index) => (
     <InstructorSelection isDay={props.isDay} isLimited={props.isLimited} currentUser={props.currentUser} InstructorName={item.name} key={index} Day={daystr} InstructorId={item.userId} DayName={dayNames[props.day.day()]} Instructors={props.selectedInstructors} Planes={props.selectedPlanes} selectedTypes={props.selectedTypes}updateScreen={props.updateScreen} openReservation={props.openReservation}/>
   ));
