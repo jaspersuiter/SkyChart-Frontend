@@ -1,4 +1,5 @@
 import { makeApiCall } from "../../APICall";
+import { ReservationData } from "./Reservation";
 
 export async function getReservationData(day: String, options?: { planeid?: string; userid?: string }): Promise<
   Array<{
@@ -142,4 +143,20 @@ export function formatTime(input: string) {
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
 
   return `${formattedHours}:${formattedMinutes} ${amOrPm}`;
+}
+
+export function isCurrentUserInReservationData(reservations: ReservationData[], currentUserid: string, isLimited: boolean): boolean {
+
+  if (!isLimited) {
+    return false;
+  }
+
+  for (const reservation of reservations) {
+
+    if (reservation.pilotId === currentUserid || reservation.instructorId === currentUserid) {
+      return true; 
+    }
+  }
+
+  return false;
 }

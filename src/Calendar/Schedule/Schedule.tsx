@@ -2,14 +2,16 @@ import { Dayjs } from "dayjs";
 import DayCalendar from "./DayCalendar";
 import HourBar from "./HourHolder";
 import './Schedule.css';
-import { Instructor, Plane } from "../Calendar";
+import { Instructor, Plane, User } from "../Calendar";
 import { ReservationData } from "./Reservation";
 import { DropDownType } from "../../Utils/DropDowns/ReservationTypeMultiselectDropDown";
 import { ReservationType } from "../../Utils/DropDowns/ReservationTypeDropDown";
 
 export interface ScheduleProps {
-  isDay: Boolean;
+  isDay: boolean;
   day: Dayjs;
+  isLimited: boolean;
+  currentUser: User;
   updateScreen: () => void;
   openAirplane: (plane: Plane) => void;
   openReservation: (reservation: ReservationData) => void;
@@ -35,7 +37,7 @@ function Schedule(props: ScheduleProps) {
 
   const dayCalendars = week.map((item, index) => (
     <div className= 'frame' key={index}>
-      <DayCalendar isDay={props.isDay} day={item} updateScreen={props.updateScreen} openAirplane={props.openAirplane} openReservation={props.openReservation} selectedPlanes={props.selectedPlanes} selectedInstructors={props.selectedInstructors} selectedTypes={props.selectedTypes}/>
+      <DayCalendar isDay={props.isDay} day={item} isLimited={props.isLimited} currentUser={props.currentUser} updateScreen={props.updateScreen} openAirplane={props.openAirplane} openReservation={props.openReservation} selectedPlanes={props.selectedPlanes} selectedInstructors={props.selectedInstructors} selectedTypes={props.selectedTypes}/>
       {(!props.isDay && index != 6) && <div className="breakLine"></div>}
     </div>
   ));

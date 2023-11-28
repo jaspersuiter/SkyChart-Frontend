@@ -6,6 +6,7 @@ import AircraftPopup from '../../Aircraft/AircraftPopup/AircraftPopup';
 export interface HourIdentifierProps {
   Name?: String
   Aircraft?: Plane
+  isHighlighted: Boolean
   openAirplane?: (plane: Plane) => void;
 }
 
@@ -19,7 +20,7 @@ function Identifier(props: HourIdentifierProps) {
 
 
     return (
-      <div className="mainbody" onClick={handleClick} >
+      <div className={props.isHighlighted? "mainbodyHighlight" : "mainbody"} onClick={handleClick} >
         {props.Name && <p className='Text'>{props.Name}</p>}
       </div>
     );
