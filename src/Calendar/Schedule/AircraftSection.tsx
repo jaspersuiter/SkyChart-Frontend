@@ -7,7 +7,7 @@ import Unavailable from './Unavailable';
 import Grounded from './Grounded';
 import { makeApiCall } from '../../APICall';
 import { it } from 'node:test';
-import { getReservationData } from './Util';
+import { getReservationData, isCurrentUserInReservationData } from './Util';
 import { Instructor, Plane, User } from '../Calendar';
 import { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
 
@@ -24,22 +24,6 @@ export interface AircraftSectionProps {
   openAirplane: (plane: Plane) => void;
   openReservation: (reservation: ReservationData) => void;
   selectedTypes: Array<ReservationType>;
-}
-
-function isCurrentUserInReservationData(reservations: ReservationData[], currentUserid: string, isLimited: boolean): boolean {
-
-  if (!isLimited) {
-    return false;
-  }
-
-  for (const reservation of reservations) {
-
-    if (reservation.pilotId === currentUserid || reservation.instructorId === currentUserid) {
-      return true; 
-    }
-  }
-
-  return false;
 }
 
 function AircraftSection(props: AircraftSectionProps) {

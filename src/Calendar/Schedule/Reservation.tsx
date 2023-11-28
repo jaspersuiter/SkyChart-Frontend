@@ -144,11 +144,6 @@ function Reservation(props: ReservationProps) {
   if(props.isLimited && (props.reservationData.pilotId !== props.currentUser.id && props.reservationData.instructorId !== props.currentUser.id)){  
     grayed = true;
   }
-
-  console.log(props.reservationData.pilotId)
-  console.log(props.currentUser.id)
-  console.log(props.reservationData.instructorId)
-  console.log(props.currentUser.id)
   
 
 
