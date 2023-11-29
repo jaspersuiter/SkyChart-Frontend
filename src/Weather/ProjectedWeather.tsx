@@ -1,14 +1,26 @@
 import "./Weather.css"
 import PrimaryButton from "../Utils/Buttons/PrimaryButton";
 import { Dialog } from "@mui/material";
+import { on } from "events";
 
 export interface ProjectedWeatherProp {
-    
+    open: boolean;
+    onClose: () => void;
+    day: string;
 }
 
 function ProjectedWeather(props: ProjectedWeatherProp) {
+    const {open, onClose, day} = props;
+
+    const handleClose = () => {
+        onClose();
+    };
+
+    console.log(day);
+
+
     return (
-        <Dialog onClose={()=>{}} open={true}>
+        <Dialog onClose={handleClose} open={open}>
             <div className="weather">
                 <h1>Predicted Conditions for KLAF on 11-16</h1>
                 
@@ -20,7 +32,7 @@ function ProjectedWeather(props: ProjectedWeatherProp) {
                 </div>
 
                 <div className="weather-btn">
-                    <PrimaryButton text="OK" onClick={() => {}}/>
+                    <PrimaryButton text="OK" onClick={handleClose}/>
                 </div>
             </div>
         </Dialog>

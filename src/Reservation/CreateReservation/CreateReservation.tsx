@@ -27,6 +27,7 @@ import ReservationTypeDropDown, {
 } from "../../Utils/DropDowns/ReservationTypeDropDown";
 import React from "react";
 import UpcomingMaintenance from "../UpcomingMaintenance/UpcomingMaintenance";
+import ProjectedWeather from "../../Weather/ProjectedWeather";
 
 export interface NewReservationProps {
   open: boolean;
@@ -39,6 +40,7 @@ export interface NewReservationProps {
 function NewReservation(props: NewReservationProps) {
   const { open, onClose } = props;
   const [maintenanceOpen, setMaintenanceOpen] = React.useState(false);
+  const [weatherOpen, setWeatherOpen] = React.useState(false);
 
   const handleClickOpenMaintenance = () => {
     setMaintenanceOpen(true);
@@ -47,6 +49,14 @@ function NewReservation(props: NewReservationProps) {
   const handleCloseMaintenance = () => {
     setMaintenanceOpen(false);
   };
+
+  const openWeather = () => {
+    setWeatherOpen(true);
+  }
+
+  const closeWeather = () => {
+    setWeatherOpen(false);
+  }
 
   const handleClose = (event?: any, reason?: any) => {
     if (reason !== "backdropClick") {
@@ -66,6 +76,26 @@ function NewReservation(props: NewReservationProps) {
       return (
         <p>
           <br></br>
+        </p>
+      );
+    }
+  };
+
+  const showWeatherOutlook = () => {
+    const withinPredictionWindow = (day: Dayjs | null) => {
+      if (day) {
+        const now = dayjs().startOf("day");
+        const dayToCheck = day.startOf("day");
+
+        const dayDifference = dayToCheck.diff(now, "day");
+        return dayDifference >= 0 && dayDifference <= 6;
+      }
+      return false;
+    };
+    if (withinPredictionWindow(day)) {
+      return (
+        <p className="link-text" onClick={openWeather}>
+          <u>See weather outlook</u>
         </p>
       );
     }
@@ -219,16 +249,19 @@ function NewReservation(props: NewReservationProps) {
 
           {/* Date and Time Pickers to Select Reservation Time */}
           <div className="create-reservation-flexrow">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Select Day"
-                value={day}
-                onChange={handleDay}
-                sx={{
-                  svg: { color: "#4DE8B4" },
-                }}
-              />
-            </LocalizationProvider>
+            <div className="create-reservation-flexcol">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label="Select Day"
+                  value={day}
+                  onChange={handleDay}
+                  sx={{
+                    svg: { color: "#4DE8B4" },
+                  }}
+                />
+              </LocalizationProvider>
+              <div className="toggleableText">{showWeatherOutlook()}</div>
+            </div>
 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <TimePicker
@@ -285,6 +318,11 @@ function NewReservation(props: NewReservationProps) {
           open={maintenanceOpen}
           onClose={handleCloseMaintenance}
           planeId={planeId}
+        />
+        <ProjectedWeather 
+          open={weatherOpen}
+          onClose={closeWeather}
+          day={day ? day.format('MM/DD/yyyy') : ""}
         />
       </Dialog>
     </div>
