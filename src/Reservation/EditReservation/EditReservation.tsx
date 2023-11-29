@@ -27,14 +27,26 @@ export interface EditReservationProp {
   updateScreen: () => void;
 }
 
+const parseDate = (dateString: string, ): Dayjs | null => {
+  var customParseFormat = require('dayjs/plugin/customParseFormat')
+  dayjs.extend(customParseFormat)
+  const parsedDate = dayjs(dateString, "M/D/YYYY h:mm:ssA");
+  
+  if (!parsedDate.isValid()) {
+    return null;
+  }
+
+  return parsedDate;
+};
+
 function EditReservation(props: EditReservationProp) {
   const { open, onClose, reservationData } = props;
   const [plane, setPlane] = useState(reservationData.planeId);
   const [instructor, setInstructor] = useState(reservationData.instructorId);
   const [flightType, setFlightType] = useState<ReservationType>(reservationData.flightType as ReservationType);
-  const [startTime, setStartTime] = useState<Dayjs | null>(dayjs(reservationData.startTime, "MM/DD/YYYY h:mm:ssA"));
-  const [endTime, setEndTime] = useState<Dayjs | null>(dayjs(reservationData.endTime, "MM/DD/YYYY h:mm:ssA"));
-  const [day, setDay] = useState<Dayjs | null>(dayjs(reservationData.startTime, "MM/DD/YYYY h:mm:ssA"));
+  const [startTime, setStartTime] = useState<Dayjs | null>(parseDate(reservationData.startTime));
+  const [endTime, setEndTime] = useState<Dayjs | null>(parseDate(reservationData.endTime));
+  const [day, setDay] = useState<Dayjs | null>(parseDate(reservationData.startTime));
   const [openCancelConfirm, setOpenCancelConfirm] = useState(false);
   const [openEditConfirm, setOpenEditConfirm] = useState(false);
   const [finishFlight, setFinishFlight] = useState(false);
