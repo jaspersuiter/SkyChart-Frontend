@@ -154,9 +154,9 @@ function Calendar() {
         setOpenAircraft(false);
     };
 
-    const handleClickOpenEditReservation = (reservation: ReservationData) => {
+    const handleClickOpenEditReservation = (updatedReservation: ReservationData) => {
+        setReservation(updatedReservation);
         setOpenEditReservation(true);
-        setReservation(reservation);
     };
 
     const handleCloseEditReservation = () => {
@@ -246,7 +246,7 @@ function Calendar() {
         <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane} openSquawk={handleClickOpenSquawk} openModify={handleClickOpenModify} openCreateReservation={handleClickOpen} />
         <AddSqauwkPopup open={openSquawk} onClose={handleCloseSquawk} plane={plane}/>
         <ModifyAircraft open={openModify} onClose={handleCloseModify} planeId={plane.planeId} updateScreen={updateScreenFunction} setCurrentPlane={setPlane}/>
-        <EditReservation open={openEditReservation} onClose={handleCloseEditReservation} reservationData={reservation} Instructors={instructors} Planes={planes} updateScreen={updateScreenFunction}/>
+        <EditReservation open={openEditReservation} onClose={handleCloseEditReservation} reservationData={reservation} Instructors={instructors} Planes={planes} updateScreen={updateScreenFunction} key={openEditReservation.toString()}/>
       </div>
   )}
 
