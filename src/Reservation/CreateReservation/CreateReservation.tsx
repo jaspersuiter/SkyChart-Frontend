@@ -88,7 +88,7 @@ function NewReservation(props: NewReservationProps) {
         const dayToCheck = day.startOf("day");
 
         const dayDifference = dayToCheck.diff(now, "day");
-        return dayDifference >= 0 && dayDifference <= 6;
+        return dayDifference >= 1 && dayDifference <= 6;
       }
       return false;
     };
@@ -322,7 +322,7 @@ function NewReservation(props: NewReservationProps) {
         <ProjectedWeather 
           open={weatherOpen}
           onClose={closeWeather}
-          day={day ? day.format('MM/DD/yyyy') : ""}
+          day={day ? day.format('MM/DD/YYYY') : ""}
         />
       </Dialog>
     </div>
