@@ -39,7 +39,7 @@ function ProjectedWeather(props: ProjectedWeatherProp) {
         if (day != "") {
             getProjection();
         }        
-    }, []);
+    }, [day]);
 
     const handleClose = () => {
         onClose();
