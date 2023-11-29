@@ -45,26 +45,30 @@ function ProjectedWeather(props: ProjectedWeatherProp) {
         onClose();
     };
 
-    console.log(day);
-    console.log(projected);
-
-
     return (
         <Dialog onClose={handleClose} open={open}>
-            <div className="weather">
-                <h1>Predicted Conditions for KLAF on 11-16</h1>
-                
-                <div className="weather-row">
-                    <span className="weather-header">Conditions: </span><span className="weather-data">Partly Cloudy</span>
-                </div>
-                <div className="weather-row">
-                    <span className="weather-header">Wind: </span><span className="weather-data">10mph SSE</span><br></br>
-                </div>
+            {projected ? (
+                <div className="weather">
+                    <h1>Predicted Conditions on {projected.Day}</h1>
+                    
+                    <div className="weather-row">
+                        <span className="weather-header">Conditions: </span><span className="weather-data">{projected.Conditions}</span>
+                    </div>
+                    <div className="weather-row">
+                        <span className="weather-header">Wind: </span><span className="weather-data">{projected.Winds}</span><br></br>
+                    </div>
+                    <div className="weather-row">
+                        <span className="weather-header">Temperature: </span><span className="weather-data">{projected.Temperature}</span><br></br>
+                    </div>
 
-                <div className="weather-btn">
-                    <PrimaryButton text="OK" onClick={handleClose}/>
+                    <div className="weather-btn">
+                        <PrimaryButton text="OK" onClick={handleClose}/>
+                    </div>
                 </div>
-            </div>
+                ) : (
+                    <p>loading...</p>
+                )}
+            
         </Dialog>
     )
 }
