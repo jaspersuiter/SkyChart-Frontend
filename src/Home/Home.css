@@ -9,6 +9,7 @@
     font-size: 1.5em;
     margin-top: 0.25em;
     margin-left: 0.25em;
+    margin-bottom: -1em;
 }
 
 .home-page-content {
@@ -27,7 +28,7 @@
 
 .home-page-corner {
     border: 1px solid black;
-    border-radius: 0.5em;
+    border-radius: 0.25em;
     width: 39em;
-    height: 19em;
+    height: 19.52em;
 }

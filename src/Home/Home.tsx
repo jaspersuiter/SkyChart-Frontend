@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import AllSquawks from "../Aircraft/AllSquawks/AllSquawks";
 import { get } from "http";
+import HomePageSquawks from "./HomePageSquawks/HomePageSquawks";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export interface Plane {
   planeId: string;
@@ -82,6 +84,7 @@ function Home() {
           </div>
           <div className="home-page-corner">
             <p className="home-page-header">Squawks</p>
+            <HomePageSquawks planes={planes} />
           </div>
         </div>
       </div>
