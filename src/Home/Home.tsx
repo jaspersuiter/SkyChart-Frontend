@@ -68,12 +68,22 @@ function Home() {
     <div className="home-page">
       <StaticSidebar />
       <div className="home-page-content">
-        <p className="home-page-header">All Squawks</p>
-        <AllSquawks planes={planes} />
-        {/* <p>
-          Proficient Plane Models:{" "}
-          <b>{user?.proficientPlaneModels.join(", ")}</b>
-        </p> */}
+        <div className="home-page-row-content">
+          <div className="home-page-corner">
+            <p className="home-page-header">Upcoming Reservations</p>
+          </div>
+          <div className="home-page-corner">
+            <p className="home-page-header">Weather</p>
+          </div>
+        </div>
+        <div className="home-page-row-content">
+          <div className="home-page-corner">
+            <p className="home-page-header">General Notices</p>
+          </div>
+          <div className="home-page-corner">
+            <p className="home-page-header">Squawks</p>
+          </div>
+        </div>
       </div>
     </div>
   );
