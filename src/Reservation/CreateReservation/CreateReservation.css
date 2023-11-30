@@ -41,6 +41,12 @@
     gap: 1.5em;
 }
 
+.create-reservation-flexcol {
+    display: flex;
+    flex-direction: column;
+    gap: 4em;
+}
+
 .toggleableText {
     display: flex;
     margin-top: -5em;
