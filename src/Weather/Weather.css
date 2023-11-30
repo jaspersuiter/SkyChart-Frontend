@@ -1,9 +1,8 @@
 .weather {
     padding: 1em;
-    margin: 1em;
-    width: 20em;
     display: flex;
     flex-direction: column;
+    height: max-content;
 }
 
 .weather>h1 {

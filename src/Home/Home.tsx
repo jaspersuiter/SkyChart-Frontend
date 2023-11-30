@@ -7,6 +7,7 @@ import AllSquawks from "../Aircraft/AllSquawks/AllSquawks";
 import { get } from "http";
 import HomePageSquawks from "./HomePageSquawks/HomePageSquawks";
 import { Navigate, useNavigate } from "react-router-dom";
+import CurrentWeather from "../Weather/CurrentWeather";
 
 export interface Plane {
   planeId: string;
@@ -75,7 +76,7 @@ function Home() {
             <p className="home-page-header">Upcoming Reservations</p>
           </div>
           <div className="home-page-corner">
-            <p className="home-page-header">Weather</p>
+            <CurrentWeather />
           </div>
         </div>
         <div className="home-page-row-content">
