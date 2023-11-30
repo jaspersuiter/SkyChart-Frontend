@@ -8,6 +8,17 @@
     border-right: 1px solid var(--Dark-Gray, #949494);
 }
 
+.mainbodyHighlight{
+    display: flex;
+    width: 149px;
+    height: 44px;
+    padding-left: 0.25em;
+    align-items: center;
+    gap: 10px;
+    border-right: 1px solid var(--Dark-Gray, #949494);
+    background-color: var(--Light-yellow, #fffd8d);
+}
+
 .Text{
     color: var(--Black, #191919);
     text-align: center;

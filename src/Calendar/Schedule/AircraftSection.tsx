@@ -7,14 +7,16 @@ import Unavailable from './Unavailable';
 import Grounded from './Grounded';
 import { makeApiCall } from '../../APICall';
 import { it } from 'node:test';
-import { getReservationData } from './Util';
-import { Instructor, Plane } from '../Calendar';
+import { getReservationData, isCurrentUserInReservationData } from './Util';
+import { Instructor, Plane, User } from '../Calendar';
 import { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
 
 export interface AircraftSectionProps {
   isDay: Boolean;
   Aircraft: Plane;
   Day: string
+  isLimited: boolean;
+  currentUser: User;
   isGrounded: Boolean;
   Instructors: Array<Instructor>;
   Planes: Array<Plane>;
@@ -29,6 +31,7 @@ function AircraftSection(props: AircraftSectionProps) {
   const divRef = useRef<HTMLDivElement | null>(null);
 
   const [divWidth, setDivWidth] = useState(0);
+  
 
   const updateDivWidth = () => {
     if (divRef.current) {
@@ -62,12 +65,16 @@ function AircraftSection(props: AircraftSectionProps) {
     fetchReservationData();
   }, []);
 
+  const hightlight = isCurrentUserInReservationData(reservationData, props.currentUser.id, props.isLimited);
+
   let reservations = null;
   
   if (reservationData.length > 0) {
     reservations = reservationData.map((item, index) => (
       <Reservation
         isDay={props.isDay}
+        isLimited={props.isLimited}
+        currentUser={props.currentUser}
         resStartTime={item.startTime}
         resEndTime={item.endTime}
         pilotid={item.pilotId}
@@ -101,24 +108,24 @@ function AircraftSection(props: AircraftSectionProps) {
         {reservations}
         {grounded}
         <div className="mainBar">
-          <Identifier Name={props.Aircraft.tailNumber + " - [" + props.Aircraft.nickName + "]"} Aircraft={props.Aircraft} openAirplane={props.openAirplane}/>
-          <Hour isDay={props.isDay} ref={divRef}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
-          <Hour isDay={props.isDay}/>
+          <Identifier Name={props.Aircraft.tailNumber + " - [" + props.Aircraft.nickName + "]"} isHighlighted={hightlight} Aircraft={props.Aircraft} openAirplane={props.openAirplane}/>
+          <Hour isDay={props.isDay} ref={divRef} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+          <Hour isDay={props.isDay} isHighlighted={hightlight}/>
       </div>
       </div>
     );

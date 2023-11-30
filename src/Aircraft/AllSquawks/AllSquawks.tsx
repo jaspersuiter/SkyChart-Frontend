@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { Plane } from "../Home";
+import { Plane } from "../../Home/Home";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import SquawkInfo from "./SquawkInfo";
+import { Box, TextField } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 export interface AllSquawkProps {
   planes: Array<Plane>;
@@ -49,6 +51,7 @@ function AllSquawks(props: AllSquawkProps) {
     { label: "Annual", value: 4 },
   ];
   const [rows, setRows] = useState([]);
+
   const getSquawks = async () => {
     try {
       if (props.planes.length > 0) {
@@ -87,9 +90,22 @@ function AllSquawks(props: AllSquawkProps) {
 
   const [openPopup, setOpenPopup] = useState(false);
   const [currSquawk, setCurrSquawk] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const handleRowClick = (clicked: any) => {
     setCurrSquawk(clicked.row.squawkId);
     setOpenPopup(true);
+  };
+
+  const filteredRows = rows.filter((row) =>
+    Object.values(row).some((value) =>
+      String(value).toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+
+  const handleSearchChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setSearchQuery(event.target.value);
   };
 
   const handleClosePopup = () => {
@@ -98,9 +114,29 @@ function AllSquawks(props: AllSquawkProps) {
 
   return (
     <div>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "2em"}}>
+        <Box
+          className="box"
+          sx={{
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "flex-start",
+          }}
+        >
+          <SearchIcon sx={{ mr: 1, my: 0.5 }} />
+          <TextField
+            id="input-with-sx"
+            label="Search..."
+            variant="standard"
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+        </Box>
+      </div>
+
       <DataGrid
         sx={{ width: "90em", m: 2 }}
-        rows={rows}
+        rows={filteredRows}
         columns={columns}
         initialState={{
           pagination: {

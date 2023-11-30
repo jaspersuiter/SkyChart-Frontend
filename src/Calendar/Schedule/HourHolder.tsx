@@ -10,7 +10,7 @@ function HourBar(props: HourIdentifierProps) {
     return (
       <div className="mainBar">
         {!props.isDay && <div className='Calendarspacer'></div>}
-        <Identifier/>
+        <Identifier isHighlighted={false}/>
         <Hour isDay={props.isDay} Time={"6am"}/>
         <Hour isDay={props.isDay} Time={"7am"}/>
         <Hour isDay={props.isDay} Time={"8am"}/>

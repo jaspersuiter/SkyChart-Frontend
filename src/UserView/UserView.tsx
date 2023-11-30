@@ -1,7 +1,4 @@
-import PrimaryButton from "../Utils/Buttons/PrimaryButton";
 import StaticSidebar from "../Utils/Sidebar/Sidebar";
-import AddNewAircraft from "./AddNewAircraft/AddNewAircraft";
-import InviteNewUser from "./InviteNewUser/InviteNewUser";
 import {
   DataGrid,
   GridCellModesModel,
@@ -11,11 +8,9 @@ import {
 } from "@mui/x-data-grid";
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useEffect, useState } from "react";
-import "./Admin.css";
+import "./UserView.css";
 import { Box, TextField } from "@mui/material";
-import { env } from "../env";
-import EditUserDialog from "./EditUserDialog/EditUserDialog";
-import NoticeGrid from "./NoticeGrid";
+import ViewUserDialog from "./ViewUserDialog/ViewUserDialog";
 
 interface User {
   id: number;
@@ -33,13 +28,12 @@ interface User {
   proficientPlaneModels: string[];
 }
 
-function Admin() {
-  const [open, setOpenAddAircraft] = React.useState(false);
-  const [openInviteUser, setOpenInviteUser] = React.useState(false);
+function UserView() {
   const [rows, setRows] = useState<User[]>([]); // Declare rows as a state variable of type User[]
   const [openEditUserDialog, setOpenEditUserDialog] = useState(false);
   const [user, setUser] = useState<User>({} as User);
   const [airplaneModels, setAirplaneModels] = useState<string[]>([]);
+  const [currentUser, setCurrentUser] = useState<User>({} as User);
 
   const [cellModesModel, setCellModesModel] =
     React.useState<GridCellModesModel>({});
@@ -85,36 +79,12 @@ function Admin() {
       width: 150,
       editable: false,
     },
-    {
-      field: "type",
-      headerName: "Type",
-      width: 150,
-      type: "singleSelect",
-      editable: false,
-      valueOptions: ["instructor", "pilot"],
-    },
   ];
 
   const handleSearchChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
     setSearchQuery(event.target.value);
-  };
-
-  const handleClickOpenAddAircraft = () => {
-    setOpenAddAircraft(true);
-  };
-
-  const handleCloseAddAircraft = () => {
-    setOpenAddAircraft(false);
-  };
-
-  const handleClickOpenInviteUser = () => {
-    setOpenInviteUser(true);
-  };
-
-  const handleCloseInviteUser = () => {
-    setOpenInviteUser(false);
   };
 
   const filteredRows = rows.filter((row) =>
@@ -127,21 +97,6 @@ function Admin() {
     const formatted =
       phoneNumber && phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
     return formatted || phoneNumber;
-  };
-
-  const isAdmin = async () => {
-    try {
-      const isAdmin = (await fetch(`${apiUrl}/api/user/get-current-is-admin`, {
-        method: "GET",
-        credentials: "include",
-      })
-        .then((response) => response.json())
-        .then((data) => data)) as boolean;
-
-      setAdmin(isAdmin);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const fetchUsers = async () => {
@@ -212,23 +167,38 @@ function Admin() {
     }
   };
 
-  const apiUrl = env.SKYCHART_API_URL;
-  const [admin, setAdmin] = React.useState(false);
+  const fetchCurrentUser = async () => {
+    try {
+      const currentUser = await fetch(
+        "http://localhost:5201/api/user/get-current",
+        {
+          credentials: "include",
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => data);
+
+      console.log(currentUser);
+      setCurrentUser(currentUser);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    isAdmin();
     fetchUsers();
     fetchAirplaneModels();
+    fetchCurrentUser();
   }, []);
 
   return (
     <div className="mainpage">
       <StaticSidebar />
-      {admin ? (
+      {currentUser.type === "instructor" ? (
         <div className="main-content">
           <div className="admin-subcontent-wrapper">
             <p className="admin-header">Current Users</p>
-            <EditUserDialog
+            <ViewUserDialog
               user={user}
               openEditUserDialog={openEditUserDialog}
               airplaneModels={airplaneModels}
@@ -266,34 +236,10 @@ function Admin() {
               onCellClick={handleCellClick}
             />
           </div>
-
-          <div className="admin-subcontent-wrapper">
-            <div className="buttonrow">
-              <PrimaryButton
-                text="Add New Aircraft"
-                onClick={handleClickOpenAddAircraft}
-              />
-              <PrimaryButton
-                text="Invite New User"
-                onClick={handleClickOpenInviteUser}
-              />
-            </div>
-          </div>
-
-          <div className="admin-noticies">
-            <NoticeGrid />
-          </div>
-
-          <AddNewAircraft open={open} onClose={handleCloseAddAircraft} />
-
-          <InviteNewUser
-            open={openInviteUser}
-            onClose={handleCloseInviteUser}
-          />
         </div>
       ) : null}
     </div>
   );
 }
 
-export default Admin;
+export default UserView;

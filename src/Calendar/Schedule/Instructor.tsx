@@ -3,10 +3,10 @@ import './HourHolder.css';
 import Hour from './HourIdentifier';
 import Identifier from './Identifier';
 import Reservation, { ReservationData } from './Reservation';
-import { convertToMilitaryTimeNoDate, getReservationData } from './Util';
+import { convertToMilitaryTimeNoDate, getReservationData, isCurrentUserInReservationData } from './Util';
 import Unavailable from './Unavailable';
 import { makeApiCall } from '../../APICall';
-import { Instructor, Plane } from '../Calendar';
+import { Instructor, Plane, User } from '../Calendar';
 import { DropDownType } from '../../Utils/DropDowns/ReservationTypeMultiselectDropDown';
 import { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
 
@@ -15,6 +15,8 @@ export interface InstructorSelectionProps {
   InstructorName: string;
   InstructorId: string;
   Day: string;
+  isLimited: boolean;
+  currentUser: User;
   DayName: string;
   Instructors: Array<Instructor>;
   Planes: Array<Plane>;
@@ -104,12 +106,16 @@ function InstructorSelection(props: InstructorSelectionProps) {
     fetchAvailabilityData();
   }, []);
 
+  const hightlight = isCurrentUserInReservationData(reservationData, props.currentUser.id, props.isLimited);
+
   let reservations = null;
   
   if (reservationData.length > 0) {
     reservations = reservationData.map((item, index) => (
       <Reservation
         isDay={props.isDay}
+        isLimited={props.isLimited}
+        currentUser={props.currentUser}
         resStartTime={item.startTime}
         resEndTime={item.endTime}
         pilotid={item.pilotId}
@@ -126,6 +132,8 @@ function InstructorSelection(props: InstructorSelectionProps) {
 
   const preferredArray = availabilityData.filter(obj => obj.type === "PreferredTime" && obj.day === props.DayName);
   const avilableArray = availabilityData.filter(obj => obj.day === props.DayName);
+
+  
 
 
   let perferred = null;
@@ -162,24 +170,24 @@ function InstructorSelection(props: InstructorSelectionProps) {
         {perferred}
         {unavailablecomp}
       <div className="mainBar">
-        <Identifier Name={props.InstructorName}/>
-        <Hour isDay={props.isDay} ref={divRef}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
-        <Hour isDay={props.isDay}/>
+        <Identifier Name={props.InstructorName} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} ref={divRef} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
+        <Hour isDay={props.isDay} isHighlighted={hightlight}/>
       </div>
       </div>
     );
