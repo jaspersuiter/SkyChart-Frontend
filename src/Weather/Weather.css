@@ -2,10 +2,10 @@
     padding: 1em;
     display: flex;
     flex-direction: column;
-    height: max-content;
+    height: 17.52em;
 }
 
-.weather>h1 {
+.weather-title {
     margin: .1em  auto;
     font-size: 1.5em;
     text-align: center;
@@ -14,16 +14,16 @@
 .weather-row {
     display: flex;
     flex-direction: row;
-    margin: .1em 0;
+    margin: .1em 0 1em;
 }
 
 .weather-header {
-    font-size: 1em;
+    font-size: 1.25em;
     font-weight: bold;
 }
 
 .weather-data {
-    font-size: 1em;
+    font-size: 1.25em;
     margin: 0 0 0 auto;
     justify-self: right;
 }
