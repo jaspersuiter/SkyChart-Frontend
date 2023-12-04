@@ -8,6 +8,7 @@ import { get } from "http";
 import HomePageSquawks from "./HomePageSquawks/HomePageSquawks";
 import { Navigate, useNavigate } from "react-router-dom";
 import CurrentWeather from "../Weather/CurrentWeather";
+import HomePageNotices from "./HomePageNotices/HomePageNotices";
 
 export interface Plane {
   planeId: string;
@@ -82,6 +83,7 @@ function Home() {
         <div className="home-page-row-content">
           <div className="home-page-corner">
             <p className="home-page-header">General Notices</p>
+            <HomePageNotices />
           </div>
           <div className="home-page-corner">
             <p className="home-page-header">Squawks</p>
