@@ -75,7 +75,6 @@ function StaticSidebar(props: any) {
         .then((data) => data);
 
       setCurrentUser(currentUser);
-      console.log(currentUser);
     } catch (error) {
       console.log(error);
     }
