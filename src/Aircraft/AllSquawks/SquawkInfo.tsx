@@ -50,12 +50,6 @@ function SquawkInfo(props: SquawkInfoProps) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    if (props.squawkId) {
-      getSquawk();
-    }
-  }, [props.squawkId]);
   
   const [admin, setAdmin] = useState(false);
   useEffect(() => {
@@ -81,6 +75,12 @@ function SquawkInfo(props: SquawkInfoProps) {
   const handleCloseEditSquawk = () => {
     setOpenEdit(false);
   }
+
+  useEffect(() => {
+    if (props.squawkId) {
+      getSquawk();
+    }
+  }, [props.squawkId, openEdit]);
 
   return (
     <div>
