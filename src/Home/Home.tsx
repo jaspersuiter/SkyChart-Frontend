@@ -9,32 +9,22 @@ import HomePageSquawks from "./HomePageSquawks/HomePageSquawks";
 import { Navigate, useNavigate } from "react-router-dom";
 import CurrentWeather from "../Weather/CurrentWeather";
 import HomePageNotices from "./HomePageNotices/HomePageNotices";
+import HomePageReservations from "./HomePageReservations/HomePageReservations";
 
 export interface Plane {
   planeId: string;
   nickName: string;
   tailNumber: string;
 }
-interface User {
-  id: number;
-  lastName: string;
-  firstName: string;
-  phoneNum: string;
-  email: string;
-  type: string;
-  username: string;
-  address: string;
-  emergencyContactName: string;
-  emergencyContactPhone: string;
-  preferredInstructor: string;
-  preferredPlanes: string[];
-  proficientPlaneModels: string[];
+
+export interface Instructor {
+  userId: string;
+  name: string;
 }
 
 function Home() {
   // Get All Planes
   const [planes, setPlanes] = useState<Plane[]>([]);
-  const [user, setUser] = useState<User>();
   const getPlanes = async () => {
     try {
       const planeFetch = (await fetch(
@@ -49,15 +39,16 @@ function Home() {
     }
   };
 
-  const getUser = async () => {
+  const [instructors, setInstructors] = useState<Instructor[]>([]);
+  const getInstructors = async () => {
     try {
-      const user = await fetch(`http://localhost:5201/api/user/get-current`, {
-        credentials: "include",
-      })
+      const instructorFetch = (await fetch(
+        `http://localhost:5201/api/instructor/get-all`,
+        { credentials: "include" }
+      )
         .then((response) => response.json())
-        .then((data) => data);
-      setUser(user);
-      console.log(user);
+        .then((data) => data)) as Array<Instructor>;
+      setInstructors(instructorFetch);
     } catch (error) {
       console.log(error);
     }
@@ -65,7 +56,7 @@ function Home() {
 
   useEffect(() => {
     getPlanes();
-    getUser();
+    getInstructors();
   }, []);
 
   return (
@@ -75,6 +66,7 @@ function Home() {
         <div className="home-page-row-content">
           <div className="home-page-corner">
             <p className="home-page-header">Upcoming Reservations</p>
+            <HomePageReservations planes={planes} instructors={instructors}/>
           </div>
           <div className="home-page-corner">
             <CurrentWeather />

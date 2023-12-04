@@ -33,11 +33,9 @@ function HomePageNotices() {
           .then((response) => response.json())
           .then((data) => data);
         const mappedRows = notices.map((notice: any, index: number) => {
-          const date = new Date(notice.datePosted);
-          console.log(date);
           return {
             id: index,
-            date_posted: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`,
+            date_posted: notice.datePosted,
             description: notice.description
           };
         });
