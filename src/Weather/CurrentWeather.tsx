@@ -36,7 +36,7 @@ function CurrentWeather() {
         <div>
             {metar ? (
                 <div className={"weather " + metar.FlightCategory}>
-                    <h1>Current Weather</h1>
+                    <p className="weather-title">Current Weather</p>
                     <div className="weather-row">
                         <span className="weather-header">Airport: </span><span className="weather-data">{metar.Airport}</span>
                     </div>
