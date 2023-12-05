@@ -18,3 +18,14 @@
     white-space: nowrap;
     margin-bottom: -1em;
 }
+
+.squawk-info-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.squawk-info-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

@@ -2,6 +2,8 @@ import Dialog from "@mui/material/Dialog";
 import "./SquawkInfo.css";
 import { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import PrimaryButton from "../../Utils/Buttons/PrimaryButton";
+import EditSquawk from "../EditSquawk/EditSquawk";
 
 export interface SquawkInfoProps {
   open: boolean;
@@ -23,6 +25,9 @@ function SquawkInfo(props: SquawkInfoProps) {
     correctiveSteps: "",
     dateOpened: "",
     dateClosed: "",
+    tachHours: 0,
+    hobbsHours: 0,
+    grounded: false
   });
 
   const SquawkLabel = [
@@ -41,17 +46,41 @@ function SquawkInfo(props: SquawkInfoProps) {
         .then((response) => response.json())
         .then((data) => data);
       setSquawk(squawkFetch);
-      console.log(squawkFetch);
     } catch (error) {
       console.log(error);
     }
   };
+  
+  const [admin, setAdmin] = useState(false);
+  useEffect(() => {
+    async function isAdmin() {
+      const isAdmin = (await fetch(`http://localhost:5201/api/user/get-current-is-admin`, {
+        method: "GET",
+        credentials: "include",
+      })
+        .then((response) => response.json())
+        .then((data) => data)) as boolean;
+      setAdmin(isAdmin);
+    }
+    isAdmin();
+  }, []);
+
+  // Edit squawk dialog
+  const [openEdit, setOpenEdit] = useState(false);
+
+  const handleClickEditSquawk = () => {
+    setOpenEdit(true);
+  }
+
+  const handleCloseEditSquawk = () => {
+    setOpenEdit(false);
+  }
 
   useEffect(() => {
     if (props.squawkId) {
       getSquawk();
     }
-  }, [props.squawkId]);
+  }, [props.squawkId, openEdit]);
 
   return (
     <div>
@@ -62,8 +91,8 @@ function SquawkInfo(props: SquawkInfoProps) {
           "& .MuiDialog-container": {
             "& .MuiPaper-root": {
               width: "30em",
-              maxHeight: "30em",
-              height: "30em",
+              maxHeight: "35em",
+              height: "35em",
               padding: "2em",
             },
           },
@@ -81,8 +110,15 @@ function SquawkInfo(props: SquawkInfoProps) {
           <p>Corrective Steps: {squawk.correctiveSteps}</p>
           <p>Date Opened: {squawk.dateOpened}</p>
           <p>Date Closed: {squawk.dateClosed}</p>
+          <p>Grounded: {squawk.grounded ? ("True") : ("False")}</p>
           <p>Type: {SquawkLabel.find((o) => o.value === squawk.type)?.label}</p>
+          <p>Tach Hours: {squawk.tachHours}</p>
+          <p>Hobbs Hours: {squawk.hobbsHours}</p>
         </div>
+        <div className="squawk-info-button">
+            {admin ? (<PrimaryButton text="Edit Squawk" onClick={handleClickEditSquawk}/>) : (<p></p>)}
+        </div>
+        <EditSquawk open={openEdit} onClose={handleCloseEditSquawk} squawkId={squawk.squawkId} />
       </Dialog>
     </div>
   );
