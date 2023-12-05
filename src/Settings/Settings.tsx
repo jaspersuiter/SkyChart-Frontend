@@ -9,6 +9,7 @@ import {
   Select,
   SelectChangeEvent,
   Stack,
+  TextField,
 } from "@mui/material";
 import PrimaryButton from "../Utils/Buttons/PrimaryButton";
 import CancelButton from "../Utils/Buttons/CancelButton";
@@ -70,7 +71,10 @@ interface User {
 
 function Settings() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [emergencyContactName, setEmergencyContactName] = useState("");
+  const [mailingAddress, setMailingAddress] = useState("");
+  const [emergencyContactPhoneNumber, setEmergencyContactPhoneNumber] = useState("");
   const [user, setUser] = useState<User>();
   const [selectedInstructor, setSelectedInstructor] = useState("");
   const [selectedAircraft, setSelectedAircraft] = useState<Array<string>>([]);
@@ -90,6 +94,26 @@ function Settings() {
   const openPreferenceConfirmDialog = () => {
     setOpenPreferenceConfirm(true);
   };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+
+  const handleEmergencyContactNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmergencyContactName(e.target.value);
+  }
+
+  const handleMailingAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMailingAddress(e.target.value);
+  }
+
+  const handleEmergencyContactPhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmergencyContactPhoneNumber(e.target.value);
+  }
 
   const handleChange = (event: SelectChangeEvent<typeof selectedAircraft>) => {
     const {
@@ -157,8 +181,11 @@ function Settings() {
   };
 
   useEffect(() => {
+    fetchInstructors();
     fetchPlanes();
     getUser();
+    setSelectedInstructor(user?.preferredInstructor ?? "");
+    setSelectedAircraft(user?.preferredPlanes ?? []);
   }, []);
 
   const fetchInstructors = async () => {
@@ -188,100 +215,146 @@ function Settings() {
     }
   };
 
-  useEffect(() => {
-    fetchInstructors(); // Call fetchInstructors when the component mounts
-  }, []); // Empty dependency array means this effect runs once when the component mounts
-
   return (
-    <div className="settings-page">
+    <div className="settings-content">
       <StaticSidebar />
-      <div className="settings-content">
-        <div className="row-container">
-          <h1 className="h1">Set Preferences</h1>
-          {/*<p>
-            Proficient Plane Models:{" "}
-            <b>{user?.proficientPlaneModels.join(", ")}</b>
-  </p>*/}
-          <div className="flexRow">
-            <FormControl sx={{ minWidth: 300 }} size="small">
-              <InputLabel id="preferred-instructor-label">
-                Preferred Instructor
-              </InputLabel>
-              <Select
-                labelId="instructor-label"
-                id="instructor-select"
-                label="instructor"
-                value={selectedInstructor} // Controlled value
-                onChange={(e) => setSelectedInstructor(e.target.value)}
-              >
-                {instructors.map((instructor) => (
-                  <MenuItem key={instructor.id} value={instructor.id}>
-                    {instructor.firstName} {instructor.lastName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl sx={{ minWidth: 300, maxWidth: 300 }} size="small">
-              <InputLabel id="preferred-aircraft-label">
-                Preferred Aircraft
-              </InputLabel>
-              <Select
-                multiple
-                labelId="aircraft-label"
-                id="aircraft-select"
-                label="aircraft"
-                value={selectedAircraft}
-                onChange={handleChange}
-                renderValue={(selected) => {
-                  if (Array.isArray(selected)) {
-                    return selected
-                      .map((planeId) => {
-                        const plane = planes.find(
-                          (p) => `${p.id}` === `${planeId}`
-                        );
-                        return plane
-                          ? `${plane.model} (${plane.nickname})`
-                          : "";
-                      })
-                      .join(", ");
-                  }
-                  return "";
-                }}
-              >
-                {planes.map((plane) => (
-                  <MenuItem
-                    key={plane.id}
-                    value={plane.id}
-                    sx={{ justifyContent: "space-between" }}
-                  >
-                    {`${plane.model} (${plane.nickname})`}
-                    <Checkbox
-                      checked={selectedAircraft.indexOf(`${plane.id}`) > -1}
-                    />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+        <div className="row-items">
+          <div className="column-items">
+            <div className="preferences-box">
+              <h1 className="h1">Set Preferences</h1>
+              {/*<p>
+                Proficient Plane Models:{" "}
+                <b>{user?.proficientPlaneModels.join(", ")}</b>
+              </p>*/}
+              <FormControl sx={{ minWidth: 300 }} size="small">
+                <InputLabel id="preferred-instructor-label">
+                  Preferred Instructor
+                </InputLabel>
+                <Select
+                  labelId="instructor-label"
+                  id="instructor-select"
+                  label="instructor"
+                  value={selectedInstructor} // Controlled value
+                  onChange={(e) => setSelectedInstructor(e.target.value)}
+                >
+                  {instructors.map((instructor) => (
+                    <MenuItem key={instructor.id} value={instructor.id}>
+                      {instructor.firstName} {instructor.lastName}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl sx={{ minWidth: 300, maxWidth: 300 }} size="small">
+                <InputLabel id="preferred-aircraft-label">
+                  Preferred Aircraft
+                </InputLabel>
+                <Select
+                  multiple
+                  labelId="aircraft-label"
+                  id="aircraft-select"
+                  label="aircraft"
+                  value={selectedAircraft}
+                  onChange={handleChange}
+                  renderValue={(selected) => {
+                    if (Array.isArray(selected)) {
+                      return selected
+                        .map((planeId) => {
+                          const plane = planes.find(
+                            (p) => `${p.id}` === `${planeId}`
+                          );
+                          return plane
+                            ? `${plane.model} (${plane.nickname})`
+                            : "";
+                        })
+                        .join(", ");
+                    }
+                    return "";
+                  }}
+                >
+                  {planes.map((plane) => (
+                    <MenuItem
+                      key={plane.id}
+                      value={plane.id}
+                      sx={{ justifyContent: "space-between" }}
+                    >
+                      {`${plane.model} (${plane.nickname})`}
+                      <Checkbox
+                        checked={selectedAircraft.indexOf(`${plane.id}`) > -1}
+                      />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <PrimaryButton
+                text="Confirm Changes"
+                onClick={openPreferenceConfirmDialog}
+              />
+              <ConfirmPopup
+                open={openPreferenceConfirm}
+                onClose={closePreferenceConfirmDialog}
+                func={updatePreferredItems}
+                text="Are you sure you want add these preferences?"
+              />
+            </div>
+            <div className="availability-box">
+              <h1 className="h1">Set Availability</h1>
+              <InstructorAvailibility />
+            </div>
           </div>
-          <div className="confirm-button">
+          <div className="profile-box">
+            <h1 className="h1">Edit Profile</h1>
+            <TextField
+              id="email"
+              label="Email"
+              type="email"
+              required
+              value={email}
+              onChange={handleEmailChange}
+              fullWidth
+            />
+            <TextField
+              id="name"
+              label="Name"
+              type="name"
+              required
+              value={name}
+              onChange={handleNameChange}
+              fullWidth
+            />
+            <TextField
+              id="emergencyContactName"
+              label="Emergency Contact Name"
+              type="emergencyContactName"
+              required
+              value={emergencyContactName}
+              onChange={handleEmergencyContactNameChange}
+              fullWidth
+            />
+            <TextField
+              id="mailingAddress"
+              label="Mailing Address"
+              type="email"
+              required
+              value={mailingAddress}
+              onChange={handleMailingAddressChange}
+              fullWidth
+            />
+            <TextField
+              id="emergencyContactPhoneNumber"
+              label="Emergency Contact Phone Number"
+              type="emergencyContactPhoneNumber"
+              required
+              value={emergencyContactPhoneNumber}
+              onChange={handleEmergencyContactPhoneNumberChange}
+              fullWidth
+            />
             <PrimaryButton
-              text="Confirm Changes"
-              onClick={openPreferenceConfirmDialog}
-            />
-            <ConfirmPopup
-              open={openPreferenceConfirm}
-              onClose={closePreferenceConfirmDialog}
-              func={updatePreferredItems}
-              text="Are you sure you want add these preferences?"
+                text="Confirm Changes"
+                onClick={openPreferenceConfirmDialog}
             />
           </div>
-        </div>
-        <div className="row-container">
-          <h1 className="h1">Set Availability</h1>
-          <InstructorAvailibility />
         </div>
       </div>
-    </div>
   );
 }
 
