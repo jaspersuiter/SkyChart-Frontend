@@ -14,6 +14,7 @@ import { DataGrid } from "@mui/x-data-grid/DataGrid";
 import { GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { env } from "../../env";
+import SquawkInfo from "../AllSquawks/SquawkInfo";
 
 export interface AircraftPopupProps {
   open: boolean;
@@ -72,30 +73,29 @@ function AircraftPopup(props: AircraftPopupProps) {
     }
   };
 
+  const [openPopup, setOpenPopup] = useState(false);
+  const [currSquawk, setCurrSquawk] = useState("");
+  const handleRowClick = (clicked: any) => {
+    setCurrSquawk(clicked.row.squawkId);
+    setOpenPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setOpenPopup(false);
+  };
+
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState(false);
-  const [currSquawk, setCurrSquawk] = useState<Squawk>();
-
-  const processRowUpdate = (newRow: any, oldRow: any) => {
-    newRow.type = SquawkLabel.find((object) => object.label == newRow.type)
-      ?.value;
-    setCurrSquawk(newRow);
-    if (
-      newRow.description !== oldRow.description ||
-      newRow.type !== oldRow.type
-    ) {
-      setOpenConfirmationDialog(true);
-    }
-  };
-
-  const handleConfirmationDialogClose = (confirmed: any) => {
-    setOpenConfirmationDialog(false);
-
-    if (confirmed) {
-      updateSquawk();
-    } else {
-      window.location.reload();
-    }
-  };
+  const [squawk, setSquawk] = useState({
+    squawkId: "",
+    type: 1,
+    description: "",
+    correctiveSteps: "",
+    dateOpened: "",
+    dateClosed: "",
+    tachHours: 0,
+    hobbsHours: 0,
+    grounded: false
+  });
 
   const apiUrl = env.SKYCHART_API_URL;
   const [admin, setAdmin] = useState(false);
@@ -111,24 +111,6 @@ function AircraftPopup(props: AircraftPopupProps) {
     }
     isAdmin();
   }, []);
-
-  const updateSquawk = async () => {
-    console.log(currSquawk);
-    try {
-      const update = await fetch(`http://localhost:5201/api/squawks/update`, {
-        method: "POST",
-        credentials: "include",
-        body: JSON.stringify(currSquawk),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleClose = (event?: any, reason?: any) => {
     if (reason !== "backdropClick") {
@@ -166,28 +148,6 @@ function AircraftPopup(props: AircraftPopupProps) {
       getSquawks();
     }
   }, [props.plane.planeId]);
-
-  const ConfirmationDialog = () => {
-    return (
-      <Dialog
-        open={openConfirmationDialog}
-        onClose={handleConfirmationDialogClose}
-      >
-        <DialogTitle>Are you sure?</DialogTitle>
-        <DialogContent>
-          <p>Pressing 'Yes' will save the changes to the squawk.</p>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => handleConfirmationDialogClose(true)}>
-            Yes
-          </Button>
-          <Button onClick={() => handleConfirmationDialogClose(false)}>
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
-    );
-  };
 
   return (
     <div className="reservation-popup">
@@ -236,7 +196,6 @@ function AircraftPopup(props: AircraftPopupProps) {
           {/* Squawks Frame */}
           <div className="squawks-frame">
             <p className="info-header">Squawks</p>
-            <ConfirmationDialog />
             <DataGrid
               sx={{ width: "50em", m: 2 }}
               rows={rows}
@@ -250,7 +209,7 @@ function AircraftPopup(props: AircraftPopupProps) {
               }}
               autoHeight
               disableRowSelectionOnClick
-              processRowUpdate={processRowUpdate}
+              onRowClick={handleRowClick}
             />
           </div>
         </div>
@@ -267,6 +226,11 @@ function AircraftPopup(props: AircraftPopupProps) {
           )}
         </div>
       </Dialog>
+      <SquawkInfo
+        open={openPopup}
+        onClose={handleClosePopup}
+        squawkId={currSquawk}
+      />
     </div>
   );
 }

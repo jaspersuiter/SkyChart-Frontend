@@ -17,7 +17,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import CloseIcon from "@mui/icons-material/Close";
 import Dialog from "@mui/material/Dialog";
 import { makeApiCall } from "../../APICall";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { Instructor, Plane } from "../../Calendar/Calendar";
 import InstructorDropDown from "../../Utils/DropDowns/InstructorDropDown";
@@ -35,6 +35,11 @@ export interface NewReservationProps {
   Planes: Array<Plane>;
   onClose: () => void;
   SelectedPlane?: Plane;
+}
+
+interface User {
+  id: number;
+  student: boolean;
 }
 
 function NewReservation(props: NewReservationProps) {
@@ -201,6 +206,31 @@ function NewReservation(props: NewReservationProps) {
     setDay(day);
   };
 
+  // We need to get the user object to see if its a student
+  const [user, setUser] = useState<User>();
+
+  const getUser = async () => {
+    try {
+      const user = await fetch(`http://localhost:5201/api/user/get-current`, {
+        credentials: "include",
+      })
+        .then((response) => response.json())
+        .then((data) => data) as User;
+      setUser(user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [student, setStudent] = useState(false);
+
+  useEffect(() => {
+    getUser();
+    if (user != null) {
+      setStudent(user.student)
+    }
+  }, [startTime]);
+
   return (
     <div className="reservation-popup">
       <Dialog
@@ -311,7 +341,7 @@ function NewReservation(props: NewReservationProps) {
           <PrimaryButton
             text="Create Reservation"
             onClick={createReservation}
-            disabled={startTime === null || endTime === null || day === null}
+            disabled={startTime === null || endTime === null || day === null || (instructorId === "" && student)}
           />
         </div>
         <UpcomingMaintenance
