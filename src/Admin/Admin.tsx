@@ -12,10 +12,10 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useEffect, useState } from "react";
 import "./Admin.css";
-import { SelectChangeEvent } from "@mui/material";
 import { Box, TextField } from "@mui/material";
 import { env } from "../env";
 import EditUserDialog from "./EditUserDialog/EditUserDialog";
+import NoticeGrid from "./NoticeGrid";
 
 interface User {
   id: number;
@@ -264,13 +264,6 @@ function Admin() {
               cellModesModel={cellModesModel}
               onCellModesModelChange={handleCellModesModelChange}
               onCellClick={handleCellClick}
-              // onRowSelectionModelChange={(ids) => {
-              //   const selectedIDs = new Set(ids);
-              //   const selectedRowData = rows.filter((row) =>
-              //     selectedIDs.has(row.id.toString())
-              //   );
-              //   setUser(selectedRowData[0]);
-              // }}
             />
           </div>
 
@@ -285,6 +278,10 @@ function Admin() {
                 onClick={handleClickOpenInviteUser}
               />
             </div>
+          </div>
+
+          <div className="admin-noticies">
+            <NoticeGrid />
           </div>
 
           <AddNewAircraft open={open} onClose={handleCloseAddAircraft} />
