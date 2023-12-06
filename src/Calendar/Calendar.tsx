@@ -20,6 +20,7 @@ import AircraftMultiSelect from '../Utils/DropDowns/AircraftMultiselectDropDown'
 import InstructorMultiselect from '../Utils/DropDowns/InstructorMultiselectDropDown';
 import ReservationTypeMultiselect, { DropDownType } from '../Utils/DropDowns/ReservationTypeMultiselectDropDown';
 import { ReservationType } from '../Utils/DropDowns/ReservationTypeDropDown';
+import AutoReservation from '../Reservation/AutoReservation/AutoReservation';
 
 export interface Plane {
     planeId: string;
@@ -130,6 +131,7 @@ function Calendar() {
     const [openAircraft, setOpenAircraft] = React.useState(false);
     const [updateScreen, setUpdateScreen] = React.useState(false);
     const [openEditReservation, setOpenEditReservation] = React.useState(false);
+    const [openAutoReservation, setOpenAutoReservation] = React.useState(false);
     const [isDay, setIsDay] = React.useState(true);
     const [currentUser, setCurrentUser] = React.useState<User>({} as User); 
     const [isLimited, setIsLimited] = React.useState(false);
@@ -161,6 +163,14 @@ function Calendar() {
 
     const handleCloseEditReservation = () => {
         setOpenEditReservation(false);
+    }
+
+    const handleClickOpenAutoReservation = () => {
+        setOpenAutoReservation(true);
+    };
+
+    const handleCloseAutoReservation = () => {
+        setOpenAutoReservation(false);
     }
 
     const handleClickOpenSquawk = () => {
@@ -223,6 +233,8 @@ function Calendar() {
 
                     <PrimaryButton text="New Reservation" onClick={handleClickOpen}/>
 
+                    <PrimaryButton text="Automatic Scheduler" onClick={handleClickOpenAutoReservation}/>
+
                     <PrimaryButton text={isLimited ? "Stop Limiting" : "Limit to Me"} onClick={handleLimitToMe}/>
 
                 </div>
@@ -247,6 +259,7 @@ function Calendar() {
         <AddSqauwkPopup open={openSquawk} onClose={handleCloseSquawk} plane={plane}/>
         <ModifyAircraft open={openModify} onClose={handleCloseModify} planeId={plane.planeId} updateScreen={updateScreenFunction} setCurrentPlane={setPlane}/>
         <EditReservation open={openEditReservation} onClose={handleCloseEditReservation} reservationData={reservation} Instructors={instructors} Planes={planes} updateScreen={updateScreenFunction} key={openEditReservation.toString()}/>
+        <AutoReservation open={openAutoReservation} onClose={handleCloseAutoReservation} Instructors={instructors} Planes={planes} updateScreen={updateScreenFunction}/>
       </div>
   )}
 
