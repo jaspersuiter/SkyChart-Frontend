@@ -1,72 +1,69 @@
-.settings-content {
-    display: inline-flex;
-    flex-direction: row;
-}
-
-.settings-top-content {
-    display: block;
-    margin-top: 2em;
-    margin-left: 16em;
-}
-
-.row-container {
+.settings-content{
     display: flex;
-    flex-direction: column;
-    width: 50%;
-    height: 50%;
-    margin-left: 30%;
-}
-
-.confirm-button {
-    display: flex;
-    margin-top: 10%;
-}
-
-.TitleBar{
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    margin-top: 5%;
-}
-
-.spaceFiller{
-    display: flex;
-    width: 100%;
-    justify-content: flex-end;
-}
-
-.h1 {
-    display: block;
-    font-size: 2em;
-    margin-block-start: 0.67em;
-    margin-block-end: 0.67em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
-    white-space: nowrap;
-    padding: .5em;
-    
-}
-
-.flexRow{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    gap: 5%;
-}
-
-.dialogBox{
-    display: flex;
-    flex-direction: column;
-    gap: 3em;
-    width: 100%;
+    margin-left: auto;
     height: 100%;
+    width: 100%;
+    padding-left: 1%;
+    padding-top: 1%;
 }
 
-.error-message{
+.column-items{
     display: flex;
-    justify-content: center;
-    color: #FF8080;
-    font-size: 1.5em;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    gap: 10px;
+}
+
+.column-flex-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    gap: 20px;
+}
+
+.row-items{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    gap: 10px;
+}
+
+.row-flex-item{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    gap: 5px;
+}
+
+.preferences-box{
+    border: 3px solid rgba(77, 232, 180, 1);
+    border-radius: 0.25em;
+    width: 95%;
+    height: 44vh;
+    padding: 10px;
+    overflow: hidden;
+    margin-bottom: 1%;
+}
+
+.availability-box{
+    border: 3px solid rgba(77, 232, 180, 1);
+    border-radius: 0.25em;
+    width: 95%;
+    height: 44vh;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.profile-box{
+    border: 3px solid rgba(77, 232, 180, 1);
+    border-radius: 0.25em;
+    width: 100%;
+    height: 93vh;
+    padding: 10px;
+    overflow: hidden;
 }

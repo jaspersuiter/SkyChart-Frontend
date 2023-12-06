@@ -163,6 +163,9 @@ function NewReservation(props: NewReservationProps) {
       } else if (responseData2 === "User doesn't have model certificate") {
         setErrormessage(responseData2);
         return;
+      } else if (responseData2 === "User doesn't have a night rating") {
+        setErrormessage(responseData2);
+        return;
       }
       resetAll();
     } catch (error) {
