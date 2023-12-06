@@ -1,0 +1,8 @@
+.FlexRowItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 25px;
+  padding: 10px;
+}
