@@ -32,6 +32,8 @@ function AutoReservation(props: AutoReservationProp) {
   const [earliestTime, setEarliestTime] = React.useState<Dayjs | null>(null);
   const [latestTime, setLatestTime] = React.useState<Dayjs | null>(null);
   const [reservationLength, setReservationLength] = React.useState<number>(0);
+  const [errorMessage, setErrorMessage] = React.useState<string>("");
+  const [reservation, setReservation] = React.useState<string>("");
 
   const days = "Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday".split(",");
 
@@ -57,7 +59,7 @@ function AutoReservation(props: AutoReservationProp) {
     );
   }
 
-  const createReservation = () => {
+  const createReservation = async () => {
     const data = {
       instructor: instructorId,
       aircraft: preferredPlanes,
@@ -67,8 +69,25 @@ function AutoReservation(props: AutoReservationProp) {
       reservationLength: reservationLength,
       preferredDays: preferredDays,
     }
-    makeApiCall("/api/reservation/automatic", data, "post");
-    handleClose();
+
+    try {
+      const responseData = await makeApiCall("/api/reservation/automatic", data, "post");
+      console.log(responseData);
+      if (responseData === "No timeslot satisfying instructor, plane, and pilot conflicts within the next 4 weeks of the current date" 
+          || responseData === "Couldn't Parse EarliestTime"
+          || responseData === "Couldn't Parse LatestTime") {
+        setErrorMessage(responseData + ". Please try again.");
+        return;
+      }
+      const planeTail = Planes.find((p) => p.planeId === responseData.planeId)?.tailNumber;
+      const instructorName = props.Instructors.find((i) => i.userId === responseData.instructorId)?.name;
+      const reservation = `Reservation created from ${responseData.startTime} to ${responseData.endTime} in ${planeTail} with ${instructorName}`;
+      setReservation(reservation);
+      return;
+    } catch (err) {
+      console.error(err);
+      handleClose();
+    }
   }
 
   return (
@@ -209,6 +228,10 @@ function AutoReservation(props: AutoReservationProp) {
               ))}
             </Select>
           </FormControl>
+
+          <div className="reservation">{reservation}</div>
+
+          <div className="bottom-bar error-message">{errorMessage}</div>
 
           <div className="bottom-bar">
             <PrimaryButton
