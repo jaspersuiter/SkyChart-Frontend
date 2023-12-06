@@ -40,6 +40,7 @@ export interface NewReservationProps {
 interface User {
   id: number;
   student: boolean;
+  proficientPlaneModels: string[] | null;
 }
 
 function NewReservation(props: NewReservationProps) {
@@ -57,11 +58,11 @@ function NewReservation(props: NewReservationProps) {
 
   const openWeather = () => {
     setWeatherOpen(true);
-  }
+  };
 
   const closeWeather = () => {
     setWeatherOpen(false);
-  }
+  };
 
   const handleClose = (event?: any, reason?: any) => {
     if (reason !== "backdropClick") {
@@ -211,11 +212,11 @@ function NewReservation(props: NewReservationProps) {
 
   const getUser = async () => {
     try {
-      const user = await fetch(`http://localhost:5201/api/user/get-current`, {
+      const user = (await fetch(`http://localhost:5201/api/user/get-current`, {
         credentials: "include",
       })
         .then((response) => response.json())
-        .then((data) => data) as User;
+        .then((data) => data)) as User;
       setUser(user);
     } catch (error) {
       console.log(error);
@@ -227,7 +228,7 @@ function NewReservation(props: NewReservationProps) {
   useEffect(() => {
     getUser();
     if (user != null) {
-      setStudent(user.student)
+      setStudent(user.student);
     }
   }, [startTime]);
 
@@ -265,7 +266,9 @@ function NewReservation(props: NewReservationProps) {
               setInstructorIdParent={setInstructorId}
             />
             <PlaneDropDown
-              Planes={props.Planes}
+              Planes={props.Planes.filter(
+                (plane) => user?.proficientPlaneModels?.includes(plane.model)
+              )}
               PlaneID={planeId}
               SetPlaneIdParent={setPlaneId}
             />
@@ -341,7 +344,12 @@ function NewReservation(props: NewReservationProps) {
           <PrimaryButton
             text="Create Reservation"
             onClick={createReservation}
-            disabled={startTime === null || endTime === null || day === null || (instructorId === "" && student)}
+            disabled={
+              startTime === null ||
+              endTime === null ||
+              day === null ||
+              (instructorId === "" && student)
+            }
           />
         </div>
         <UpcomingMaintenance
@@ -349,10 +357,10 @@ function NewReservation(props: NewReservationProps) {
           onClose={handleCloseMaintenance}
           planeId={planeId}
         />
-        <ProjectedWeather 
+        <ProjectedWeather
           open={weatherOpen}
           onClose={closeWeather}
-          day={day ? day.format('MM/DD/YYYY') : ""}
+          day={day ? day.format("MM/DD/YYYY") : ""}
         />
       </Dialog>
     </div>
