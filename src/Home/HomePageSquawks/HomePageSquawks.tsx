@@ -82,8 +82,8 @@ function HomePageSquawks(props: AllSquawkProps) {
   };
 
   return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "2em"}}>
+    <div className="home-page-squawks-wrapper">
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "1em"}}>
         <Box
           className="box"
           sx={{

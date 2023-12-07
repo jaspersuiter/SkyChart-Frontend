@@ -65,7 +65,7 @@ function Home() {
       <div className="home-page-content">
         <div className="home-page-row-content">
           <div className="home-page-corner">
-            <p className="home-page-header">Upcoming Reservations</p>
+            <a className="home-page-header" href="/calendar">Upcoming Reservations</a>
             <HomePageReservations planes={planes} instructors={instructors}/>
           </div>
           <div className="home-page-corner">
@@ -74,11 +74,11 @@ function Home() {
         </div>
         <div className="home-page-row-content">
           <div className="home-page-corner">
-            <p className="home-page-header">General Notices</p>
+            <a className="home-page-header">General Notices</a>
             <HomePageNotices />
           </div>
           <div className="home-page-corner">
-            <p className="home-page-header">Squawks</p>
+            <a className="home-page-header" href={"/aircraft"}>Squawks</a>
             <HomePageSquawks planes={planes} />
           </div>
         </div>

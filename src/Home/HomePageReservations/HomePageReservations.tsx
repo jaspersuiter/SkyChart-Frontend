@@ -97,7 +97,7 @@ function HomePageReservations(props: HomePageReservationProps) {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "2em"}}>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "1em"}}>
         <Box
           className="box"
           sx={{
