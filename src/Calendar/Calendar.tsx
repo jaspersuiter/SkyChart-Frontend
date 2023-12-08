@@ -256,7 +256,7 @@ function Calendar() {
         </div>
         <NewReservation open={open} onClose={handleClose} Instructors={instructors} Planes={planes} SelectedPlane={plane}/>
         <AircraftPopup open={openAircraft} onClose={handleCloseAircraft} plane={plane} openSquawk={handleClickOpenSquawk} openModify={handleClickOpenModify} openCreateReservation={handleClickOpen} />
-        <AddSqauwkPopup open={openSquawk} onClose={handleCloseSquawk} plane={plane}/>
+        <AddSqauwkPopup open={openSquawk} onClose={handleCloseSquawk} plane={plane} updateScreen={updateScreenFunction}/>
         <ModifyAircraft open={openModify} onClose={handleCloseModify} planeId={plane.planeId} updateScreen={updateScreenFunction} setCurrentPlane={setPlane}/>
         <EditReservation open={openEditReservation} onClose={handleCloseEditReservation} reservationData={reservation} Instructors={instructors} Planes={planes} updateScreen={updateScreenFunction} key={openEditReservation.toString()}/>
         <AutoReservation open={openAutoReservation} onClose={handleCloseAutoReservation} Instructors={instructors} Planes={planes} updateScreen={updateScreenFunction}/>

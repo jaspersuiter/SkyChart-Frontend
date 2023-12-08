@@ -157,7 +157,8 @@ function Aircraft() {
             openModify={handleClickOpenModify}/>
           <AddSqauwkPopup 
             open={openAddSquawk} 
-            onClose={handleCloseSquawk} 
+            onClose={handleCloseSquawk}
+            updateScreen={handleUpdateScreen} 
             plane={currentPlane}/>
           <NewReservation 
             open={openCreateReservation} 
