@@ -4,7 +4,14 @@
     height: 100%;
     width: 100%;
     padding-left: 1%;
-    padding-top: 1%;
+}
+
+.settings-title{
+    display: flex;
+    flex-direction: column;
+    height: 15%;
+    width: 100%;
+    align-items: center;
 }
 
 .column-items{
@@ -44,7 +51,7 @@
     border: 3px solid rgba(77, 232, 180, 1);
     border-radius: 0.25em;
     width: 95%;
-    height: 44vh;
+    height: 40vh;
     padding: 10px;
     overflow: hidden;
     margin-bottom: 1%;
@@ -54,7 +61,7 @@
     border: 3px solid rgba(77, 232, 180, 1);
     border-radius: 0.25em;
     width: 95%;
-    height: 44vh;
+    height: 40vh;
     padding: 10px;
     overflow: hidden;
 }
@@ -63,7 +70,7 @@
     border: 3px solid rgba(77, 232, 180, 1);
     border-radius: 0.25em;
     width: 100%;
-    height: 93vh;
+    height: 85vh;
     padding: 10px;
     overflow: hidden;
 }

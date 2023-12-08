@@ -63,6 +63,7 @@ function Home() {
     <div className="home-page">
       <StaticSidebar />
       <div className="home-page-content">
+        <h1 className="h3">SkyChart Home</h1>
         <div className="home-page-row-content">
           <div className="home-page-corner">
             <p className="home-page-header">Upcoming Reservations</p>

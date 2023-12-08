@@ -215,7 +215,6 @@ function Calendar() {
     <div className='fullpage'>
         <StaticSidebar />
         <div className="content">
-
             <div className='top-content-frame'>
                 <div>
                     {isDay ? 

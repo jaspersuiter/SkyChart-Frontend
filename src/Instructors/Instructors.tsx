@@ -73,6 +73,7 @@ function Instructors() {
       <StaticSidebar />
       <div className="instructors-content">
         <div className="instructors-top-content">
+          <h1 className="h3">Instructors</h1>
           <DataGrid
             sx={{ width: "100%", m: 2 }}
             rows={rows}
