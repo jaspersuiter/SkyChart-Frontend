@@ -73,18 +73,8 @@ function Login() {
   };
 
   return (
-    <div
-      className="login-page"
-      onKeyDown={(e: any) => {
-        console.log(e.key);
-        if (e.key === "Enter") {
-          handleLogin();
-        }
-      }}
-    >
-      <div className="login-image">
-        <img src={"vector.jpg"}></img>
-      </div>
+    <div className="login-page">
+      <div className="login-image" />
       <div className="login-form">
         <div className="login-title-bar">
           <p style={{ fontSize: 36 }}>SkyChart</p>
@@ -100,15 +90,13 @@ function Login() {
             required
             value={email}
             onKeyDown={(e: any) => {
-              console.log(e.key);
-              if (e.key === "Enter") {
-                console.log("Give me a kiss Ben");
+              if (e.key === 'Enter') {
+                console.log('Give me a kiss Ben');
               }
             }}
             onChange={handleEmailChange}
             fullWidth
           />
-          <br />
         </div>
         <div className="TextFieldBar">
           <h5 style={{ fontSize: 18 }}>Password</h5>
