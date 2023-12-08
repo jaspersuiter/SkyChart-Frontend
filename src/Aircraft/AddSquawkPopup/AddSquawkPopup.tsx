@@ -13,6 +13,7 @@ import dayjs, { Dayjs } from "dayjs";
 export interface AddSqawkPopupProps {
   open: boolean;
   plane: Plane;
+  updateScreen: () => void;
   onClose: () => void;
 }
 
@@ -69,7 +70,7 @@ function AddSqauwkPopup(props: AddSqawkPopupProps) {
     } catch (error) {
       console.error(error);
     }
-
+    props.updateScreen();
     handleClose();
   };
 

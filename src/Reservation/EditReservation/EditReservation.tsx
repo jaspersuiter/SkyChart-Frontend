@@ -1,22 +1,27 @@
-import { Dialog, TextField } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import { DatePicker, LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs, { Dayjs } from 'dayjs';
-import { makeApiCall } from '../../APICall';
-import './EditReservation.css'
-import PrimaryButton from '../../Utils/Buttons/PrimaryButton';
-import { useState } from 'react';
-import { ReservationData } from '../../Calendar/Schedule/Reservation';
-import { Instructor, Plane } from '../../Calendar/Calendar';
-import InstructorDropDown from '../../Utils/DropDowns/InstructorDropDown';
-import PlaneDropDown from '../../Utils/DropDowns/PlaneDropDown';
-import ReservationTypeDropDown, { ReservationType } from '../../Utils/DropDowns/ReservationTypeDropDown';
-import CancelButton from '../../Utils/Buttons/CancelButton';
-import ConfirmPopup from '../../Utils/ConfirmPopup/Confirm';
-import { Days } from '../../../api-typescript/data-contracts';
-import FinishFlight from '../FinishFlight/FinishFlight';
-
+import { Dialog, TextField } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import {
+  DatePicker,
+  LocalizationProvider,
+  TimePicker,
+} from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
+import { makeApiCall } from "../../APICall";
+import "./EditReservation.css";
+import PrimaryButton from "../../Utils/Buttons/PrimaryButton";
+import { useState, useEffect } from "react";
+import { ReservationData } from "../../Calendar/Schedule/Reservation";
+import { Instructor, Plane } from "../../Calendar/Calendar";
+import InstructorDropDown from "../../Utils/DropDowns/InstructorDropDown";
+import PlaneDropDown from "../../Utils/DropDowns/PlaneDropDown";
+import ReservationTypeDropDown, {
+  ReservationType,
+} from "../../Utils/DropDowns/ReservationTypeDropDown";
+import CancelButton from "../../Utils/Buttons/CancelButton";
+import ConfirmPopup from "../../Utils/ConfirmPopup/Confirm";
+import { Days } from "../../../api-typescript/data-contracts";
+import FinishFlight from "../FinishFlight/FinishFlight";
 
 export interface EditReservationProp {
   open: boolean;
@@ -27,11 +32,17 @@ export interface EditReservationProp {
   updateScreen: () => void;
 }
 
-const parseDate = (dateString: string, ): Dayjs | null => {
-  var customParseFormat = require('dayjs/plugin/customParseFormat')
-  dayjs.extend(customParseFormat)
+interface User {
+  id: number;
+  student: boolean;
+  proficientPlaneModels: string[] | null;
+}
+
+const parseDate = (dateString: string): Dayjs | null => {
+  var customParseFormat = require("dayjs/plugin/customParseFormat");
+  dayjs.extend(customParseFormat);
   const parsedDate = dayjs(dateString, "M/D/YYYY h:mm:ssA");
-  
+
   if (!parsedDate.isValid()) {
     return null;
   }
@@ -43,10 +54,18 @@ function EditReservation(props: EditReservationProp) {
   const { open, onClose, reservationData } = props;
   const [plane, setPlane] = useState(reservationData.planeId);
   const [instructor, setInstructor] = useState(reservationData.instructorId);
-  const [flightType, setFlightType] = useState<ReservationType>(reservationData.flightType as ReservationType);
-  const [startTime, setStartTime] = useState<Dayjs | null>(parseDate(reservationData.startTime));
-  const [endTime, setEndTime] = useState<Dayjs | null>(parseDate(reservationData.endTime));
-  const [day, setDay] = useState<Dayjs | null>(parseDate(reservationData.startTime));
+  const [flightType, setFlightType] = useState<ReservationType>(
+    reservationData.flightType as ReservationType
+  );
+  const [startTime, setStartTime] = useState<Dayjs | null>(
+    parseDate(reservationData.startTime)
+  );
+  const [endTime, setEndTime] = useState<Dayjs | null>(
+    parseDate(reservationData.endTime)
+  );
+  const [day, setDay] = useState<Dayjs | null>(
+    parseDate(reservationData.startTime)
+  );
   const [openCancelConfirm, setOpenCancelConfirm] = useState(false);
   const [openEditConfirm, setOpenEditConfirm] = useState(false);
   const [finishFlight, setFinishFlight] = useState(false);
@@ -70,24 +89,46 @@ function EditReservation(props: EditReservationProp) {
 
   const closeCancelConfirmDialog = () => {
     setOpenCancelConfirm(false);
-  }
+  };
   const openCancelConfirmDialog = () => {
     setOpenCancelConfirm(true);
-  }
+  };
 
   const closeEditConfirmDialog = () => {
     setOpenEditConfirm(false);
-  }
+  };
   const openEditConfirmDialog = () => {
     setOpenEditConfirm(true);
-  }
+  };
 
   const closeFinishFlight = () => {
     setFinishFlight(false);
-  }
+  };
   const openFinishFlight = () => {
     setFinishFlight(true);
-  }
+  };
+
+  const [user, setUser] = useState<User>();
+
+  const getUser = async () => {
+    try {
+      const user = (await fetch(
+        `http://localhost:5201/api/user/get?userId=${reservationData.pilotId}`,
+        {
+          credentials: "include",
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => data)) as User;
+      setUser(user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   const editReservation = async () => {
     let day_str = day?.format("YYYY-MM-DD");
@@ -110,133 +151,182 @@ function EditReservation(props: EditReservationProp) {
       endTime: end_date,
       flightType: flightType,
       repeat: recurrances,
-    }
+    };
 
     try {
-      const responseData = await makeApiCall("/api/reservation/update", data, 'put')
+      const responseData = await makeApiCall(
+        "/api/reservation/update",
+        data,
+        "put"
+      );
       props.updateScreen();
       onClose();
     } catch (error) {
       console.error(error);
     }
-
-  }
+  };
 
   const cancelReservation = async () => {
     try {
-      const responseData = await makeApiCall("/api/reservation/delete", {}, 'delete', { reservationId: reservationData.reservationId })
+      const responseData = await makeApiCall(
+        "/api/reservation/delete",
+        {},
+        "delete",
+        { reservationId: reservationData.reservationId }
+      );
       props.updateScreen();
       onClose();
     } catch (error) {
       console.error(error);
     }
-
-  }
+  };
 
   return (
-    <Dialog onClose={handleClose} open={open} sx={{
-      "& .MuiDialog-container": {
-        "& .MuiPaper-root": {
-          width: "100%",
-          maxWidth: "900px",
-          height: "100%",
-          maxHeight: "650px",
-          padding: "30px"
+    <Dialog
+      onClose={handleClose}
+      open={open}
+      sx={{
+        "& .MuiDialog-container": {
+          "& .MuiPaper-root": {
+            width: "100%",
+            maxWidth: "900px",
+            height: "100%",
+            maxHeight: "650px",
+            padding: "30px",
+          },
         },
-      },
-    }} >
-      <div className='maincontent'>
-        <div className='top-title'>
-          <div className='space-filler'></div>
+      }}
+    >
+      <div className="maincontent">
+        <div className="top-title">
+          <div className="space-filler"></div>
           <h1>Edit Reservation</h1>
-          <div className='boxframe'><CloseIcon onClick={handleClose} /></div>
-        </div>
-
-        <div className='maindropdowncontent'>
-          <div className='threewide'>
-            <InstructorDropDown Instructors={props.Instructors} InstructorId={instructor} setInstructorIdParent={setInstructor} />
-
-            <PlaneDropDown Planes={props.Planes} PlaneID={plane} SetPlaneIdParent={setPlane} />
-
-            <ReservationTypeDropDown ReservationType={flightType} setReservationTypeParent={setFlightType} />
-          </div>
-          <div className='flexRow'>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker label="Select Day" value={day} onChange={handleDay} sx={{
-                svg: { color: '#4DE8B4' },
-              }} />
-            </LocalizationProvider>
-
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-              <TimePicker label="Start Time" value={startTime} onChange={handleStartTime}
-                minTime={dayjs().set('hour', 6)}
-                maxTime={dayjs().set('hour', 22).set('minute', 59)}
-                sx={{
-                  svg: { color: '#4DE8B4' },
-                }} />
-
-            </LocalizationProvider>
-
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-              <TimePicker label="End Time" value={endTime} onChange={handleEndTime}
-                minTime={dayjs().set('hour', 6)}
-                maxTime={dayjs().set('hour', 22).set('minute', 59)}
-                sx={{
-                  svg: { color: '#4DE8B4' },
-                }} />
-
-            </LocalizationProvider>
+          <div className="boxframe">
+            <CloseIcon onClick={handleClose} />
           </div>
         </div>
 
-        <div className='horizontal'>
+        <div className="maindropdowncontent">
+          <div className="threewide">
+            <InstructorDropDown
+              Instructors={props.Instructors}
+              InstructorId={instructor}
+              setInstructorIdParent={setInstructor}
+            />
+
+            <PlaneDropDown
+              Planes={props.Planes.filter(
+                (plane) => user?.proficientPlaneModels?.includes(plane.model)
+              )}
+              PlaneID={plane}
+              SetPlaneIdParent={setPlane}
+            />
+
+            <ReservationTypeDropDown
+              ReservationType={flightType}
+              setReservationTypeParent={setFlightType}
+            />
+          </div>
+          <div className="flexRow">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Select Day"
+                value={day}
+                onChange={handleDay}
+                sx={{
+                  svg: { color: "#4DE8B4" },
+                }}
+              />
+            </LocalizationProvider>
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <TimePicker
+                label="Start Time"
+                value={startTime}
+                onChange={handleStartTime}
+                minTime={dayjs().set("hour", 6)}
+                maxTime={dayjs().set("hour", 22).set("minute", 59)}
+                sx={{
+                  svg: { color: "#4DE8B4" },
+                }}
+              />
+            </LocalizationProvider>
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <TimePicker
+                label="End Time"
+                value={endTime}
+                onChange={handleEndTime}
+                minTime={dayjs().set("hour", 6)}
+                maxTime={dayjs().set("hour", 22).set("minute", 59)}
+                sx={{
+                  svg: { color: "#4DE8B4" },
+                }}
+              />
+            </LocalizationProvider>
+          </div>
+        </div>
+
+        <div className="horizontal">
           <TextField
             id="recur"
             label="Weeks to repeat"
             type="number"
             value={recurrances}
-            onChange={(e) => setRecurrances(parseInt(e.target.value))}/>
-          <p>Number of weeks to repeat reservation (leave as default 0 to not repeat)</p>
+            onChange={(e) => setRecurrances(parseInt(e.target.value))}
+          />
+          <p>
+            Number of weeks to repeat reservation (leave as default 0 to not
+            repeat)
+          </p>
         </div>
 
-        <div className='spacertwo'></div>
+        <div className="spacertwo"></div>
 
-        <div className='flexRow'>
-          <div className='button'>
+        <div className="flexRow">
+          <div className="button">
             <PrimaryButton text="Finish Flight" onClick={openFinishFlight} />
             <FinishFlight
               open={finishFlight}
               onClose={closeFinishFlight}
               reservationData={reservationData}
-              plane={props.Planes.find((value, index, obj) => value.planeId === plane) || props.Planes[0]}
+              plane={
+                props.Planes.find(
+                  (value, index, obj) => value.planeId === plane
+                ) || props.Planes[0]
+              }
               updateScreen={props.updateScreen}
             />
           </div>
 
-          <div className='button'>
-            <PrimaryButton text="Save Changes" onClick={openEditConfirmDialog} />
+          <div className="button">
+            <PrimaryButton
+              text="Save Changes"
+              onClick={openEditConfirmDialog}
+            />
             <ConfirmPopup
               open={openEditConfirm}
               onClose={closeEditConfirmDialog}
               func={editReservation}
-              text="Are you sure you want to make these changes?" />
+              text="Are you sure you want to make these changes?"
+            />
           </div>
 
-          <div className='button'>
-            <CancelButton text="Cancel Reservation" onClick={openCancelConfirmDialog} />
+          <div className="button">
+            <CancelButton
+              text="Cancel Reservation"
+              onClick={openCancelConfirmDialog}
+            />
             <ConfirmPopup
               open={openCancelConfirm}
               onClose={closeCancelConfirmDialog}
               func={cancelReservation}
-              text="Are you sure you want to cancel this reservation?" />
+              text="Are you sure you want to cancel this reservation?"
+            />
           </div>
         </div>
-
       </div>
     </Dialog>
   );
-
 }
-export default EditReservation
+export default EditReservation;
